@@ -1,0 +1,97 @@
+POST  http://localhost:3000/api/vendedor
+Content-Type: application/json
+
+{
+  "nome": "Camiseta Puma",
+  "codigo":6,
+  "descricao": "Descrição do produto 6",
+  "categoria": "Camiseta",
+  "quantidade": 1,
+  "preco":89.00,
+  "tamanho": "M",
+  "imagem": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fmoletom-png&psig=AOvVaw3x3nhtcyEFttjuxO7NVLiW&ust=1724432225884000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID9iOSIiYgDFQAAAAAdAAAAABAI"
+}
+
+
+###
+
+GET http://localhost:3000/api/produtos
+
+###
+
+GET http://localhost:3000/api/produtos/66c76e3f16e00c5c21522e7b
+
+###
+
+DELETE http://localhost:3000/api/produtos/66cbf28b68e6a96858f835e0
+
+
+###
+
+PUT  http://localhost:3000/api/produtos/66c77638e8c908a64fba6bf4
+Content-Type: application/json
+
+{
+  "nome": "TESTE ATUALIZAÇÃO",
+  "descricao": "ATUALIZAÇÃO DA Descrição do produto 3",
+  "categoria": "TESTE Moletom",
+  "preco":15.00,
+  "tamanho": "PP",
+  "imagem": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fmoletom-png&psig=AOvVaw3x3nhtcyEFttjuxO7NVLiW&ust=1724432225884000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID9iOSIiYgDFQAAAAAdAAAAABAI"
+}
+
+###
+
+
+POST  http://localhost:3000/api/vendedor
+Content-Type: application/json
+
+{
+  "nome": "ELIZABETE PALIÇA",
+  "codigo":5,
+  "rua": "Rua do Comércio 567 - Centro Histórico",
+  "numero": 1212,
+  "cidade": "GUAIRA",
+  "imagem": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fmoletom-png&psig=AOvVaw3x3nhtcyEFttjuxO7NVLiW&ust=1724432225884000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID9iOSIiYgDFQAAAAAdAAAAABAI",
+  "observacao": "Teste3333",
+  "produtos": [
+    {
+      "nome": "Camisa codigo Adidas",
+      "codigo":4,
+      "descricao": "Descrição do produto 3123",
+      "categoria": "Camisa",
+      "quantidade": 2,
+      "preco":19.00,
+      "tamanho": "G",
+      "imagem": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fmoletom-png&psig=AOvVaw3x3nhtcyEFttjuxO7NVLiW&ust=1724432225884000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID9iOSIiYgDFQAAAAAdAAAAABAI"
+    }
+  ]
+}
+
+###
+
+GET http://localhost:3000/api/vendedor
+
+###
+
+GET http://localhost:3000/api/vendedor/66c89af006e77ae0a0409d02
+
+###
+
+DELETE http://localhost:3000/api/vendedor/66c89c12741eaef2e0fdc568
+
+
+###
+
+PUT  http://localhost:3000/api/vendedor/66c89af006e77ae0a0409d02
+Content-Type: application/json
+
+{
+  "nome": "Reginaldo Geraldo",
+  "codigo":1,
+  "rua": "Nereu Ramos",
+  "numero": 1875,
+  "cidade": "Cascavel",
+  "imagem": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fmoletom-png&psig=AOvVaw3x3nhtcyEFttjuxO7NVLiW&ust=1724432225884000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID9iOSIiYgDFQAAAAAdAAAAABAI",
+  "observacao": "cliente antigo e dono da empresa"
+}
