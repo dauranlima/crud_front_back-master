@@ -1,3 +1,6 @@
+
+![image](https://github.com/user-attachments/assets/5958073b-17b0-4ec7-bea1-b5be270e90c4)
+
 # SISTEMA DE PEDIDOS DE PRODUTOS CONSIGNADOS - MERN + VITE
 
 # Projeto básico de um sistema de cadastro de produtos, vendedores, e pedidos.
