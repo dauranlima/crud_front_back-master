@@ -1,6 +1,3 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-
 const express = require("express")
 const cors = require("cors")
 const app = express()
@@ -20,4 +17,3 @@ app.use("/api", routes);
 app.listen(3000, function(){
   console.log('Server is ONLINE running on port 3000.')
 })
-

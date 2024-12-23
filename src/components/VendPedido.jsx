@@ -69,7 +69,7 @@ const VendPedido = () => {
                     <p className="text-slate-600 font-semibold text-lg ">Cidade: {pdt.cidade.toLowerCase()}</p>
                     </div>
                     <div>
-                    <p className="font-bold text-lg ">Data: 03/12/2024</p>
+                    <p className="font-bold text-lg ">Data: 23/12/2024</p>
                     </div>
                   </div>
                 </div>

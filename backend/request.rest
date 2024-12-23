@@ -42,31 +42,17 @@ Content-Type: application/json
 
 ###
 
-
 POST  http://localhost:3000/api/vendedor
 Content-Type: application/json
-
 {
-  "nome": "ELIZABETE PALIÇA",
-  "codigo":5,
-  "rua": "Rua do Comércio 567 - Centro Histórico",
-  "numero": 1212,
-  "cidade": "GUAIRA",
-  "imagem": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fmoletom-png&psig=AOvVaw3x3nhtcyEFttjuxO7NVLiW&ust=1724432225884000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID9iOSIiYgDFQAAAAAdAAAAABAI",
-  "observacao": "Teste3333",
-  "produtos": [
-    {
-      "nome": "Camisa codigo Adidas",
-      "codigo":4,
-      "descricao": "Descrição do produto 3123",
-      "categoria": "Camisa",
-      "quantidade": 2,
-      "preco":19.00,
-      "tamanho": "G",
-      "imagem": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fmoletom-png&psig=AOvVaw3x3nhtcyEFttjuxO7NVLiW&ust=1724432225884000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID9iOSIiYgDFQAAAAAdAAAAABAI"
-    }
-  ]
+  "nome": "dauran lima aguiar teste",
+  "endereco":"rua das almas 3322",
+  "telefone":99881888,
+  "documento":"12333588-85",
+  "cidade":"CASCAVEL",
+  
 }
+
 
 ###
 

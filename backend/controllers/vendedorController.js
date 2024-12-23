@@ -6,12 +6,10 @@ const vendedorController = {
     try {
       const vendedor = {
         nome: req.body.nome,
-        rua: req.body.rua,
-        numero: req.body.numero,
+        endereco: req.body.endereco,
+        telefone: req.body.telefone,
+        documento: req.body.documento,
         cidade: req.body.cidade,
-        imagem:req.body.imagem,
-        observacao: req.body.observacao,
-        produtos: req.body.produtos,
       }
       
       const response = await VendedorModel.create(vendedor);
@@ -71,12 +69,10 @@ const vendedorController = {
 
       const vendedor = {
         nome: req.body.nome,
-        rua: req.body.rua,
-        numero: req.body.numero,
+        endereco: req.body.endereco,
+        telefone: req.body.telefone,
+        documento: req.body.documento,
         cidade: req.body.cidade,
-        imagem:req.body.imagem,
-        observacao: req.body.observacao,
-        produtos: req.body.produtos,
       };
 
       const updatedVendedor = await VendedorModel.findByIdAndUpdate(id, vendedor)

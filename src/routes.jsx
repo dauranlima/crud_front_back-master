@@ -11,6 +11,7 @@ import EditVend from "./components/EditVend"
 import Pedidos from "./pages/Pedidos"
 import PedidosVend from "./components/PedidosVend"
 import Cart from "./pages/Cart"
+import Carrinho from "./pages/Carrinho"
  
 export default function AppRoutes() {
   return (
@@ -26,6 +27,7 @@ export default function AppRoutes() {
         <Route path="/editProduto/:id" element={<EditProduct />} />
         <Route path="/editVend/:id" element={<EditVend/>}/>
         <Route path="/cart" element={<Cart/>}/>
+        <Route path="/carrinho/:id" element={<Carrinho/>} />
         <Route path="/addProduto" element={<AddProduct />} />
         <Route path="/addVendedora" element={<AddVend/>}/>
       </Route>

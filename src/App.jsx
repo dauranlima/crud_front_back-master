@@ -1,11 +1,12 @@
+import Provider from "./context/Provider"
 import AppRoutes from "./routes"
 
 function App() {
 
   return (
-    <>
-     <AppRoutes/>
-    </>
+    <Provider>
+      <AppRoutes/>
+    </Provider>
   )
 }
 

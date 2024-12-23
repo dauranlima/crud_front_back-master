@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const { productSchema } = require("./product");
-
 
 const { Schema } = mongoose;
 
@@ -9,29 +7,21 @@ const vendedorSchema = new Schema({
     type: String,
     required: true
   },
-  rua:{
+  endereco:{
     type: String,
     required: true
   },
-  numero:{
+  telefone:{
     type: Number,
+  },
+  documento:{
+    type: String,
+    required: true
   },
   cidade:{
     type: String,
     required: true
-  },
-  imagem:{
-    type: String,
-    required: true
-  },
-  observacao:{
-    type: String,
-    required: true
-  },
-  produtos: {
-    type:[productSchema],
-  },
-  
+  }
 }, { timestamps: true}
 );
 

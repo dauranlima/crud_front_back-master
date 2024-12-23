@@ -9,26 +9,28 @@ import { ToastContainer, toast } from 'react-toastify';
   const navigate = useNavigate();
   
   const [nome, setNome] = useState("");
-  const [preco, setPreco] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [telefone, setTelefone] = useState("");
   const [documento, setDocumento] = useState("");
+  const [cidade, setCidade] = useState("")
 
-  const notify = () => toast('Vendedor cadastrado com sucesso!')
-const mascaraTelefone = (value) => {
-    return value
-      .replace(/\D/g, '')
-      .replace(/(\d{2})(\d)/, '($1) $2')
-      .replace(/(\d{5})(\d)/, '$1-$2')
-      .replace(/(-\d{4})\d+?$/, '$1')
+  const notify = () => {
+    if (nome && endereco && telefone && documento && cidade) {
+      toast('Vendedor cadastrado com sucesso!')
+      setTimeout(() => {
+        navigate("/");
+      }, 5000);
+    }
   }
-
-  const createProduct = async (e) => {
+  const createSeller = async (e) => {
     e.preventDefault();
-    await FetchData.post("/produtos", {
+    await FetchData.post("/vendedor", {
       nome: nome.toUpperCase(),
-      preco,
-      documento
+      endereco,
+      telefone,
+      documento,
+      cidade,
     });
-    navigate("/produtos");
   };
 
   const mascaraCPF = (value) => {
@@ -43,7 +45,7 @@ const mascaraTelefone = (value) => {
   return (
     <div className="mx-2">
       <h1 className="font-bold text-slate-500 text-xl mb-4">Novo Cadastro</h1>
-      <form onSubmit={(e) => createProduct(e)} className="flex flex-col gap-3 ">
+      <form onSubmit={(e) => createSeller(e)} className="flex flex-col gap-3 ">
         <label>Nome:</label>
         <input
           type="text"
@@ -59,7 +61,7 @@ const mascaraTelefone = (value) => {
           required
           placeholder="Digite o Endereço:"
           className="border uppercase border-slate-500 p-2 rounded-lg text-black bg-roxo-claro"
-          onChange={(e) => setPreco(e.target.value)}
+          onChange={(e) => setEndereco(e.target.value)}
         />
 
         <label>TELEFONE:</label>
@@ -69,7 +71,7 @@ const mascaraTelefone = (value) => {
           maxLength="14"
           placeholder="Digite o Telefone:"
           className="border uppercase border-slate-500 p-2 rounded-lg text-black bg-roxo-claro"
-          onChange={(e) => setPreco(mascaraTelefone(e.target.value))}
+          onChange={(e) => setTelefone(e.target.value)}
         />
         <label>DOCUMENTO:</label>
         <input
@@ -87,7 +89,7 @@ const mascaraTelefone = (value) => {
           required
           placeholder="Digite o Cidade:"
           className="border uppercase border-slate-500 p-2 rounded-lg text-black bg-roxo-claro"
-          onChange={(e) => setPreco(e.target.value)}
+          onChange={(e) => setCidade(e.target.value)}
         />
 
         <button
@@ -95,10 +97,10 @@ const mascaraTelefone = (value) => {
           type="submit"
           className="bottom-0 w-full font-bold bg-green-500  py-3 px-6 rounded-lg text-white "
         >
-          Cadastrar
+          Cadastrar Vendedora
         </button>
       </form>
-      
+      <ToastContainer/>
     </div>
   );
 };export default AddVend;

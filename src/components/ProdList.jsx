@@ -52,27 +52,6 @@ const ProdList = () => {
   const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-
-
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    const maxButtons = 5;
-    const halfMaxButtons = Math.floor(maxButtons / 2);
-
-    let startPage = Math.max(1, currentPage - halfMaxButtons);
-    let endPage = Math.min(totalPages, startPage + maxButtons - 1);
-
-    if (endPage - startPage + 1 < maxButtons) {
-      startPage = Math.max(1, endPage - maxButtons + 1);
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(i);
-    }
-
-    return pageNumbers;
-  };
-
   return (
     <>
     <div className="flex flex-col">

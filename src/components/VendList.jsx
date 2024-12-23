@@ -1,4 +1,4 @@
-import { HiPlusCircle } from "react-icons/hi";
+import { HiOutlineTrash, HiPlusCircle } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import FetchData from "../axios/config";
 import { Link } from "react-router-dom";
@@ -22,6 +22,17 @@ const VendList = () => {
 			setLoading(false);
 		}
 	};
+
+	const handleDelete = async (_id) => {
+    const confirmed = confirm(" Tem certeza que deseja deletar esse vendedor");
+    if (confirmed) {
+      await FetchData.delete("/vendedor/" + _id).then(({ data }) => {
+        const newArray = prod.filter((item) => item._id !== prod._id);
+        setProd(newArray);
+        getVend();
+      });
+    }
+  };
 
 	useEffect(() => {
 		getVend();
@@ -92,13 +103,16 @@ const VendList = () => {
 												</div>
 												<div>
 													<p className="font-bold text-lg ">
-														Endereço: {pdt.rua.toLowerCase()}
+														Endereço: {pdt.endereco.toLowerCase()}
 														<span>, {pdt.numero}</span>
 													</p>
 												</div>
 											</div>
 										</div>
 										<div className="flex gap-2 ">
+											<button onClick={() => handleDelete(pdt._id)} className="text-transparent">
+												<HiOutlineTrash size={24} />
+											</button>
 											<Link
 												className="text-slate-800"
 												to={`/pedidosvend/${pdt._id}`}
@@ -117,7 +131,7 @@ const VendList = () => {
 						<button
 							onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
 							disabled={currentPage === 1}
-							className="px-4 py-2 text-white bg-slate-500 rounded-md hover:bg-slate-600 disabled:bg-gray-950"
+							className="px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-slate-600 disabled:bg-gray-950"
 						>
 							Anterior
 						</button>
@@ -129,7 +143,7 @@ const VendList = () => {
 								setCurrentPage((prev) => Math.min(prev + 1, totalPages))
 							}
 							disabled={currentPage === totalPages}
-							className="px-4 py-2 text-white bg-slate-500 rounded-md hover:bg-slate-600 disabled:bg-gray-950"
+							className="px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-slate-600 disabled:bg-gray-950"
 						>
 							Próxima
 						</button>
