@@ -9,6 +9,7 @@ import ItemProdList from "./itemProdList";
 const PedidosVendbyId = () => {
 	const [busca, setBusca] = useState("");
 	const [vend, setVend] = useState("");
+	const {pedido, setPedido} = useContext(CartContext);
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 7;

@@ -6,7 +6,7 @@ import Cart from "../pages/Cart";
 import CartContext from "@/context/CartContext";
 import ItemProdList from "./itemProdList";
 
-const PedidosVend = () => {
+const PedidosVendbyId2 = () => {
 	const [busca, setBusca] = useState("");
 	const [vend, setVend] = useState([]);
 	const [selectedVend, setSelectedVend] = useState([]);
@@ -20,7 +20,7 @@ const PedidosVend = () => {
 		setCartItems([]);
 	};
 	
-	console.log(selectedVend.nome)
+	// console.log(selectedVend.nome)
 	// console.log(vend[0].nome)
 
 
@@ -191,4 +191,4 @@ const PedidosVend = () => {
 		</div>
 	);
 };
-export default PedidosVend;
+export default PedidosVendbyId;

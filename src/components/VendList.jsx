@@ -88,8 +88,7 @@ const VendList = () => {
 										<div className="flex items-center gap-4">
 											<div className="flex items-center gap-4">
 												<img
-													src={"/woman.png"}
-													className="w-16 h-16 rounded-full object-cover"
+													src={"/woman.png"} className="w-16 h-16 rounded-full object-cover"
 												/>
 											</div>
 											<div>

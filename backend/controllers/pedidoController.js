@@ -7,8 +7,8 @@ const pedidoController = {
 
       const novoPedido = {
 				produtos: [...req.body.produtos],
-				vendedor: req.body.vendedor,
-				data: req.body.data,
+				vendedor: {...req.body.vendedor},
+        data: req.body.data,
 				totalValor: req.body.totalValor,
       }
 

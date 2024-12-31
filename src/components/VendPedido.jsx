@@ -1,17 +1,19 @@
 import {
 	HiOutlineDocumentSearch,
 } from "react-icons/hi";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FetchData from "../axios/config";
 import { Link } from "react-router-dom";
+import CartContext from "@/context/CartContext";
 
 const VendPedido = () => {
-	const [pedido, setPedido] = useState([]);
+	const {pedido, setPedido} = useContext(CartContext);
 	const [busca, setBusca] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 5;
 
+	console.log(pedido);
 	const getPedidos = async () => {
 		try {
 			const response = await FetchData.get("/pedido");
@@ -37,7 +39,7 @@ const VendPedido = () => {
 	const filteredOrders = pedido.filter((ped) => {
 		return busca.toLowerCase() === ""
 			? ped
-			: ped.vendedor.toLowerCase().includes(busca);
+			: ped.vendedor.nome.toLowerCase().includes(busca);
 	});
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -68,16 +70,16 @@ const VendPedido = () => {
 						.filter((ped) =>{
 							return busca.toLowerCase() === '' 
 							? ped
-							: ped.vendedor.toLowerCase().includes(busca)
-						})
+							: ped.vendedor.nome.toLowerCase().includes(busca)						})
             .map((ped) => (
               <div key={ped._id}>
               <div   className="py-1 px-2 border bg-slate-300 border-gray-500 rounded-lg my-3 flex justify-between gap-5 items-center">
               <div className="flex items-center gap-4">
                   <div>
-                    <h2 className="font-bold text-lg ">{ped.vendedor}</h2>
+                    <h2 className="font-bold text-lg ">{ped.vendedor.nome}</h2>
                     <div>
-                    <p className="font-bold text-lg ">Data: {new Date(ped.data).toLocaleDateString('pt-BR')}</p>
+										<p className="font-bold text-lg ">Cidade: {ped.vendedor.cidade}</p>
+										<p className="font-bold text-lg ">Data: {new Date(ped.data).toLocaleDateString('pt-BR')}</p>
                     </div>
                   </div>
                 </div>
