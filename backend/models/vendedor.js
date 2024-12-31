@@ -12,7 +12,7 @@ const vendedorSchema = new Schema({
     required: true
   },
   telefone:{
-    type: Number,
+    type: String,
   },
   documento:{
     type: String,
@@ -21,8 +21,12 @@ const vendedorSchema = new Schema({
   cidade:{
     type: String,
     required: true
-  }
-}, { timestamps: true}
+  },
+		saldo: {
+			type: Number,
+			required: true,
+		},
+	}, { timestamps: true}
 );
 
 const Vendedor = mongoose.model("Vendedor", vendedorSchema)

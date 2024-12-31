@@ -6,10 +6,9 @@ import Cart from "../pages/Cart";
 import CartContext from "@/context/CartContext";
 import ItemProdList from "./itemProdList";
 
-const PedidosVend = () => {
+const PedidosVendbyId = () => {
 	const [busca, setBusca] = useState("");
-	const [vend, setVend] = useState([]);
-	const [selectedVend, setSelectedVend] = useState([]);
+	const [vend, setVend] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 7;
@@ -20,10 +19,6 @@ const PedidosVend = () => {
 		setCartItems([]);
 	};
 	
-	console.log(selectedVend.nome)
-	// console.log(vend[0].nome)
-
-
 	const handleSaveOrder = async () => {
 		if (!vend) {
 			alert("Por favor, selecione uma vendedora antes de salvar o pedido");
@@ -37,18 +32,21 @@ const PedidosVend = () => {
 
 		const orderData = {
 			produtos: cartItems.map((item) => ({
-				nome: item.nome,
-				quantity: item.quantity,
+				produto: item.nome,
+				quantidade: item.quantity,
 				preco: item.preco,
 			})),
-
-			vendedor: selectedVend.nome,
+			vendedor: vend,
 			data: new Date().toISOString(),
-			totalValor: cartItems.reduce((acc, item) => acc + item.preco * item.quantity,0),
+			totalValor: cartItems.reduce(
+				(acc, item) => acc + item.preco * item.quantity,
+				0
+			),
 		};
 
 		try {
-		await FetchData.post("/pedido", orderData);
+			const response = await FetchData.post("/pedido", orderData);
+			console.log(response.data)
 			setIsCartOpen(false);
 			handleClearCart();
 		} catch (error) {
@@ -58,20 +56,6 @@ const PedidosVend = () => {
 	};
 	const toogleCart = () => {
 		setIsCartOpen(!isCartOpen);
-	};
-
-	
-	const getVend = async () => {
-		try {
-			const response = await FetchData.get("/vendedor");
-			const data = response.data;
-			const sortedData = data.sort((a, b) => a.nome.localeCompare(b.nome));
-			setVend(sortedData);
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
-			setLoading(false);
-		}
 	};
 
 	const getProds = async () => {
@@ -88,7 +72,6 @@ const PedidosVend = () => {
 	};
 
 	useEffect(() => {
-		getVend();
 		getProds();
 		const timer = setTimeout(() => {
 			setLoading(false);
@@ -107,20 +90,22 @@ const PedidosVend = () => {
 	return (
 		<div className="flex flex-col">
 			<div>
-				<select className="w-full p-2 border border-gray-300 rounded-md"
-					value={selectedVend ? selectedVend._id : ''}
-					onChange={(e) => {
-						const selectedVendId = e.target.value;
-						const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId,);
-						setSelectedVend(selectedVendedor);
-					}}
+				<select
+					className="border border-black w-full p-2 text-black"
+					value={vend}
+					onChange={(e) => setVend(e.target.value)}
 				>
-					<option value="">Selecione um vendedor</option>
-					{vend.map((vendedor) => (
-						<option key={vendedor._id} value={vendedor._id}>
-							{vendedor.nome}
-						</option>
-					))}
+					<option value="">Selecione uma vendedora</option>
+					<option value="vendedora1">Vendedora 1</option>
+					<option value="vendedora2">Vendedora 2</option>
+					<option value="vendedora3">Vendedora 3</option>
+					<option value="vendedora4">Vendedora 4</option>
+					<option value="vendedora5">Vendedora 5</option>
+					<option value="vendedora6">Vendedora 6</option>
+					<option value="vendedora7">Vendedora 7</option>
+					<option value="vendedora8">Vendedora 8</option>
+					<option value="vendedora9">Vendedora 9</option>
+					<option value="vendedora10">Vendedora 10</option>
 				</select>
 			</div>
 			<div className="flex justify-evenly ">
@@ -189,4 +174,4 @@ const PedidosVend = () => {
 		</div>
 	);
 };
-export default PedidosVend;
+export default PedidosVendbyId;

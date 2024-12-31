@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import CartContext from '@/context/CartContext';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const {username, setUsername} = useContext(CartContext);
   const [password, setPassword] = useState('');
+  
+  const navigate = useNavigate();
 
 const handleSubmit = (event) => {
     event.preventDefault();
-    if (username === 'william' && password === '071288' || username === 'dauran' && password === 'admin' || username === 'admin' && password === 'admin'   ) {
-      window.location.href = '/';
+    if (username === 'william' && password === 'spin1' || username === 'dauran' && password === 'admin' || username === 'admin' && password === 'admin'   ) {
+      navigate('/');
     } else {
       document.querySelector('.warning').innerHTML = '<p class="text-red-500 text-xl font-bold mt-4">Usuário ou senha incorretos</p>';
     }

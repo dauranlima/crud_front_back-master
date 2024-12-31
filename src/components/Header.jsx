@@ -1,7 +1,11 @@
+import CartContext from "@/context/CartContext";
+import { useContext } from "react";
 import { HiOutlineUser } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const {username} = useContext(CartContext);
+
 	return (
 		<main className="fixed top-0 left-0 right-0">
 			<header className="bg-indigo-600 flex justify-between py-6 px-8 gap-4 items-center mb-4">
@@ -14,9 +18,7 @@ const Header = () => {
 				<div className="flex border p-3  rounded-xl gap-2">
 					<div className="flex text-white">
 						<HiOutlineUser size={24} />
-						<Link to="/login" className="text-white font-bold">
-							Admin
-						</Link>
+							{username}
 					</div>
 					<Link to="/login" className="text-white font-bold underline">
 						Sair

@@ -10,8 +10,10 @@ import AddVend from "./components/AddVend"
 import EditVend from "./components/EditVend"
 import Pedidos from "./pages/Pedidos"
 import PedidosVend from "./components/PedidosVend"
+import PedidosVendbyId from "./components/PedidosVendbyId"
 import Cart from "./pages/Cart"
-import Carrinho from "./pages/Carrinho"
+import Acerto from "./pages/Acerto"
+import Vendedora from "./pages/Vendedora"
  
 export default function AppRoutes() {
   return (
@@ -23,13 +25,15 @@ export default function AppRoutes() {
         <Route index element={<Home />} />
         <Route path="/produtos" element={<Produto />} />
         <Route path="/pedidos" element={<Pedidos />} />
-        <Route path="/pedidosvend/:id" element={<PedidosVend/>}/>
+        <Route path="/pedidosvend/" element={<PedidosVend/>}/>
+        <Route path="/pedidosvendbyid/:id" element={<PedidosVendbyId/>}/>
         <Route path="/editProduto/:id" element={<EditProduct />} />
         <Route path="/editVend/:id" element={<EditVend/>}/>
         <Route path="/cart" element={<Cart/>}/>
-        <Route path="/carrinho/:id" element={<Carrinho/>} />
         <Route path="/addProduto" element={<AddProduct />} />
         <Route path="/addVendedora" element={<AddVend/>}/>
+        <Route path="/acerto" element={<Acerto />} />
+        <Route path="/vendedoras" element={<Vendedora />} />
       </Route>
     </Routes>
 

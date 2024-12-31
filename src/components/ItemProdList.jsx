@@ -11,6 +11,7 @@ export default function ItemProdList({data}) {
   const handleAddCart = () => {
     setCartItems([...cartItems, {...data, quantity: count}]);
   };
+
 	return (
 		<div
 			key={_id}
@@ -35,13 +36,13 @@ export default function ItemProdList({data}) {
 				<span className="font-bold">{count}</span>
 				<button 
 					className="text-red-500 hover:text-red-700"
-					onClick={() => setCount(prev => prev > 0 ? prev - 1 : 0)}
+					onClick={() => setCount(prev => prev > 1 ? prev - 1 : 1)}
 				>
 					<HiMinusCircle size={44} />
 				</button>
 			</div>
-			<div className="flex gap-2 items-center border border-white shadow-xl py-2 px-4  text-sm rounded-md bg-blue-500 text-white font-bold">
-				<button onClick={() => {
+				<button className="flex gap-2 items-center border border-white shadow-xl py-2 px-4  text-sm rounded-md bg-blue-500 hover:bg-blue-400 hover:scale-105 transition-transform text-white font-bold"
+					onClick={() => {
 					const existingItem = cartItems.find(item => item._id === _id)
 					if (existingItem) {
 						const updatedItems = cartItems.map(item => 
@@ -53,8 +54,6 @@ export default function ItemProdList({data}) {
 					}
 				}}>
 					<HiOutlineShoppingCart size={24} />
-				</button>
-			</div>
-		</div>
+				</button>			</div>
 	);
 }

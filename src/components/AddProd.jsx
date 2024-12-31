@@ -7,20 +7,18 @@ import { ToastContainer, toast } from 'react-toastify';
   const navigate = useNavigate();
   
   const [nome, setNome] = useState("");
-  const [codigo, setCodigo] = useState("");
   const [preco, setPreco] = useState("");
   
   const createProduct = async (e) => {
     e.preventDefault();
     await FetchData.post("/produtos", {
       nome: nome.toUpperCase(),
-      codigo,
       preco,
     });
     navigate("/produtos");
   };
 
- const notify = () => toast("Produto Cadastrado com Sucesso!")
+const notify = () => toast("Produto Cadastrado com Sucesso!")
 
   return (
     <div className="mx-2">

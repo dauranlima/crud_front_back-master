@@ -8,7 +8,7 @@ import CartItem from "@/components/CartItem";
 import formatCurrency from "@/utils/FormatCurrency";
 import { EraserIcon } from "lucide-react";
 
-export default function Cart() {
+export default function Cart({ handleSaveOrder }) {
 
 	const {isCartOpen, cartItems}=useContext(CartContext)
 	const navigate = useNavigate();
@@ -17,11 +17,13 @@ export default function Cart() {
 
   const notify = () => {
     toast.success(' Pedido Salvo!',{ autoClose: 2500, position: "top-left", pauseOnHover: false});
+		handleSaveOrder()
     setTimeout(() => {
-			navigate("/");
+			navigate("/pedidos");
 
 		}, 2500);
   }
+
 	const handlePrint = () => {
     const doc = new jsPDF();
     doc.html(contentRef.current, {
@@ -29,9 +31,10 @@ export default function Cart() {
         doc.save('carrinho.pdf');
       },
     });
-
     window.print();
   };
+
+	
 	return (
 		<div className={`w-full max-w-72 ${isCartOpen ? ' translate-x-[100%]':''} sm:max-w-[560px] fixed top-[112px] translate-x-[0%] px-10 border border-gray-500 
 		transition-all duration-500 bg-white right-0 h-[calc(100%-120px)] justify-between flex flex-col  `}>
@@ -42,8 +45,7 @@ export default function Cart() {
 				</h2>
 				<h3 className="font-semibold text-slate-500 mx-2">Data: {new Date().toLocaleDateString('pt-BR')}</h3>
 				<button
-					onClick={() => {
-						cartItems.length = 0
+					onClick={() => {cartItems.length = 0;
 						window.location.reload()
 					}}
 					className="flex  items-center  gap-2 my-3 text-blue-500 hover:text-blue-700"
@@ -80,10 +82,18 @@ export default function Cart() {
 						</p>
 					</div>
 					<div className="flex  items-center  gap-4 my-4">
-						<button onClick={notify} className="bg-green-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-green-600">
+											<button 
+												onClick={cartItems.length > 0 ? notify : undefined} 
+												className={`bg-green-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${cartItems.length > 0 ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}`}
+												disabled={cartItems.length === 0}
+											>
 							<HiOutlineSave className=" animate-bounce" size={24}/>
 							Salvar Pedido
 						</button>
+						{/* <button onClick={handleSaveOrder} className={`bg-green-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${cartItems.length > 0 ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}`}>
+							<HiOutlineSave className=" animate-bounce" size={24}/>
+							Salvar Peds
+						</button> */}
 						<button
 							onClick={handlePrint}
 							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"

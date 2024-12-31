@@ -48,7 +48,7 @@ const EditProdi = () => {
   return (
     <div className="mx-2">
       <h1 className="font-bold mb-4">EDITAR PRODUTO</h1>
-      <form onSubmit={getProds} className="flex flex-col gap-3 ">
+      <form onSubmit={updateProd} className="flex flex-col gap-3 ">
         <label>Nome:</label>
         <input
           type="text"

@@ -23,7 +23,7 @@ const removeFromCart = (_id) => {
               {nome}
               </p>
 					</span>
-					<p className=" inline text-slate-600 ">
+					<p className=" inline text-slate-600 mr-3 font-bold text-lg">
             {quantity}
             x
             </p>

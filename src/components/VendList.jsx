@@ -1,4 +1,4 @@
-import { HiOutlineTrash, HiPlusCircle } from "react-icons/hi";
+import { HiOutlineTrash, HiPencilAlt, HiPlusCircle } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import FetchData from "../axios/config";
 import { Link } from "react-router-dom";
@@ -110,17 +110,14 @@ const VendList = () => {
 											</div>
 										</div>
 										<div className="flex gap-2 ">
-											<button onClick={() => handleDelete(pdt._id)} className="text-transparent">
-												<HiOutlineTrash size={24} />
-											</button>
-											<Link
-												className="text-slate-800"
-												to={`/pedidosvend/${pdt._id}`}
+											<button
+												onClick={() => handleDelete(pdt._id)}
+												className="text-red-500 hover:text-red-700"
 											>
-												<HiPlusCircle
-													className="text-slate-800 hover:text-slate-600"
-													size={48}
-												/>
+												<HiOutlineTrash size={34} />
+											</button>
+											<Link className="text-slate-800"to={`/editVend/${pdt._id}`}>
+												<HiPencilAlt className="text-slate-800 hover:text-slate-600"size={34}/>
 											</Link>
 										</div>
 									</div>

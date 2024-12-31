@@ -10,6 +10,7 @@ const vendedorController = {
         telefone: req.body.telefone,
         documento: req.body.documento,
         cidade: req.body.cidade,
+				saldo: req.body.saldo,
       }
       
       const response = await VendedorModel.create(vendedor);
@@ -73,6 +74,7 @@ const vendedorController = {
         telefone: req.body.telefone,
         documento: req.body.documento,
         cidade: req.body.cidade,
+				saldo: req.body.saldo,
       };
 
       const updatedVendedor = await VendedorModel.findByIdAndUpdate(id, vendedor)

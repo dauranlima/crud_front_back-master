@@ -3,22 +3,19 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const pedidoSchema = new Schema({
-  nome:{
-    type: String,
-    required: true
-  },
-  cidade:{
-    type: String,
-    required: true
-  },
-  produtos:{
-    type: Array,
-    required: true
-  }
+  produtos:[{
+    nome: String,
+    quantity: Number,
+    preco: Number,
+  }],
+  vendedor: { type: String },
+  data:{ type: Date},
+  totalValor: { type: Number },
+  
 }, { timestamps: true}
 );
 
-const Pedido = mongoose.model("Pedido", vendedorSchema)
+const Pedido = mongoose.model("Pedido", pedidoSchema)
 
 module.exports = {
   Pedido,

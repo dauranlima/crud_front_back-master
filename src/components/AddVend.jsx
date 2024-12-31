@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
   const [telefone, setTelefone] = useState("");
   const [documento, setDocumento] = useState("");
   const [cidade, setCidade] = useState("")
+	const [saldo, setSaldo] = useState("");
 
   const notify = () => {
     if (nome && endereco && telefone && documento && cidade) {
@@ -30,6 +31,7 @@ import { ToastContainer, toast } from 'react-toastify';
       telefone,
       documento,
       cidade,
+      saldo,
     });
   };
 
@@ -41,6 +43,15 @@ import { ToastContainer, toast } from 'react-toastify';
       .replace(/(\d{3})(\d{1,2})/, '$1-$2')
       .replace(/(-\d{2})\d+?$/, '$1')
   }
+
+  const telefoneRegex = /^\d{2}-\d{5}-\d{4}$/;
+	const mascaraTelefone = (value) => {
+		if (telefoneRegex.test(value)) {
+			return value;
+		}
+		return value.replace(/(\d{2})(\d{5})(\d{4})/, "$1 $2-$3");
+	};
+  
 
   return (
     <div className="mx-2">
@@ -68,10 +79,11 @@ import { ToastContainer, toast } from 'react-toastify';
         <input
           type="text"
           required
-          maxLength="14"
+          maxLength="11"
           placeholder="Digite o Telefone:"
+					value={telefone}
           className="border uppercase border-slate-500 p-2 rounded-lg text-black bg-roxo-claro"
-          onChange={(e) => setTelefone(e.target.value)}
+          onChange={(e) => setTelefone(mascaraTelefone(e.target.value))}
         />
         <label>DOCUMENTO:</label>
         <input
@@ -90,6 +102,14 @@ import { ToastContainer, toast } from 'react-toastify';
           placeholder="Digite o Cidade:"
           className="border uppercase border-slate-500 p-2 rounded-lg text-black bg-roxo-claro"
           onChange={(e) => setCidade(e.target.value)}
+        />
+        <label>SALDO:</label>
+        <input
+          type="number"
+          required
+          placeholder="Digite o Saldo devedor da vendedora:"
+          className="border uppercase border-slate-500 p-2 rounded-lg text-black bg-roxo-claro"
+          onChange={(e) => setSaldo(e.target.value)}
         />
 
         <button
