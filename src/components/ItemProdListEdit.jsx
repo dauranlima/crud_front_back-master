@@ -3,7 +3,7 @@ import formatCurrency from "@/utils/FormatCurrency";
 import { useContext, useState } from "react";
 import { HiMinusCircle, HiOutlineShoppingCart, HiPlusCircle } from "react-icons/hi";
 
-export default function ItemProdList({data}) {
+export default function ItemProdListEdit({data}) {
   const {_id, nome, preco,} = data;
   const {cartItems, setCartItems} = useContext(CartContext)
   const [count, setCount] = useState(1);

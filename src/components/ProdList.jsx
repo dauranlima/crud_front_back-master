@@ -71,8 +71,8 @@ const ProdList = () => {
           ) : (
             currentItems.filter((pdt) =>{ return busca.toLowerCase() === '' ? pdt  : pdt.nome.toLowerCase().includes(busca)})
             .map((pdt) => (
-              <>
-              <div key={pdt._id} className="py-1 px-2 border border-gray-300 my-3 flex justify-between gap-5 items-start"
+              <div key={pdt._id}>
+              <div  className="py-1 px-2 border border-gray-300 my-3 flex justify-between gap-5 items-start"
               >
               <div className="flex items-center gap-4">
                   <img 
@@ -95,7 +95,7 @@ const ProdList = () => {
                   </Link>
                 </div>
               </div>
-              </>
+              </div>
             ))          )}
                 <div className="flex justify-center gap-2 ">
         <button 

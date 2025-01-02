@@ -13,15 +13,13 @@ const VendPedido = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 5;
 
-	console.log(pedido);
 	const getPedidos = async () => {
 		try {
 			const response = await FetchData.get("/pedido");
 			const data = response.data;
-			const sortedData = data.sort((a, b) => new Date(a.data) - new Date(b.data));
+			const sortedData = data.sort((a, b) => new Date(b.data) - new Date(a.data));
 			setPedido(sortedData);
 			setLoading(false);
-			console.log(pedido);
 		} catch (error) {
 			console.log(error);
 			setLoading(false);
@@ -61,12 +59,11 @@ const VendPedido = () => {
 
 				<div>
           {/* -----------LISTA------------- */}
-          
 					{loading ? (<p>Carregando pedidos....</p>
           ) : currentItems.length === 0 ? (
             <div><p>Não há pedidos para carregar</p></div>
           ) : (
-            currentItems
+						currentItems
 						.filter((ped) =>{
 							return busca.toLowerCase() === '' 
 							? ped

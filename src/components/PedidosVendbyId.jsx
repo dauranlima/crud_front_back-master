@@ -1,21 +1,30 @@
 import {HiOutlineAnnotation,HiOutlineClipboardList, HiOutlineSave,} from "react-icons/hi";
 import { useContext, useEffect, useState } from "react";
 import FetchData from "../axios/config";
-import { Link } from "react-router-dom";
-import Cart from "../pages/Cart";
+import { Link, useParams } from "react-router-dom";
 import CartContext from "@/context/CartContext";
-import ItemProdList from "./itemProdList";
+import CartEdit from "@/pages/CartEdit";
+import ItemProdListEdit from "./ItemProdListEdit";
 
 const PedidosVendbyId = () => {
 	const [busca, setBusca] = useState("");
-	const [vend, setVend] = useState("");
-	const {pedido, setPedido} = useContext(CartContext);
+	const [vend] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 7;
-	const { isCartOpen, setIsCartOpen, cartItems, setCartItems, prod, setProd} = useContext(CartContext);
+	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido, cartItems, setCartItems, prod, setProd} = useContext(CartContext);
 
-
+	const { id } = useParams();
+	console.log(editPedido)
+	const getPedidos = async () => {
+		try {
+			const response = await FetchData.get(`/pedido/${id}`);
+			const data = response.data;
+			setEditPedido(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	const handleClearCart = () => {
 		setCartItems([]);
 	};
@@ -46,8 +55,7 @@ const PedidosVendbyId = () => {
 		};
 
 		try {
-			const response = await FetchData.post("/pedido", orderData);
-			console.log(response.data)
+			await FetchData.post("/pedido", orderData);
 			setIsCartOpen(false);
 			handleClearCart();
 		} catch (error) {
@@ -74,6 +82,7 @@ const PedidosVendbyId = () => {
 
 	useEffect(() => {
 		getProds();
+		getPedidos();
 		const timer = setTimeout(() => {
 			setLoading(false);
 		}, 5000);
@@ -91,23 +100,14 @@ const PedidosVendbyId = () => {
 	return (
 		<div className="flex flex-col">
 			<div>
-				<select
-					className="border border-black w-full p-2 text-black"
-					value={vend}
-					onChange={(e) => setVend(e.target.value)}
-				>
-					<option value="">Selecione uma vendedora</option>
-					<option value="vendedora1">Vendedora 1</option>
-					<option value="vendedora2">Vendedora 2</option>
-					<option value="vendedora3">Vendedora 3</option>
-					<option value="vendedora4">Vendedora 4</option>
-					<option value="vendedora5">Vendedora 5</option>
-					<option value="vendedora6">Vendedora 6</option>
-					<option value="vendedora7">Vendedora 7</option>
-					<option value="vendedora8">Vendedora 8</option>
-					<option value="vendedora9">Vendedora 9</option>
-					<option value="vendedora10">Vendedora 10</option>
-				</select>
+				<label className="text-gray-800 font-bold text-lg"  htmlFor="vendedora">Vendedora</label>
+			<input
+				type="text" 
+				name="vendedora" 
+				className="border font-bold border-black w-full py-2 px-2" 
+				value={editPedido?.vendedor?.nome || ''} 
+				onChange={(e)=> {setEditPedido}}	
+			/>
 			</div>
 			<div className="flex justify-evenly ">
 				<button
@@ -118,7 +118,7 @@ const PedidosVendbyId = () => {
 				>
 					<HiOutlineClipboardList size={40} />
 					Itens Adicionados
-					{cartItems.length > 0 && <span className="absolute top-0 right-0 rounded-full flex bg-red-500 h-6 w-6 justify-center items-center">{cartItems.length}</span>}
+					{editPedido?.produtos?.length > 0 && <span className="absolute top-0 right-0 rounded-full flex bg-red-500 h-6 w-6 justify-center items-center">{editPedido?.produtos?.length}</span>}
 				</button>
 				<Link
 					className="flex items-center gap-2 p-2 bg-black shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4"
@@ -147,7 +147,7 @@ const PedidosVendbyId = () => {
 				) : (
 					
 					currentItems.filter((pdt) => {return busca.toLowerCase() === ""? pdt: pdt.nome.toLowerCase().includes(busca);})
-						.map((pdt) => ( <ItemProdList key={pdt._id} data={pdt}  /> )))}
+						.map((pdt) => ( <ItemProdListEdit key={pdt._id} data={pdt}  /> )))}
 				{/* ------------------- paginação------------------- */}
 				<div className="flex justify-center gap-2 ">
 					<button
@@ -170,7 +170,7 @@ const PedidosVendbyId = () => {
 						Próxima
 					</button>
 				</div>
-				<Cart handleSaveOrder={handleSaveOrder} />
+				<CartEdit editPedido={editPedido} handleSaveOrder={handleSaveOrder} />
 			</div>
 		</div>
 	);

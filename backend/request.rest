@@ -1,91 +1,64 @@
-POST  http://localhost:3000/api/vendedor
+POST http://localhost:3000/api/produtos
 Content-Type: application/json
 
 {
-  "nome": "Camiseta Puma",
-  "codigo":6,
-  "descricao": "Descrição do produto 6",
-  "categoria": "Camiseta",
-  "quantidade": 1,
-  "preco":89.00,
-  "tamanho": "M",
-  "imagem": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fmoletom-png&psig=AOvVaw3x3nhtcyEFttjuxO7NVLiW&ust=1724432225884000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID9iOSIiYgDFQAAAAAdAAAAABAI"
+  "nome": "CAMISETA BASIC",
+  "preco": 49.90
 }
 
 
 ###
 
-GET http://localhost:3000/api/produtos
+GET http://localhost:3008/api/produtos
 
 ###
 
-GET http://localhost:3000/api/produtos/66c76e3f16e00c5c21522e7b
+GET http://localhost:3008/api/produtos/676488917e385aba2cb82db1
 
 ###
 
-DELETE http://localhost:3000/api/produtos/66cbf28b68e6a96858f835e0
+DELETE http://localhost:3008/api/produtos/676488897e385aba2cb82dad
 
 
 ###
 
-PUT  http://localhost:3000/api/produtos/66c77638e8c908a64fba6bf4
+PUT http://localhost:3008/api/produtos/676488917e385aba2cb82db1
 Content-Type: application/json
 
 {
-  "nome": "TESTE ATUALIZAÇÃO",
-  "descricao": "ATUALIZAÇÃO DA Descrição do produto 3",
-  "categoria": "TESTE Moletom",
-  "preco":15.00,
-  "tamanho": "PP",
-  "imagem": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fmoletom-png&psig=AOvVaw3x3nhtcyEFttjuxO7NVLiW&ust=1724432225884000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID9iOSIiYgDFQAAAAAdAAAAABAI"
+  "nome": "BLUSA CODIGO ROSITA",
+  "preco": 29
 }
+###CRIAR NOVO VENDEDOR
 
-###
-
-POST  http://localhost:3000/api/vendedor
+POST  http://localhost:3008/api/vendedor
 Content-Type: application/json
+
 {
-  "nome": "dauran lima aguiar teste",
-  "endereco":"rua das almas 3322",
-  "telefone":99881888,
-  "documento":"12333588-85",
-  "cidade":"CASCAVEL",
-  
+  "nome": "dauran AGUIAR lima",
+  "endereco": "Rua JORGE LARCIDIS",
+  "telefone": "45988328490",
+  "documento": "068.371.269-12",
+  "cidade": "CASVELLIS-RN",
+  "saldo": 99
 }
 
 
 ###
 
-GET http://localhost:3000/api/vendedor
+GET http://localhost:3008/api/vendedor
 
 ###
 
-GET http://localhost:3000/api/vendedor/66c89af006e77ae0a0409d02
+GET http://localhost:3008/api/vendedor/67709f24210cda5564745d2c
 
 ###
 
-DELETE http://localhost:3000/api/vendedor/66c89c12741eaef2e0fdc568
+DELETE http://localhost:3008/api/vendedor/6774576d6daea097548120b8
 
-
-###
-
-POST  http://localhost:3000/api/vendedor/
-Content-Type: application/json
-
-{
-  "nome": "Reginaldo Geraldo",
-  "codigo":1,
-  "rua": "Nereu Ramos",
-  "numero": 1875,
-  "cidade": "Cascavel",
-  "imagem": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fmoletom-png&psig=AOvVaw3x3nhtcyEFttjuxO7NVLiW&ust=1724432225884000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID9iOSIiYgDFQAAAAAdAAAAABAI",
-  "observacao": "cliente antigo e dono da empresa"
-}
-
-###
 
 ### Criar novo pedido
-POST http://localhost:3000/api/pedido
+POST http://localhost:3008/api/pedido
 Content-Type: application/json
 
 
@@ -101,18 +74,27 @@ Content-Type: application/json
 }
 
 ### Buscar todos os pedidos
-GET http://localhost:3000/api/pedido
+GET http://localhost:3008/api/pedido
 
 ### Buscar pedido por ID
-GET http://localhost:3000/api/pedido/676a04fdf7efb199f137042f
+GET http://localhost:3008/api/pedido/6774c2765756f833a4836476
 
 ### Atualizar pedido
-PUT http://localhost:3000/pedidos/65123456789012345678901c
+PUT http://localhost:3008/api/pedido/6774c2765756f833a4836476
 Content-Type: application/json
 
-{
-  "status": "Fechado"
+{ 
+  "vendedor": { 
+    "nome": "DAURAN LIMA",
+    "cidade": "CASCAVEL"
+  },  
+  "produtos": [{
+    "nome": "CAMISETA BASICA PRETA",
+    "quantity": 2,
+    "preco": 200
+  }],
+  "data": "2022-03-14T15:27:50.408Z",
+  "totalValor": 100
 }
-
 ### Deletar pedido
-DELETE http://localhost:3000/pedidos/65123456789012345678901c
+DELETE http://localhost:3008/api/pedido/677435fb360fd79b5ed1ab40

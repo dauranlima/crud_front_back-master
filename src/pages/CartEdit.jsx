@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import jsPDF from 'jspdf';
 import CartContext from "@/context/CartContext";
-import CartItem from "@/components/CartItem";
 import formatCurrency from "@/utils/FormatCurrency";
 import { EraserIcon } from "lucide-react";
+import CartItemEdit from "@/components/CartItemEdit";
 
-export default function Cart({ handleSaveOrder }) {
+export default function CartEdit({ handleSaveOrder, editPedido }) {
 
 	const {isCartOpen, cartItems}=useContext(CartContext)
 	const navigate = useNavigate();
@@ -34,7 +34,6 @@ export default function Cart({ handleSaveOrder }) {
     window.print();
   };
 
-	
 	return (
 		<div className={`w-full max-w-72 ${isCartOpen ? ' translate-x-[100%]':''} sm:max-w-[560px] fixed top-[112px] translate-x-[0%] px-10 border border-gray-500 
 		transition-all duration-500 bg-white right-0 h-[calc(100%-120px)] justify-between flex flex-col  `}>
@@ -55,18 +54,12 @@ export default function Cart({ handleSaveOrder }) {
 			</div>
 {/* ----------------------- LISTA ----------------------- */}
 			<div className="overflow-auto   grow  mb-12">
-				{cartItems.length === 0 ? (
-					<>
-					<div className="flex items-center h-full justify-center flex-col gap-2">
-						<img className="h-32 w-32" src="/business.png" alt="basket"/>
-						<p className="text-center text-slate-500 font-semibold">Cesta vazia</p>
-					</div>
-					</>
-				) : (
+					{
 					<div >
-						{cartItems.map((item) => (<CartItem key={item._id}  data={item} />))}
+						{editPedido?.produtos?.map((item, index) => (<CartItemEdit key={item._id} index={index} data={item}/>)) || []}
 					</div>
-				)}
+				// )
+				}
 			</div>
 {/* ----------------------- resumo dos valores ----------------------- */}
 			<div>
@@ -77,14 +70,15 @@ export default function Cart({ handleSaveOrder }) {
 					<div className="flex justify-between">
 						<p className="text-slate-500 font-semibold text-lg">Valor total</p>
 						<p className="text-slate-500 font-semibold text-lg">
-							Total: R$ {formatCurrency(totalPrice, 'BRL')}
+							{/* Total: R$ {formatCurrency( totalPrice, 'BRL')} */}
+							Total: R$ {formatCurrency(editPedido?.totalValor || 0, 'BRL')}
 						</p>
 					</div>
 					<div className="flex  items-center  gap-4 my-4">
 											<button 
 												onClick={cartItems.length > 0 ? notify : undefined} 
-												className={`bg-green-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${cartItems.length > 0 ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}`}
-												disabled={cartItems.length === 0}
+												className={`bg-green-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${editPedido?.produtos?.length > 0 ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}`}
+												disabled={editPedido?.produtos?.length === 0}
 											>
 							<HiOutlineSave className=" animate-bounce" size={24}/>
 							Salvar Pedido

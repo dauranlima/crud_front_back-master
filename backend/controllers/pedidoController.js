@@ -1,4 +1,4 @@
-const {Pedido: PedidoModel } = require("../models/pedido")
+const {Pedido: PedidoModel, Pedido } = require("../models/pedido")
 
 const pedidoController = {
 
@@ -32,70 +32,65 @@ const pedidoController = {
     }
   },
 
-  // get: async(req,res) =>{
-  //   try {
-  //     const id = req.params.id
-  //     const product = await ProductModel.findById(id);
+  get: async(req,res) =>{
+    try {
+      const id = req.params.id
+      const pedido = await PedidoModel.findById(id);
       
-  //     if(!product){
-  //       res.status(404).json({msg:"Produto não encontrado."})
-  //       return;
-  //     }
-  //     res.json(product)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // },
+      if(!pedido){
+        res.status(404).json({msg:"Pedido não encontrado."})
+        return;
+      }
+      res.json(pedido)
+    } catch (error) {
+      console.log(error)
+    }
+  },
 
-  // delete: async(req,res) => {
-  //   try {
-  //     const id = req.params.id
-  //     const product = await ProductModel.findById(id);
+  delete: async(req,res) => {
+    try {
+      const id = req.params.id
+      const pedido = await PedidoModel.findById(id);
 
-  //     if(!product){
-  //       res.status(404).json({msg:"Produto não encontrado."})
-  //       return;
-  //     }
+      if(!pedido){
+        res.status(404).json({msg:"Pedido não encontrado."})
+        return;
+      }
 
-  //     const deletedProduct = await ProductModel.findByIdAndDelete(id)
-  //     res.status(200).json({deletedProduct, msg: "Produto excluido com sucesso!"})
+      const deletedOrder = await PedidoModel.findByIdAndDelete(id)
+      res.status(200).json({deletedOrder, msg: "Pedido excluido com sucesso!"})
 
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // },
+    } catch (error) {
+      console.log(error)
+    }
+  },
 
-  // update: async (req,res) => {
+  update: async (req,res) => {
 
-  //   try {
+    try {
       
-  //     const id = req.params.id;
+      const id = req.params.id;
 
-  //     const product = {
-  //       nome: req.body.nome,
-  //       preco: req.body.preco,
-  //       codigo: req.body.codigo,
-  //       // descricao: req.body.descricao,
-  //       // categoria: req.body.categoria,
-  //       // quantidade: req.body.quantidade,
-  //       // tamanho:req.body.tamanho,
-  //       // imagem:req.body.imagem,
-  //     };
+      const novoPedido = {
+				produtos: [...req.body.produtos],
+				vendedor: {...req.body.vendedor},
+        data: req.body.data,
+				totalValor: req.body.totalValor,
+      }
 
-  //     const updatedProduct = await ProductModel.findByIdAndUpdate(id, product)
+      const updatedOrder = await PedidoModel.findByIdAndUpdate(id, novoPedido)
 
-  //     if(!updatedProduct){
-  //       res.status(404).json({msg:"Serviço não encontrado."})
-  //       return;
-  //     }
+      if(!updatedOrder){
+        res.status(404).json({msg:"pedido não encontrado."})
+        return;
+      }
       
-  //     res.status(200).json({product, msg: "Produto atualizado com sucesso!"})
+      res.status(200).json({novoPedido, msg: "Pedido atualizado com sucesso!"})
 
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-
-  // }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 }
 

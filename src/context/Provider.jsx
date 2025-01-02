@@ -7,6 +7,7 @@ export default function Provider({ children }) {
 	const [prod, setProd] = useState([]);
 	const [username, setUsername] = useState('');
 	const [pedido, setPedido] = useState([]);
+		const [editPedido, setEditPedido] = useState([])
 	const value = {
 		isCartOpen,
 		setIsCartOpen,
@@ -18,6 +19,8 @@ export default function Provider({ children }) {
 		setUsername,
 		pedido,
 		setPedido,
+		editPedido,
+		setEditPedido,
 	};
 
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

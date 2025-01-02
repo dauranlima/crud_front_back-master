@@ -7,7 +7,7 @@ const Header = () => {
   const {username} = useContext(CartContext);
 
 	return (
-		<main className="fixed top-0 left-0 right-0">
+		<main className="fixed z-50 top-0 left-0 right-0">
 			<header className="bg-indigo-600 flex justify-between py-6 px-8 gap-4 items-center mb-4">
 				<Link to="/" className="flex ] items-center gap-4">
 					<img src={"/supplier.png"} className="w-16 h-16  " />
