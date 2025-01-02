@@ -7,67 +7,6 @@ export default function Login() {
   const [password, setPassword] = useState('');
   
   const navigate = useNavigate();
-  
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement && 
-          !document.mozFullScreenElement && 
-          !document.webkitFullscreenElement && 
-          !document.msFullscreenElement) {
-        handleFullscreen();
-      }
-    };
-  
-    React.useEffect(() => {
-      document.addEventListener('fullscreenchange', handleFullscreenChange);
-      document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-      document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-      document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-  
-      handleFullscreen();
-  
-      return () => {
-        document.removeEventListener('fullscreenchange', handleFullscreenChange);
-        document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
-        document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-        document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
-      };
-    }, []);
-  
-    React.useEffect(() => {
-      document.addEventListener('fullscreenchange', handleFullscreenChange);
-      document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-      document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-      document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-  
-      handleFullscreen();
-  
-      return () => {
-        document.removeEventListener('fullscreenchange', handleFullscreenChange);
-        document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
-        document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-        document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
-      };
-    }, []);
-  
-const handleFullscreen = () => {
-    if (document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen();
-    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-      document.documentElement.mozRequestFullScreen();
-    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-      document.documentElement.webkitRequestFullscreen();
-    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-      document.documentElement.msRequestFullscreen();
-    }
-  };
-
-  React.useEffect(() => {
-    handleFullscreen();
-  }, []);
-
-  
-    // Trigger fullscreen mode on component mount
-    handleFullscreen();
 
 const handleSubmit = (event) => {
     event.preventDefault();
