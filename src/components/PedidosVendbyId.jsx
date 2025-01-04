@@ -1,18 +1,20 @@
-import {HiOutlineAnnotation,HiOutlineClipboardList, HiOutlineSave,} from "react-icons/hi";
+import {HiOutlineAnnotation,HiOutlineClipboardList, HiOutlineTrash,} from "react-icons/hi";
 import { useContext, useEffect, useState } from "react";
 import FetchData from "../axios/config";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CartContext from "@/context/CartContext";
 import CartEdit from "@/pages/CartEdit";
 import ItemProdListEdit from "./ItemProdListEdit";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const PedidosVendbyId = () => {
 	const [busca, setBusca] = useState("");
-	const [vend] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 7;
 	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido, cartItems, setCartItems, prod, setProd} = useContext(CartContext);
+	const navigate = useNavigate();
 
 	const { id } = useParams();
 	console.log(editPedido)
@@ -29,29 +31,45 @@ const PedidosVendbyId = () => {
 		setCartItems([]);
 	};
 	
+	const notify = () => {
+    toast.error(' Pedido Excluido!',{ autoClose: 1500, position: "top-right", pauseOnHover: false});
+		deleteOrder()
+    setTimeout(() => {
+			navigate("/pedidos");
+		}, 2500);
+  }
+
+	const deleteOrder = async () => {
+		try {
+			await FetchData.delete(`/pedido/${id}`)
+		} catch (error) {
+			alert("Erro ao excluir o pedido: " + error.message)
+			console.error("Erro ao excluir o pedido:", error)
+		}
+	}
 	const handleSaveOrder = async () => {
-		if (!vend) {
+		if (!editPedido.vendedor.nome) {
 			alert("Por favor, selecione uma vendedora antes de salvar o pedido");
 			return;
 		}
 
-		if (cartItems.length === 0) {
+		if (editPedido?.produtos?.length === 0) {
 			alert("O carrinho está vazio. Adicione produtos antes de salvar o pedido");
 			return;
 		}
 
 		const orderData = {
-			produtos: cartItems.map((item) => ({
-				produto: item.nome,
-				quantidade: item.quantity,
+			produtos: editPedido.produtos.map((item) => ({
+				nome: item.nome,
+				quantity: item.quantity,
 				preco: item.preco,
 			})),
-			vendedor: vend,
+			vendedor:{
+				nome: editPedido.vendedor.nome,
+				cidade: editPedido.vendedor.cidade,
+			},
 			data: new Date().toISOString(),
-			totalValor: cartItems.reduce(
-				(acc, item) => acc + item.preco * item.quantity,
-				0
-			),
+			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0
 		};
 
 		try {
@@ -62,8 +80,7 @@ const PedidosVendbyId = () => {
 			alert("Erro ao salvar o pedido: " + error.message);
 			console.error("Erro ao salvar o pedido:", error);
 		}
-	};
-	const toogleCart = () => {
+	};	const toogleCart = () => {
 		setIsCartOpen(!isCartOpen);
 	};
 
@@ -127,6 +144,15 @@ const PedidosVendbyId = () => {
 					<HiOutlineAnnotation size={40} />
 					Realizar Acerto
 				</Link>
+				<button
+					onClick={notify}
+					className={
+						"flex items-center gap-2 p-3 bg-red-500 hover:bg-red-700 shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4  "
+					}
+				>
+					<HiOutlineTrash size={40} />
+					Excluir Pedido
+				</button>
 				
 			</div>
 			{/* --------------LISTA ---------------------- */}
@@ -172,6 +198,7 @@ const PedidosVendbyId = () => {
 				</div>
 				<CartEdit editPedido={editPedido} handleSaveOrder={handleSaveOrder} />
 			</div>
+			<ToastContainer/>
 		</div>
 	);
 };

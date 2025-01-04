@@ -2,11 +2,12 @@ import { HiOutlineTrash } from "react-icons/hi";
 import formatCurrency from "@/utils/FormatCurrency";
 import { useContext } from "react";
 import CartContext from "@/context/CartContext";
-export default function CartItem({ data }) {
+
+export default function CartItemEdit({ data }) {
 
   const {_id, nome, preco,quantity} = data;
   const valorTotalUnitario = preco * quantity;
-	const { cartItems, setCartItems, editPedido, setEditPedido } = useContext(CartContext);
+	const { editPedido, setEditPedido } = useContext(CartContext);
 
 	const removeFromCart = (_id) => {
 		const updatedItems = editPedido.produtos.filter((item) => item._id !== _id);

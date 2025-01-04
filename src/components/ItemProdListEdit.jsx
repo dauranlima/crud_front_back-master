@@ -5,11 +5,11 @@ import { HiMinusCircle, HiOutlineShoppingCart, HiPlusCircle } from "react-icons/
 
 export default function ItemProdListEdit({data}) {
   const {_id, nome, preco,} = data;
-  const {cartItems, setCartItems} = useContext(CartContext)
+  const {cartItems, setCartItems, editPedido,setEditPedido} = useContext(CartContext)
   const [count, setCount] = useState(1);
 
   const handleAddCart = () => {
-    setCartItems([...cartItems, {...data, quantity: count}]);
+    setEditPedido({...editPedido, produtos: [...(editPedido?.produtos || []), {...data, quantity: count}]});
   };
 
 	return (
@@ -43,14 +43,13 @@ export default function ItemProdListEdit({data}) {
 			</div>
 				<button className="flex gap-2 items-center border border-white shadow-xl py-2 px-4  text-sm rounded-md bg-blue-500 hover:bg-blue-400 hover:scale-105 transition-transform text-white font-bold"
 					onClick={() => {
-					const existingItem = cartItems.find(item => item._id === _id)
+					const existingItem = editPedido?.produtos?.find(item => item._id === _id)
 					if (existingItem) {
-						const updatedItems = cartItems.map(item => 
+						const updatedItems = editPedido?.produtos?.map(item => 
 							item._id === _id ? {...item, quantity: count} : item
-						)
-						setCartItems(updatedItems)
-					} else {
-						handleAddCart()
+						) || []
+						setEditPedido({...editPedido, produtos: updatedItems})
+					} else {						handleAddCart()
 					}
 				}}>
 					<HiOutlineShoppingCart size={34} />
