@@ -77,24 +77,24 @@ Content-Type: application/json
 GET http://localhost:3008/api/pedido
 
 ### Buscar pedido por ID
-GET http://localhost:3008/api/pedido/6774c2765756f833a4836476
+GET http://localhost:3008/api/pedido/6774c26d5756f833a483646b
 
 ### Atualizar pedido
-PUT http://localhost:3008/api/pedido/6774c2765756f833a4836476
+PUT http://localhost:3008/api/pedido/6774c26d5756f833a483646b
 Content-Type: application/json
 
 { 
   "vendedor": { 
-    "nome": "DAURAN LIMA",
-    "cidade": "CASCAVEL"
+    "nome": "DAURITIZIS LIMA",
+    "cidade": "CASCAMEL"
   },  
   "produtos": [{
-    "nome": "CAMISETA BASICA PRETA",
+    "nome": "CAMISETA BASICA GOLA V",
     "quantity": 2,
-    "preco": 200
+    "preco": 298
   }],
   "data": "2022-03-14T15:27:50.408Z",
-  "totalValor": 100
+  "totalValor": 298
 }
 ### Deletar pedido
 DELETE http://localhost:3008/api/pedido/677435fb360fd79b5ed1ab40

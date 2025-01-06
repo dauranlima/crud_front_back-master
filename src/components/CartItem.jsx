@@ -2,7 +2,9 @@ import { HiOutlineTrash } from "react-icons/hi";
 import formatCurrency from "@/utils/FormatCurrency";
 import { useContext } from "react";
 import CartContext from "@/context/CartContext";
+
 export default function CartItem({ data }) {
+	
   const {_id, nome, preco,quantity} = data;
   const valorTotalUnitario = preco * quantity;
 	const { cartItems, setCartItems} = useContext(CartContext);
@@ -18,7 +20,7 @@ export default function CartItem({ data }) {
 				<div>
 					<span className="text-slate-600">
 						<p className=" text-slate-600">
-						{nome}{_id}
+						{nome}
               </p>
 					</span>
 					<p className=" inline text-slate-600 mr-3 font-bold text-lg">

@@ -1,5 +1,5 @@
 import { useContext,useRef , useState } from "react";
-import { HiOutlinePrinter, HiOutlineSave,  } from "react-icons/hi";
+import { HiOutlineDuplicate, HiOutlinePrinter, HiOutlineSave, HiOutlineSaveAs,  } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import jsPDF from 'jspdf';
@@ -7,17 +7,26 @@ import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
 import CartItemEdit from "@/components/CartItemEdit";
 
-export default function CartEdit({ handleSaveOrder, editPedido }) {
+export default function CartEdit({ handleSaveOrder, handleUpdateOrder, editPedido }) {
 
-	const {isCartOpen, cartItems}=useContext(CartContext)
+	const {isCartOpen}=useContext(CartContext)
 	const navigate = useNavigate();
   const contentRef = useRef(null);
 
 	const totalEditValor = editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0;
 
-  const notify = () => {
-    toast.success(' Pedido Salvo!',{ autoClose: 2500, position: "top-left", pauseOnHover: false});
+  const saveNotify = () => {
+    toast.success(' Pedido Duplicado!',{ autoClose: 2500, position: "top-left", pauseOnHover: false});
 		handleSaveOrder()
+    setTimeout(() => {
+			navigate("/pedidos");
+
+		}, 2500);
+  }
+
+	const editNotify = () => {
+    toast.success(' Pedido Editado!',{ autoClose: 2500, position: "top-left", pauseOnHover: false});
+		handleUpdateOrder()
     setTimeout(() => {
 			navigate("/pedidos");
 
@@ -70,22 +79,26 @@ export default function CartEdit({ handleSaveOrder, editPedido }) {
 					</div>
 					<div className="flex  items-center  gap-4 my-4">
 											<button 
-												onClick={editPedido?.produtos?.length > 0 ? notify : undefined} 
-												className={`bg-green-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${editPedido?.produtos?.length > 0 ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}`}
+												onClick={editPedido?.produtos?.length > 0 ? saveNotify : undefined} 
+												className={`bg-slate-700 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${editPedido?.produtos?.length > 0 ? 'hover:bg-slate-950' : 'opacity-50 cursor-not-allowed'}`}
 												disabled={editPedido?.produtos?.length === 0}
 											>
-							<HiOutlineSave className=" animate-bounce" size={24}/>
-							Salvar Pedido
+							<HiOutlineDuplicate className=" animate-bounce" size={34}/>
+							Duplicar
 						</button>
-						{/* <button onClick={handleSaveOrder} className={`bg-green-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${cartItems.length > 0 ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}`}>
-							<HiOutlineSave className=" animate-bounce" size={24}/>
-							Salvar Peds
-						</button> */}
+						<button 
+												onClick={editPedido?.produtos?.length > 0 ? editNotify : undefined} 
+												className={`bg-yellow-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${editPedido?.produtos?.length > 0 ? 'hover:bg-yellow-600' : 'opacity-50 cursor-not-allowed'}`}
+												disabled={editPedido?.produtos?.length === 0}
+											>
+							<HiOutlineSaveAs className=" animate-bounce" size={34}/>
+							Editar 
+						</button>
 						<button
 							onClick={handlePrint}
 							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
 						>
-							<HiOutlinePrinter className="animate-pulse" size={24}/>
+							<HiOutlinePrinter className="animate-pulse" size={34}/>
 							Imprimir
 						</button>
 					</div>

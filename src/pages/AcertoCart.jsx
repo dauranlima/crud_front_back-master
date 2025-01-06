@@ -10,10 +10,10 @@ import AcertoCartItem from "@/components/AcertoCartItem";
 
 export default function AcertoCart() {
 
-	const {cartItems}=useContext(CartContext)
+	const {editPedido}=useContext(CartContext)
 	const navigate = useNavigate();
   const contentRef = useRef(null);
-	const totalPrice = cartItems.reduce((acc, item) => acc + (item.preco * item.quantity) , 0)
+	const totalPrice = editPedido.valorTotal || []
 	const [totalVendido, setTotalVendido] = useState(10);
   const notify = () => {
     toast.success(' Pedido Salvo!',{ autoClose: 2500, position: "top-left", pauseOnHover: false});
@@ -23,12 +23,6 @@ export default function AcertoCart() {
 
 		}, 2500);
   }
-  const createOrder = async (e) => {
-    await FetchData.post("/pedido", {
-
-    });
-  };
-
 	const handlePrint = () => {
     const doc = new jsPDF();
     doc.html(contentRef.current, {
@@ -53,25 +47,14 @@ export default function AcertoCart() {
 				</div>
 			</div>
 			<div className="overflow-auto   grow  mb-3">
-				{cartItems.length === 0 ? (
-					<>
-					<div className="flex items-center h-full justify-center flex-col gap-2">
-						<img className="h-32 w-32" src="/business.png" alt="basket"/>
-						<p className="text-center text-slate-500 font-semibold">Cesta vazia</p>
-					</div>
-					</>
-				) : (
 					<div className="flex  justify-center flex-col items-center " >
-{/* ----------------------- LISTA ----------------------- */}
-						{cartItems.map((item) => (
+						{editPedido?.produtos?.map((item) => (
 							<AcertoCartItem 
 								key={item._id}
 								data={item}
-								
 							/>
 						))}
 					</div>
-				)}
 			</div>
 {/* ----------------------- resumo dos valores ----------------------- */}
 			<div className="flex border-t border-gray-400 flex-col items-center">

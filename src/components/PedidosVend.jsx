@@ -165,13 +165,13 @@ const PedidosVend = () => {
 						</span>
 					)}
 				</button>
-				<Link
+				{/* <Link
 					className="flex items-center gap-2 p-2 bg-black shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4"
 					to={"/acerto"}
 				>
 					<HiOutlineQrcode size={40} />
 					QRCode
-				</Link>
+				</Link> */}
 			</div>
 			{/* --------------LISTA ---------------------- */}
 			<div>

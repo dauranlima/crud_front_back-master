@@ -30,7 +30,7 @@ export default function CartItemEdit({ data }) {
             x
             </p>
 					<span className="text-blue-500 font-semibold">
-					{preco}
+					{formatCurrency(preco, 'BRL')}
 					</span>
 				</div>
 				<div className="flex items-end mt-3">

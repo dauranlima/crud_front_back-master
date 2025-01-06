@@ -17,6 +17,7 @@ const PedidosVendbyId = () => {
 	const navigate = useNavigate();
 
 	const { id } = useParams();
+	
 	console.log(editPedido)
 	const getPedidos = async () => {
 		try {
@@ -47,6 +48,43 @@ const PedidosVendbyId = () => {
 			console.error("Erro ao excluir o pedido:", error)
 		}
 	}
+
+	const handleUpdateOrder = async () => {
+		if (!editPedido.vendedor.nome) {
+			alert("Por favor, selecione uma vendedora antes de salvar o pedido");
+			return;
+		}
+
+		if (editPedido?.produtos?.length === 0) {
+			alert("O carrinho está vazio. Adicione produtos antes de salvar o pedido");
+			return;
+		}
+
+		const orderData = {
+			produtos: editPedido.produtos.map((item) => ({
+				nome: item.nome,
+				quantity: item.quantity,
+				preco: item.preco,
+			})),
+			vendedor:{
+				nome: editPedido.vendedor.nome,
+				cidade: editPedido.vendedor.cidade,
+			},
+			data: new Date().toISOString(),
+			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0
+		};
+
+		try {
+			await FetchData.put(`/pedido/${id}`, orderData);
+			setIsCartOpen(false);
+			handleClearCart();
+		} catch (error) {
+			alert("Erro ao editar o pedido: " + error.message);
+			console.error("Erro ao editar o pedido:", error);
+		}
+	};
+
+
 	const handleSaveOrder = async () => {
 		if (!editPedido.vendedor.nome) {
 			alert("Por favor, selecione uma vendedora antes de salvar o pedido");
@@ -80,7 +118,9 @@ const PedidosVendbyId = () => {
 			alert("Erro ao salvar o pedido: " + error.message);
 			console.error("Erro ao salvar o pedido:", error);
 		}
-	};	const toogleCart = () => {
+	};
+	
+	const toogleCart = () => {
 		setIsCartOpen(!isCartOpen);
 	};
 
@@ -196,7 +236,7 @@ const PedidosVendbyId = () => {
 						Próxima
 					</button>
 				</div>
-				<CartEdit editPedido={editPedido} handleSaveOrder={handleSaveOrder} />
+				<CartEdit editPedido={editPedido} handleUpdateOrder={handleUpdateOrder} handleSaveOrder={handleSaveOrder} />
 			</div>
 			<ToastContainer/>
 		</div>

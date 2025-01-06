@@ -72,7 +72,7 @@ const pedidoController = {
       const id = req.params.id;
 
       const novoPedido = {
-				produtos: [...req.body.produtos],
+        produtos: [...req.body.produtos],
 				vendedor: {...req.body.vendedor},
         data: req.body.data,
 				totalValor: req.body.totalValor,
