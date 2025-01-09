@@ -98,3 +98,26 @@ Content-Type: application/json
 }
 ### Deletar pedido
 DELETE http://localhost:3008/api/pedido/677435fb360fd79b5ed1ab40
+
+
+
+###
+
+POST http://localhost:3008/api/acerto
+Content-Type: application/json
+
+{
+  "pedidoId": "7435fb360fd79b",
+  "vendedor": { 
+    "nome": "DAURAN LIMA",
+    "cidade": "CASCAVEL"
+  },
+  "dataAcerto": "2025-01-08",
+  "totalValor": 1024,
+  "totalVendido": 200,
+  "descontos": 50,
+  "saldoAtual": 0,
+  "recebido": 100,
+  "totalAcerto": 100,
+  "novoSaldoVendedor": 50
+}

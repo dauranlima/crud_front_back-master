@@ -13,12 +13,12 @@ const PedidosVendbyId = () => {
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 7;
-	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido, cartItems, setCartItems, prod, setProd} = useContext(CartContext);
+	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido,  setCartItems, prod, setProd} = useContext(CartContext);
 	const navigate = useNavigate();
 
 	const { id } = useParams();
 	
-	console.log(editPedido)
+	// console.log(editPedido)
 	const getPedidos = async () => {
 		try {
 			const response = await FetchData.get(`/pedido/${id}`);
@@ -28,10 +28,6 @@ const PedidosVendbyId = () => {
 			console.log(error);
 		}
 	};
-	const handleClearCart = () => {
-		setCartItems([]);
-	};
-	
 	const notify = () => {
     toast.error(' Pedido Excluido!',{ autoClose: 1500, position: "top-right", pauseOnHover: false});
 		deleteOrder()
@@ -71,7 +67,8 @@ const PedidosVendbyId = () => {
 				cidade: editPedido.vendedor.cidade,
 			},
 			data: new Date().toISOString(),
-			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0
+			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
+			valorVendido: editPedido?.produtos?.reduce((total, item) => (quantity - devolvido) * preco, 0) || 0
 		};
 
 		try {

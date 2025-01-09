@@ -5,17 +5,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import jsPDF from 'jspdf';
 import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
-import { EraserIcon } from "lucide-react";
 import AcertoCartItem from "@/components/AcertoCartItem";
 
 export default function AcertoCart() {
 
-	const {editPedido}=useContext(CartContext)
+	const {editPedido, setEditPedido}=useContext(CartContext)
 	const navigate = useNavigate();
   const contentRef = useRef(null);
-	const totalPrice = editPedido.valorTotal || []
-	const [totalVendido, setTotalVendido] = useState(10);
-  const notify = () => {
+	const totalPrice = editPedido.totalValor || []
+  const [somaTotal, setSomaTotal] = useState([]);
+	console.log(editPedido)
+	const atualizarSomaTotal = (newValue) => {
+    setSomaTotal(newValue);
+  };
+	const notify = () => {
     toast.success(' Pedido Salvo!',{ autoClose: 2500, position: "top-left", pauseOnHover: false});
 		createOrder()
     setTimeout(() => {
@@ -23,6 +26,8 @@ export default function AcertoCart() {
 
 		}, 2500);
   }
+
+	
 	const handlePrint = () => {
     const doc = new jsPDF();
     doc.html(contentRef.current, {
@@ -52,6 +57,7 @@ export default function AcertoCart() {
 							<AcertoCartItem 
 								key={item._id}
 								data={item}
+								atualizarSomaTotal = {atualizarSomaTotal}
 							/>
 						))}
 					</div>
@@ -63,10 +69,10 @@ export default function AcertoCart() {
 
 				<div className=" mx-2 flex flex-col ">
 					<div className="flex justify-start">
-						<p className="text-slate-500 font-semibold text-lg">Total em produtos:{totalPrice}</p>
+						<p className="text-slate-500 font-semibold text-lg">Total em produtos:{formatCurrency(totalPrice, 'BRL')}</p>
 					</div>
 					<div className="flex justify-start">
-						<p className="text-slate-500 font-semibold text-lg">Total de Produtos vendidos R$:553,00</p>
+						<p className="text-slate-500 font-semibold text-lg">Total de Produtos vendidos R$:{somaTotal}</p>
 					</div>
 					<div className="flex justify-start">
 						<p className="text-slate-500 font-semibold text-lg">Descontos:</p>
@@ -114,65 +120,3 @@ export default function AcertoCart() {
 				</div>
 	);
 }
-
-
-
-
-// const [itemPedido] = useState([
-// 	// {
-// 	// 	id: 1,
-// 	// 	produto: "blusa codigo laranja",
-// 	// 	preço: 3,
-// 	// 	quantidade: 2,
-// 	// 	vlTotal: 6
-// 	// },
-// 	// {
-// 	// 	id: 2,
-// 	// 	produto: "Pano branco", 
-// 	// 	preço: 500.58,
-// 	// 	quantidade: 2,
-// 	// 	vlTotal: 1001.16
-// 	// },
-// 	// {
-// 	// 	id: 3,
-// 	// 	produto: "Calça Jeans",
-// 	// 	preço: 89.90,
-// 	// 	quantidade: 1,
-// 	// 	vlTotal: 89.90
-// 	// },
-// 	// {
-// 	// 	id: 4,
-// 	// 	produto: "Tênis Esportivo",
-// 	// 	preço: 199.99,
-// 	// 	quantidade: 1,
-// 	// 	vlTotal: 199.99
-// 	// },
-// 	// {
-// 	// 	id: 5,
-// 	// 	produto: "Camiseta Básica",
-// 	// 	preço: 29.90,
-// 	// 	quantidade: 3,
-// 	// 	vlTotal: 89.70
-// 	// },
-// 	// {
-// 	// 	id: 6,
-// 	// 	produto: "Vestido Floral",
-// 	// 	preço: 159.90,
-// 	// 	quantidade: 1,
-// 	// 	vlTotal: 159.90
-// 	// },
-// 	// {
-// 	// 	id: 7,
-// 	// 	produto: "Shorts Academia",
-// 	// 	preço: 45.50,
-// 	// 	quantidade: 2,
-// 	// 	vlTotal: 91.00
-// 	// },
-// 	// {
-// 	// 	id: 8,
-// 	// 	produto: "Shorts Academia",
-// 	// 	preço: 45.50,
-// 	// 	quantidade: 2,
-// 	// 	vlTotal: 91.00
-// 	// },
-// ]);

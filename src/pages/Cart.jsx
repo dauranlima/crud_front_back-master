@@ -12,10 +12,7 @@ export default function Cart({ handleSaveOrder }) {
 	const { isCartOpen, cartItems } = useContext(CartContext);
 	const navigate = useNavigate();
 	const contentRef = useRef(null);
-	const totalPrice = cartItems.reduce(
-		(acc, item) => acc + item.preco * item.quantity,
-		0,
-	);
+	const totalPrice = cartItems.reduce((acc, item) => acc + item.preco * item.quantity,0,);
 
 	const notify = () => {
 		toast.success(" Pedido Salvo!", {
@@ -109,10 +106,6 @@ export default function Cart({ handleSaveOrder }) {
 							<HiOutlineSave className=" animate-bounce" size={24} />
 							Salvar Pedido
 						</button>
-						{/* <button onClick={handleSaveOrder} className={`bg-green-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${cartItems.length > 0 ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}`}>
-							<HiOutlineSave className=" animate-bounce" size={24}/>
-							Salvar Peds
-						</button> */}
 						<button
 							onClick={handlePrint}
 							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"

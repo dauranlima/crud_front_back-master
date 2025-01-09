@@ -1,19 +1,11 @@
 import {
-	HiOutlineAnnotation,
 	HiOutlineClipboardList,
-	HiOutlineQrcode,
-	HiOutlineSave,
-	HiQrcode,
-	HiQuestionMarkCircle,
 } from "react-icons/hi";
 import { useContext, useEffect, useState } from "react";
 import FetchData from "../axios/config";
-import { Link } from "react-router-dom";
 import Cart from "../pages/Cart";
 import CartContext from "@/context/CartContext";
 import ItemProdList from "./itemProdList";
-import { QrCode, QrCodeIcon } from "lucide-react";
-import { QRCodeDataMask } from "@zxing/library";
 
 const PedidosVend = () => {
 	const [busca, setBusca] = useState("");
@@ -165,13 +157,6 @@ const PedidosVend = () => {
 						</span>
 					)}
 				</button>
-				{/* <Link
-					className="flex items-center gap-2 p-2 bg-black shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4"
-					to={"/acerto"}
-				>
-					<HiOutlineQrcode size={40} />
-					QRCode
-				</Link> */}
 			</div>
 			{/* --------------LISTA ---------------------- */}
 			<div>

@@ -52,7 +52,7 @@ export default function CartEdit({ handleSaveOrder, handleUpdateOrder, editPedid
 				<h2 className="text-lg font-semibold text-slate-500 my-2">
 					Lista de Produtos na cesta
 				</h2>
-				<h3 className="my-3 font-semibold text-slate-500 mx-2">Data: {new Date().toLocaleDateString('pt-BR')}</h3>
+				<h3 className="my-3 font-semibold text-slate-500 mx-2">Data: {new Date(editPedido.data).toLocaleDateString('pt-BR')}</h3>
 
 			</div>
 {/* ----------------------- LISTA ----------------------- */}
