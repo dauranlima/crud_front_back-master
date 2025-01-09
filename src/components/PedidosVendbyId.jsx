@@ -68,13 +68,11 @@ const PedidosVendbyId = () => {
 			},
 			data: new Date().toISOString(),
 			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
-			valorVendido: editPedido?.produtos?.reduce((total, item) => (quantity - devolvido) * preco, 0) || 0
 		};
 
 		try {
 			await FetchData.put(`/pedido/${id}`, orderData);
 			setIsCartOpen(false);
-			handleClearCart();
 		} catch (error) {
 			alert("Erro ao editar o pedido: " + error.message);
 			console.error("Erro ao editar o pedido:", error);
