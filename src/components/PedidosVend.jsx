@@ -9,12 +9,10 @@ import ItemProdList from "./itemProdList";
 
 const PedidosVend = () => {
 	const [busca, setBusca] = useState("");
-	const [vend, setVend] = useState([]);
-	const [selectedVend, setSelectedVend] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 7;
-	const { isCartOpen, setIsCartOpen, cartItems, setCartItems, prod, setProd } =
+	const { isCartOpen, setIsCartOpen, cartItems, setCartItems,vend,setVend, selectedVend, setSelectedVend, prod, setProd } =
 		useContext(CartContext);
 
 
@@ -22,17 +20,6 @@ const PedidosVend = () => {
 		setCartItems([]);
 	};
 	const handleSaveOrder = async () => {
-		if (!vend) {
-			alert("Por favor, selecione uma vendedora antes de salvar o pedido");
-			return;
-		}
-
-		if (cartItems.length === 0) {
-			alert(
-				"O carrinho está vazio. Adicione produtos antes de salvar o pedido",
-			);
-			return;
-		}
 
 		const orderData = {
 			produtos: cartItems.map((item) => ({
@@ -44,6 +31,7 @@ const PedidosVend = () => {
 			vendedor: {
 				nome: selectedVend.nome,
 				cidade: selectedVend.cidade,
+				saldo: selectedVend.saldo,
 			},
 			data: new Date().toISOString(),
 			totalValor: cartItems.reduce(
@@ -52,10 +40,6 @@ const PedidosVend = () => {
 			),
 		};
 
-		if (!selectedVend || !selectedVend.nome) {
-			alert("Por favor, selecione uma vendedora antes de salvar o pedido");
-			return;
-		}
 
 		try {
 			await FetchData.post("/pedido", orderData);
@@ -183,6 +167,12 @@ const PedidosVend = () => {
 								: pdt.nome.toLowerCase().includes(busca);
 						})
 						.map((pdt) => <ItemProdList key={pdt._id} data={pdt} />)
+						// se acaso quiser não deixar os itens da tela aparecendo e apenas mostrar o que for pesquisar
+						// currentItems
+						// .filter((pdt) => 
+						// 	busca.toLowerCase() === "" ? false : pdt.nome.toLowerCase().includes(busca.toLowerCase())
+						// )
+						// .map((pdt) => <ItemProdList key={pdt._id} data={pdt} />)
 				)}
 				{/* ------------------- paginação------------------- */}
 				<div className="flex justify-center gap-2 ">

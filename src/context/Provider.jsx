@@ -8,6 +8,9 @@ export default function Provider({ children }) {
 	const [username, setUsername] = useState('');
 	const [pedido, setPedido] = useState([]);
 	const [editPedido, setEditPedido] = useState([])
+	const [vend, setVend] = useState([]);
+	const [selectedVend, setSelectedVend] = useState([]);
+
 
 	const value = {
 		isCartOpen,
@@ -16,6 +19,10 @@ export default function Provider({ children }) {
 		setProd,
 		cartItems,
 		setCartItems,
+		vend,
+		setVend,
+		selectedVend,
+		setSelectedVend,
 		username,
 		setUsername,
 		pedido,

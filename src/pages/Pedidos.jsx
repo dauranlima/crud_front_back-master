@@ -8,7 +8,7 @@ export default function Pedidos() {
 	return (
 		<div className="mx-2">
 			<h1 className="font-bold text-xl text-center text-slate-700-500 mb-2">
-				Lista de Pedidoss
+				Lista de Pedidos
 			</h1>
 			<div>
 				<Link to={"/pedidosvend"}>

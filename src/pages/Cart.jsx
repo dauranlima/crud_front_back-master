@@ -9,22 +9,33 @@ import formatCurrency from "@/utils/FormatCurrency";
 import { EraserIcon } from "lucide-react";
 
 export default function Cart({ handleSaveOrder }) {
-	const { isCartOpen, cartItems } = useContext(CartContext);
+	const { isCartOpen, cartItems, selectedVend, setSelectedVend } = useContext(CartContext);
 	const navigate = useNavigate();
 	const contentRef = useRef(null);
 	const totalPrice = cartItems.reduce((acc, item) => acc + item.preco * item.quantity,0,);
 
 	const notify = () => {
+
 		toast.success(" Pedido Salvo!", {
 			autoClose: 2500,
 			position: "top-left",
 			pauseOnHover: false,
 		});
 		handleSaveOrder();
+		setSelectedVend('');
 		setTimeout(() => {
 			navigate("/pedidos");
 		}, 2500);
 	};
+
+	const handleSave = ()  => {
+			
+	if (!selectedVend || !selectedVend.nome) {
+		alert("Por favor, selecione uma vendedora antes de salvar o pedido");
+		return;
+	}
+	notify();
+	}
 
 	const handlePrint = () => {
 		const doc = new jsPDF();
@@ -95,7 +106,7 @@ export default function Cart({ handleSaveOrder }) {
 					</div>
 					<div className="flex  items-center  gap-4 my-4">
 						<button
-							onClick={cartItems.length > 0 ? notify : undefined}
+							onClick={cartItems.length > 0 ? handleSave : undefined}
 							className={`bg-green-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${
 								cartItems.length > 0
 									? "hover:bg-green-600"

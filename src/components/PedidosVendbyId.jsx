@@ -65,6 +65,7 @@ const PedidosVendbyId = () => {
 			vendedor:{
 				nome: editPedido.vendedor.nome,
 				cidade: editPedido.vendedor.cidade,
+				saldo: editPedido.vendedor.saldo,
 			},
 			data: new Date().toISOString(),
 			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
@@ -100,15 +101,16 @@ const PedidosVendbyId = () => {
 			vendedor:{
 				nome: editPedido.vendedor.nome,
 				cidade: editPedido.vendedor.cidade,
+				saldo: editPedido.vendedor.saldo,
 			},
 			data: new Date().toISOString(),
-			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0
+			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
+			devolvido: editPedido.valorDevolvido,
 		};
 
 		try {
 			await FetchData.post("/pedido", orderData);
 			setIsCartOpen(false);
-			handleClearCart();
 		} catch (error) {
 			alert("Erro ao salvar o pedido: " + error.message);
 			console.error("Erro ao salvar o pedido:", error);

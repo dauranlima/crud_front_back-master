@@ -26,6 +26,19 @@ export default function ItemProdListEdit({data}) {
           </div>
 				</div>
 			</div>
+				<button className="flex gap-2 items-center border border-white shadow-xl py-2 px-4  text-sm rounded-md bg-blue-500 hover:bg-blue-400 hover:scale-105 transition-transform text-white font-bold"
+					onClick={() => {
+					const existingItem = editPedido?.produtos?.find(item => item._id === _id)
+					if (existingItem) {
+						const updatedItems = editPedido?.produtos?.map(item => 
+							item._id === _id ? {...item, quantity: count} : item
+						) || []
+						setEditPedido({...editPedido, produtos: updatedItems})
+					} else {						handleAddCart()
+					}
+				}}>
+					<HiOutlineShoppingCart size={34} />
+				</button>	
 			<div className="w-[20%] flex items-center justify-center gap-2">
 				<button 
 					className="text-green-500 hover:text-green-700"
@@ -41,19 +54,6 @@ export default function ItemProdListEdit({data}) {
 					<HiMinusCircle size={44} />
 				</button>
 			</div>
-				<button className="flex gap-2 items-center border border-white shadow-xl py-2 px-4  text-sm rounded-md bg-blue-500 hover:bg-blue-400 hover:scale-105 transition-transform text-white font-bold"
-					onClick={() => {
-					const existingItem = editPedido?.produtos?.find(item => item._id === _id)
-					if (existingItem) {
-						const updatedItems = editPedido?.produtos?.map(item => 
-							item._id === _id ? {...item, quantity: count} : item
-						) || []
-						setEditPedido({...editPedido, produtos: updatedItems})
-					} else {						handleAddCart()
-					}
-				}}>
-					<HiOutlineShoppingCart size={34} />
-				</button>	
 			</div>
 	);
 }

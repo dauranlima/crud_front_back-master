@@ -8,36 +8,32 @@ import formatCurrency from "@/utils/FormatCurrency";
 import AcertoCartItem from "@/components/AcertoCartItem";
 
 export default function AcertoCart() {
-	const { editPedido, setEditPedido } = useContext(CartContext);
+	
+	const { editPedido, vend  } = useContext(CartContext);
 	const navigate = useNavigate();
 	const contentRef = useRef(null);
 	const totalPrice = editPedido.totalValor || [];
 	const [somaTotal, setSomaTotal] = useState([]);
 	const [percentual, setPercentual] = useState(25);
-	const atualizarSomaTotal = (newValue) => {
-		setSomaTotal(newValue);
-	};
-	const calcularDesconto = () => {
-		const valorDesconto = somaTotal * (percentual / 100 );
-		return valorDesconto;
-	};
-
-	const valorAtual = () => {
-		const valorAtual = somaTotal - calcularDesconto() ;
-		return valorAtual;
-	}
-	const notify = () => {
-		toast.success(" Pedido Salvo!", {
+	const [acerto, setAcerto] = useState(0);
+	const { vendedor } = editPedido || {};
+	
+	const atualizarSomaTotal = (newValue) => setSomaTotal(newValue);
+	const calcularDesconto = () => {const valorDesconto = somaTotal * (percentual / 100 );return valorDesconto;};
+	const valorAtual = () => {const valorAtual = somaTotal - calcularDesconto() ;return valorAtual;}
+	const total = () => vendedor?.saldo ? valorAtual() + vendedor.saldo : valorAtual();
+	const faltaAcertar = () => total().toFixed(2) - acerto 
+		const notify = () => {
+		toast.success(" Acerto Salvo!", {
 			autoClose: 2500,
-			position: "top-left",
+			position: "top-right",
 			pauseOnHover: false,
 		});
-		createOrder();
 		setTimeout(() => {
-			navigate("/");
+			navigate("/pedidos");
 		}, 2500);
 	};
-
+console.log(vend)
 	const handlePrint = () => {
 		const doc = new jsPDF();
 		doc.html(contentRef.current, {
@@ -46,6 +42,47 @@ export default function AcertoCart() {
 			},
 		});
 		window.print();
+	};
+
+	const handleSaveAcerto = async () => {
+
+		// const AcertoData = {
+		// 	produtos: editPedido.produtos.map((item) => ({
+		// 		nome: item.nome,
+		// 		quantity: item.quantity,
+		// 		preco: item.preco,
+		// 	})),
+		// 	vendedor:{
+		// 		nome: editPedido.vendedor.nome,
+		// 		cidade: editPedido.vendedor.cidade,
+		// 		saldo: editPedido.vendedor.saldo,
+		// 	},
+		// 	data: new Date().toISOString(),
+		// 	totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
+		// };
+
+		const AcertoData = {
+			produtos: editPedido.produtos.map((item) => ({
+				nome: item.nome,
+				quantity: item.quantity,
+				preco: item.preco,
+				valorVendido: item.valorVendido,
+			})),
+			vendedor:{
+				nome: editPedido.vendedor.nome,
+				cidade: editPedido.vendedor.cidade,
+				// saldo: 
+			},
+			data: new Date().toISOString(),
+			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
+		};
+
+		try {
+			await FetchData.post("/acerto", AcertoData);
+		} catch (error) {
+			alert("Erro ao salvar o Acerto: " + error.message);
+			console.error("Erro ao salvar o acerto:", error);
+		}
 	};
 	return (
 		<div
@@ -62,7 +99,7 @@ export default function AcertoCart() {
 				</h3>
 				<div className=" mb-4 flex justify-center font-bold">
 					<span className="w-80 ">Produto</span>
-					<span className="inline w-32">Valor Unitário</span>
+					<span className="inline w-32">Valor Total</span>
 					<span>Devolvido</span>
 					<span className="ml-12">Total Vendido</span>
 				</div>
@@ -87,12 +124,12 @@ export default function AcertoCart() {
 					<div className=" mx-2 flex flex-col ">
 						<div className="flex justify-start">
 							<p className="text-slate-500 font-semibold text-lg">
-								Total em produtos:{formatCurrency(totalPrice, "BRL")}
+								Total em Produtos {formatCurrency(totalPrice, "BRL")}
 							</p>
 						</div>
 						<div className="flex justify-start">
 							<p className="text-slate-500 font-semibold text-lg">
-								Total de Produtos vendidos R$:{somaTotal}
+								Total em Produtos Vendidos R$: {somaTotal}
 							</p>
 						</div>
 						<div className="flex justify-start">
@@ -103,10 +140,13 @@ export default function AcertoCart() {
 									type="number"
 									placeholder="%"
 									value={percentual}
-									onChange={(e)=> setPercentual(e.target.value)}
+									max="50"
+									min="0"
+									onChange={(e) => setPercentual(Math.min(50, Math.max(0, e.target.value)))}
 								/>
 							</span>
-							<p className="text-green-600 ml-4 font-bold text-xl">R$ {calcularDesconto().toFixed(2)}</p>
+							
+							<p className="text-green-600 ml-4 font-bold text-xl">R$: {calcularDesconto().toFixed(2)}</p>
 						</div>
 						<div className="flex justify-start">
 							<p className="text-slate-950 font-semibold text-lg">
@@ -119,25 +159,31 @@ export default function AcertoCart() {
 					<div>
 						<div className="flex justify-start">
 							<p className="text-red-500 font-semibold text-lg">
-								Saldo Devedor Atual R$:150,00
+								Saldo Devedor R$:  {formatCurrency((vendedor?.saldo || 0).toFixed(2), 'BRL')}		
 							</p>
+						</div>
+						<div>
+							<p className="text-black font-bold text-lg">Total R$: {formatCurrency(Number(total()).toFixed(2), 'BRL')}</p>
 						</div>
 						<div className="flex gap-2">
 							<p className="text-slate-500 font-semibold text-lg">Acerto R$:</p>
 							<span>
 								<input
-									className="w-24 pl-6 font-bold"
+									required
+									className="w-24 pl-3  font-bold"
 									type="number"
 									placeholder="R$"
+									onChange={(e)=> setAcerto(e.target.value)}
 								/>
 							</span>
 						</div>
 						<div>
-							<p className="text-black font-bold text-lg">Total R$:564,00</p>
-						</div>
-						<div>
-							<p className="text-red-500 font-semibold text-lg">
-								Falta Acertar R$:464,00
+							<p className={`font-semibold text-lg ${faltaAcertar() < 0 ? 'text-green-600' : faltaAcertar() === 0 ? 'text-blue-500' : 'text-red-500'}`}>
+								{
+									faltaAcertar() === 0 ? (<span className="text-2xl">Quitado</span>)
+									:faltaAcertar() < 0 ? (<span>Positivo R$: {(Math.abs(faltaAcertar())).toFixed(2)}</span>)
+									:(<span>Falta Acertar R$: {(Math.abs(faltaAcertar()).toFixed(2))}</span>)
+								}
 							</p>
 						</div>
 					</div>
@@ -158,8 +204,8 @@ export default function AcertoCart() {
 							Imprimir
 						</button>
 					</div>
-				</div>
 				<ToastContainer />
+				</div>
 			</div>
 		</div>
 	);

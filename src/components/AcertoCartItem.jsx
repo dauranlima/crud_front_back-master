@@ -6,10 +6,9 @@ export default function AcertoCartItem({ data, atualizarSomaTotal }) {
   const {_id, nome, preco, quantity} = data;
 
 	const { editPedido, setEditPedido } = useContext(CartContext);
-
-	const [devolvido, setDevolvido]=useState('')
+	const [devolvido, setDevolvido] = useState('')
   const valorTotalUnitario = preco * quantity;
-	const [valorVendido, setValorVendido] = useState([])
+	const [valorVendido, setValorVendido] = useState(0)
 
 	const handleDevolvidoValue = (e) =>{
 		setDevolvido(Number(e.target.value))
@@ -19,20 +18,19 @@ export default function AcertoCartItem({ data, atualizarSomaTotal }) {
     }
 	}
 
-	const handleEditValorVendido = () => {
+	const handleEditItems = () => {
+		let valorDevolvido = devolvido;
 		let novoValor = (quantity - devolvido) * preco;
-		const updatedItems = editPedido?.produtos?.map(item => 
-			item._id === _id ? {...item, valorVendido: (item.quantity - devolvido) * item.preco} : item) || [];
+		const updatedItems = editPedido?.produtos?.map(item => item._id === _id ? {...item, valorVendido: (item.quantity - devolvido) * item.preco, devolvido: valorDevolvido} : item) || [];
 		setValorVendido(novoValor)
 		setEditPedido({...editPedido, produtos: updatedItems})
 	}
-
 	useEffect(() => {
-		handleEditValorVendido()
+		handleEditItems()
 	}, [devolvido])
 
 	const valorTotalVendido = editPedido.produtos?.reduce((acc, item) => acc + (0 || item.valorVendido ), 0) || 0	
-	atualizarSomaTotal(valorTotalVendido)
+	atualizarSomaTotal(valorTotalVendido,devolvido)
 
 	return (
 		<>

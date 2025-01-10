@@ -12,6 +12,7 @@ const pedidoSchema = new Schema({
   vendedor: { 
     nome: { type: String },
     cidade: { type: String },
+    saldo: {type: Number},
   },  
   data: { type: Date },
   totalValor: { type: Number },

@@ -7,9 +7,6 @@ import { ToastContainer,toast } from "react-toastify";
 const EditVend = () => {
   
   const navigate = useNavigate();
-
-
-
   const [editarVend, setEditarVend] = useState({
 		nome: "",
 		endereco: "",
