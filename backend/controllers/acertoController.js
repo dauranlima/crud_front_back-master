@@ -7,6 +7,7 @@ const acertoController = {
 
       const novoAcerto = {
 				pedidoId: req.body.pedidoId,
+				produtos: [...req.body.produtos],
 				vendedor: {...req.body.vendedor},
         dataAcerto: req.body.dataAcerto,
 				totalValor: req.body.totalValor,

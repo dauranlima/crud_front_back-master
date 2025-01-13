@@ -1,6 +1,6 @@
-	import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { HiOutlinePrinter, HiOutlineSave } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,  } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import jsPDF from "jspdf";
 import CartContext from "@/context/CartContext";
@@ -8,9 +8,9 @@ import formatCurrency from "@/utils/FormatCurrency";
 import AcertoCartItem from "@/components/AcertoCartItem";
 import FetchData from "@/axios/config";
 
-export default function AcertoCart() {
+export default function AcertoCartId() {
 	
-	const { editPedido, vend  } = useContext(CartContext);
+	const { editPedido  } = useContext(CartContext);
 	const navigate = useNavigate();
 	const contentRef = useRef(null);
 	const totalPrice = editPedido.totalValor || [];
@@ -18,8 +18,6 @@ export default function AcertoCart() {
 	const [percentual, setPercentual] = useState(25);
 	const [acerto, setAcerto] = useState(0);
 	const { vendedor } = editPedido || {};
-
-	
 	const atualizarSomaTotal = (newValue) => setSomaTotal(newValue);
 	const calcularDesconto = () => {const valorDesconto = somaTotal * (percentual / 100 );return valorDesconto;};
 	const valorAtual = () => {const valorAtual = somaTotal - calcularDesconto() ;return valorAtual;}
@@ -31,6 +29,7 @@ export default function AcertoCart() {
 			position: "top-right",
 			pauseOnHover: false,
 		});
+		handleSaveAcerto();
 		setTimeout(() => {
 			navigate("/pedidos");
 		}, 2500);
@@ -48,18 +47,28 @@ export default function AcertoCart() {
 	const handleSaveAcerto = async () => {
 
 		const AcertoData = {
+			pedidoId: editPedido._id,
 			produtos: editPedido.produtos.map((item) => ({
+				id: item._id,
 				nome: item.nome,
 				quantity: item.quantity,
+				devolvido: item.devolvido,
 				preco: item.preco,
 			})),
 			vendedor:{
+				id: vendedor._id,
 				nome: editPedido.vendedor.nome,
 				cidade: editPedido.vendedor.cidade,
 				saldo: editPedido.vendedor.saldo,
 			},
-			data: new Date().toISOString(),
+			dataAcerto: new Date().toISOString(),
 			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
+			totalVendido: somaTotal,
+			descontos: calcularDesconto(),
+			saldoAtual: valorAtual(),
+			totalAcerto: total(),
+			recebido: acerto,
+			novoSaldoVendedor: faltaAcertar(),
 		};
 
 		try {
@@ -68,9 +77,9 @@ export default function AcertoCart() {
 			alert("Erro ao salvar o Acerto: " + error.message);
 			console.error("Erro ao salvar o acerto:", error);
 		}
-	};	
-		
-	return (
+	};
+	
+return (
 		<div
 			className={`w-full bg-gray-200 fixed top-[112px] px-10 border border-gray-500 
 		transition-all duration-500 right-0 h-[calc(100%-120px)] justify-between flex flex-col  `}
@@ -100,6 +109,7 @@ export default function AcertoCart() {
 						/>
 					))}
 				</div>
+				
 			</div>
 			{/* ----------------------- resumo dos valores ----------------------- */}
 			<div className="flex border-t border-gray-400 flex-col items-center">

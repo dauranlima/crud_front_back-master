@@ -12,14 +12,14 @@ const PedidosVendbyId = () => {
 	const [busca, setBusca] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
-	const itemsPerPage = 7;
-	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido,  setCartItems, prod, setProd} = useContext(CartContext);
+	const itemsPerPage = 3;
+	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido, prod, setProd} = useContext(CartContext);
 	const navigate = useNavigate();
 
 	const { id } = useParams();
 	
-	// console.log(editPedido)
-	const getPedidos = async () => {
+
+	const getPedidosEacertos = async () => {
 		try {
 			const response = await FetchData.get(`/pedido/${id}`);
 			const data = response.data;
@@ -136,7 +136,7 @@ const PedidosVendbyId = () => {
 
 	useEffect(() => {
 		getProds();
-		getPedidos();
+		getPedidosEacertos();
 		const timer = setTimeout(() => {
 			setLoading(false);
 		}, 5000);
@@ -176,7 +176,7 @@ const PedidosVendbyId = () => {
 				</button>
 				<Link
 					className="flex items-center gap-2 p-2 bg-black shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4"
-					to={"/acerto"}
+					to={`/acerto/${id}`}
 				>
 					<HiOutlineAnnotation size={40} />
 					Realizar Acerto

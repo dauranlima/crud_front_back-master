@@ -6,6 +6,7 @@ export default function Provider({ children }) {
 	const [cartItems, setCartItems] = useState([]);
 	const [prod, setProd] = useState([]);
 	const [username, setUsername] = useState('');
+	const [acertoId, setAcertoId] = useState([]);
 	const [pedido, setPedido] = useState([]);
 	const [editPedido, setEditPedido] = useState([])
 	const [vend, setVend] = useState([]);
@@ -29,6 +30,8 @@ export default function Provider({ children }) {
 		setPedido,
 		editPedido,
 		setEditPedido,
+		acertoId,
+		setAcertoId,
 	};
 
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

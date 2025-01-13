@@ -29,6 +29,7 @@ const PedidosVend = () => {
 			})),
 
 			vendedor: {
+				id: selectedVend._id,
 				nome: selectedVend.nome,
 				cidade: selectedVend.cidade,
 				saldo: selectedVend.saldo,
@@ -39,6 +40,7 @@ const PedidosVend = () => {
 				0,
 			),
 		};
+
 
 
 		try {
@@ -102,6 +104,9 @@ const PedidosVend = () => {
 		indexOfLastItem,
 	);
 	const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+	
+
 
 	return (
 		<div className="flex flex-col">

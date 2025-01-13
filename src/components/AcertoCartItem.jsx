@@ -17,7 +17,6 @@ export default function AcertoCartItem({ data, atualizarSomaTotal }) {
       return
     }
 	}
-
 	const handleEditItems = () => {
 		let valorDevolvido = devolvido;
 		let novoValor = (quantity - devolvido) * preco;
@@ -40,6 +39,7 @@ export default function AcertoCartItem({ data, atualizarSomaTotal }) {
 					<span className="text-slate-600">
 						<p className=" text-slate-600">
               {nome}
+							{_id}
               </p>
 					</span>
 					<p className=" inline text-slate-600 font-bold mr-3 text-lg">

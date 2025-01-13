@@ -14,7 +14,7 @@ import PedidosVendbyId from "./components/PedidosVendbyId"
 import Cart from "./pages/Cart"
 import Acerto from "./pages/Acerto"
 import Vendedora from "./pages/Vendedora"
- 
+import AcertoCartId from "./pages/AcertoCartId"
 export default function AppRoutes() {
   return (
     <BrowserRouter>
@@ -32,6 +32,7 @@ export default function AppRoutes() {
         <Route path="/cart" element={<Cart/>}/>
         <Route path="/addProduto" element={<AddProduct />} />
         <Route path="/addVendedora" element={<AddVend/>}/>
+        <Route path="/acerto/:id" element={<AcertoCartId />} />
         <Route path="/acerto" element={<Acerto />} />
         <Route path="/vendedoras" element={<Vendedora />} />
       </Route>
