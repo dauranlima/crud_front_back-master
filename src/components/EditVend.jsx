@@ -130,7 +130,7 @@ const EditVend = () => {
 					value={editarVend.saldo}
           placeholder="Digite o Saldo devedor da vendedora:"
           className="border font-bold text-red-500 uppercase border-slate-500 p-2 rounded-lg  "
-					onChange={(e) => handleEditarVend(e, "saldo")}
+					onChange={(e) => handleEditarVend(e)}
         />
         <button
           type="submit"
