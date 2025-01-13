@@ -63,6 +63,7 @@ const PedidosVendbyId = () => {
 				preco: item.preco,
 			})),
 			vendedor:{
+				id: editPedido.vendedor._id,
 				nome: editPedido.vendedor.nome,
 				cidade: editPedido.vendedor.cidade,
 				saldo: editPedido.vendedor.saldo,

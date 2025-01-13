@@ -10,7 +10,7 @@ import FetchData from "@/axios/config";
 
 export default function AcertoCartId() {
 	
-	const { editPedido  } = useContext(CartContext);
+	const { editPedido } = useContext(CartContext);
 	const navigate = useNavigate();
 	const contentRef = useRef(null);
 	const totalPrice = editPedido.totalValor || [];
@@ -44,6 +44,7 @@ export default function AcertoCartId() {
 		window.print();
 	};
 
+	console.log(editPedido)
 	const handleSaveAcerto = async () => {
 
 		const AcertoData = {
@@ -56,7 +57,7 @@ export default function AcertoCartId() {
 				preco: item.preco,
 			})),
 			vendedor:{
-				id: vendedor._id,
+				id: editPedido.vendedor.id,
 				nome: editPedido.vendedor.nome,
 				cidade: editPedido.vendedor.cidade,
 				saldo: editPedido.vendedor.saldo,
@@ -73,6 +74,7 @@ export default function AcertoCartId() {
 
 		try {
 			await FetchData.post("/acerto", AcertoData);
+			await FetchData.put(`/vendedor/${editPedido.vendedor.id}`, {saldo: Number(faltaAcertar())});
 		} catch (error) {
 			alert("Erro ao salvar o Acerto: " + error.message);
 			console.error("Erro ao salvar o acerto:", error);

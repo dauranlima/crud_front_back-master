@@ -10,7 +10,7 @@ const pedidoSchema = new Schema({
     preco: Number,
   }],
   vendedor: { 
-		id: { type: mongoose.Schema.Types.ObjectId, ref: "Vendedor" },
+			id: { type: String },
     nome: { type: String },
     cidade: { type: String },
     saldo: {type: Number},
