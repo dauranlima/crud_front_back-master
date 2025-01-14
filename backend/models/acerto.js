@@ -26,6 +26,7 @@ const acertoSchema = new Schema({
   totalAcerto:{type:Number },
   recebido: {type:Number },
   novoSaldoVendedor: {type: Number },
+  observacao: { type: String },
 
 }, { timestamps: true })
 

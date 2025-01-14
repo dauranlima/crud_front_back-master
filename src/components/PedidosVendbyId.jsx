@@ -178,12 +178,15 @@ const PedidosVendbyId = () => {
 	const selectedPedId = editPedido?._id;
 	const selectedPedido = acertos.find((pedido) => pedido.pedidoId === selectedPedId);
 	const acertoID = selectedPedido?._id || null;
+	
+
+
+	console.log(acertos)
+
 
 	const filteredProducts = prod.filter((pdt) => {
 		return busca.toLowerCase() === "" ? pdt : pdt.nome.toLowerCase().includes(busca);});
-	console.log(acertoID)
 		
-	console.log(acertos)
 
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -214,6 +217,16 @@ const PedidosVendbyId = () => {
 					Itens Adicionados
 					{editPedido?.produtos?.length > 0 && <span className="absolute top-0 right-0 rounded-full flex bg-red-500 h-6 w-6 justify-center items-center">{editPedido?.produtos?.length}</span>}
 				</button>
+				{acertoID && (
+					<button
+						className={
+							"flex items-center gap-2 p-3 bg-black hover:bg-teal-700 shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4  "
+						}
+					>
+						<HiOutlineAnnotation size={40} />
+						Ver acerto
+					</button>
+				)}
 					{!acertoID && (
 						<Link
 							className="flex items-center gap-2 p-2 bg-black shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4"
@@ -235,7 +248,6 @@ const PedidosVendbyId = () => {
 					</button>
 				) 
 			}
-			
 			</div>
 			{/* --------------LISTA ---------------------- */}
 			<div>
@@ -278,6 +290,15 @@ const PedidosVendbyId = () => {
 						Próxima
 					</button>
 				</div>
+				{/* <div>
+					<label htmlFor="Observações:">Obs:</label>
+          <textarea
+            className="border my-3 border-black w-full p-2 text-black resize-y"
+            placeholder="Anotações do pedido"
+            rows={4}
+          />
+
+				</div> */}
 				<CartEdit editPedido={editPedido} handleUpdateOrder={handleUpdateOrder} handleSaveOrder={handleSaveOrder} />
 			</div>
 			<ToastContainer/>

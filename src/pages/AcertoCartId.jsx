@@ -17,6 +17,7 @@ export default function AcertoCartId() {
 	const [somaTotal, setSomaTotal] = useState([]);
 	const [percentual, setPercentual] = useState(25);
 	const [acerto, setAcerto] = useState(0);
+	const [obs, setObs] = useState('');
 	const { vendedor } = editPedido || {};
 	const atualizarSomaTotal = (newValue) => setSomaTotal(newValue);
 	const calcularDesconto = () => {const valorDesconto = somaTotal * (percentual / 100 );return valorDesconto;};
@@ -68,6 +69,7 @@ export default function AcertoCartId() {
 			totalAcerto: total(),
 			recebido: acerto,
 			novoSaldoVendedor: faltaAcertar(),
+			observacao: obs,
 		};
 
 		try {
@@ -78,8 +80,9 @@ export default function AcertoCartId() {
 			console.error("Erro ao salvar o acerto:", error);
 		}
 	};
+console.log(obs)
 
-	const getVend = async () => {
+const getVend = async () => {
 		try {
 			const response = await FetchData.get("/vendedor");
 			const data = response.data;
@@ -222,6 +225,15 @@ return (
 							Imprimir
 						</button>
 					</div>
+					<div>
+					<label htmlFor="Observações:">Obs:</label>
+          <textarea
+            className="border my-3 border-black w-full p-2 text-black resize-y"
+            placeholder="Anotações do acerto"
+            rows={4}
+						onChange={(e)=>setObs(e.target.value)}
+          />
+				</div>
 				<ToastContainer />
 				</div>
 			</div>

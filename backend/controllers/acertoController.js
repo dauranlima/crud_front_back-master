@@ -17,6 +17,7 @@ const acertoController = {
 				recebido: req.body.recebido,
 				totalAcerto: req.body.totalAcerto,
 				novoSaldoVendedor: req.body.novoSaldoVendedor,
+				observacao: req.body.observacao,
       }
 
 			const response = await AcertoModel.create(novoAcerto);
