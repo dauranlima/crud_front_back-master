@@ -10,7 +10,7 @@ import FetchData from "@/axios/config";
 
 export default function AcertoCart() {
 	
-	const { editPedido, vend  } = useContext(CartContext);
+	const { editPedido, vend, setVend  } = useContext(CartContext);
 	const navigate = useNavigate();
 	const contentRef = useRef(null);
 	const totalPrice = editPedido.totalValor || [];
@@ -45,6 +45,23 @@ export default function AcertoCart() {
 		window.print();
 	};
 
+	const getVend = async () => {
+		try {
+			const response = await FetchData.get("/vendedor");
+			const data = response.data;
+			const sortedData = data.sort((a, b) => a.nome.localeCompare(b.nome));
+			setVend(sortedData);
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		getVend();
+	}, []);
+
 	const handleSaveAcerto = async () => {
 
 		const AcertoData = {
@@ -69,6 +86,10 @@ export default function AcertoCart() {
 			console.error("Erro ao salvar o acerto:", error);
 		}
 	};	
+
+	const selectedVendId = editPedido?.vendedor?.id;
+	const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId);
+	let saldoAtual = selectedVendedor ? selectedVendedor.saldo : 0;
 		
 	return (
 		<div
@@ -78,6 +99,7 @@ export default function AcertoCart() {
 			{/* ----------------------- header ----------------------- */}
 			<div className="flex flex-col items-center">
 				<h2 className="text-lg font-semibold text-slate-500 my-2">
+				<h1>Saldo Atual: {saldoAtual}</h1>
 					Lista de Produtos na cesta
 				</h2>
 				<h3 className="font-semibold text-slate-500 mx-2">

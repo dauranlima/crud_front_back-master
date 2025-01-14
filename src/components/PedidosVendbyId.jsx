@@ -6,6 +6,7 @@ import CartContext from "@/context/CartContext";
 import CartEdit from "@/pages/CartEdit";
 import ItemProdListEdit from "./ItemProdListEdit";
 import { ToastContainer, toast } from 'react-toastify';
+import Vendedora from "@/pages/Vendedora";
 
 
 const PedidosVendbyId = () => {
@@ -13,13 +14,13 @@ const PedidosVendbyId = () => {
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 3;
-	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido, prod, setProd} = useContext(CartContext);
+	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido,vend,setVend, prod, setProd} = useContext(CartContext);
 	const navigate = useNavigate();
 
 	const { id } = useParams();
 	
 
-	const getPedidosEacertos = async () => {
+	const getPedidos = async () => {
 		try {
 			const response = await FetchData.get(`/pedido/${id}`);
 			const data = response.data;
@@ -28,6 +29,7 @@ const PedidosVendbyId = () => {
 			console.log(error);
 		}
 	};
+	
 	const notify = () => {
     toast.error(' Pedido Excluido!',{ autoClose: 1500, position: "top-right", pauseOnHover: false});
 		deleteOrder()
@@ -44,6 +46,16 @@ const PedidosVendbyId = () => {
 			console.error("Erro ao excluir o pedido:", error)
 		}
 	}
+
+	const getVend = async () => {
+		try {
+			const response = await FetchData.get("/vendedor");
+			const data = response.data;
+			setVend(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	const handleUpdateOrder = async () => {
 		if (!editPedido.vendedor.nome) {
@@ -66,7 +78,6 @@ const PedidosVendbyId = () => {
 				id: editPedido.vendedor._id,
 				nome: editPedido.vendedor.nome,
 				cidade: editPedido.vendedor.cidade,
-				saldo: editPedido.vendedor.saldo,
 			},
 			data: new Date().toISOString(),
 			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
@@ -100,9 +111,9 @@ const PedidosVendbyId = () => {
 				preco: item.preco,
 			})),
 			vendedor:{
+				id: editPedido.vendedor._id,
 				nome: editPedido.vendedor.nome,
 				cidade: editPedido.vendedor.cidade,
-				saldo: editPedido.vendedor.saldo,
 			},
 			data: new Date().toISOString(),
 			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
@@ -134,15 +145,22 @@ const PedidosVendbyId = () => {
 			setLoading(false);
 		}
 	};
-
 	useEffect(() => {
+		getVend();
 		getProds();
-		getPedidosEacertos();
+		getPedidos();
 		const timer = setTimeout(() => {
 			setLoading(false);
 		}, 5000);
 		return () => clearTimeout(timer);
 	}, []);
+	
+
+	const selectedVendId = editPedido?.vendedor?.id;
+	const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId);
+	let saldoAtual = selectedVendedor ? selectedVendedor.saldo : 0;
+
+	console.log(editPedido)
 
 	const filteredProducts = prod.filter((pdt) => {
 		return busca.toLowerCase() === "" ? pdt : pdt.nome.toLowerCase().includes(busca);});
@@ -164,6 +182,7 @@ const PedidosVendbyId = () => {
 				onChange={(e)=> {setEditPedido}}	
 			/>
 			</div>
+			<p className="font-bold my-3 text-red-500">Saldo Devedor:{saldoAtual}</p>
 			<div className="flex justify-evenly ">
 				<button
 					onClick={toogleCart}
@@ -211,7 +230,7 @@ const PedidosVendbyId = () => {
 				) : (
 					
 					currentItems.filter((pdt) => {return busca.toLowerCase() === ""? pdt: pdt.nome.toLowerCase().includes(busca);})
-						.map((pdt) => ( <ItemProdListEdit key={pdt._id} data={pdt}  /> )))}
+						.map((pdt) => ( <ItemProdListEdit key={pdt._id} data={pdt} /> )))}
 				{/* ------------------- paginação------------------- */}
 				<div className="flex justify-center gap-2 ">
 					<button

@@ -117,9 +117,7 @@ const PedidosVend = () => {
 					value={selectedVend ? selectedVend._id : ""}
 					onChange={(e) => {
 						const selectedVendId = e.target.value;
-						const selectedVendedor = vend.find(
-							(vendedor) => vendedor._id === selectedVendId,
-						);
+						const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId,);
 						setSelectedVend(selectedVendedor);
 					}}
 				>

@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { HiOutlinePrinter, HiOutlineSave } from "react-icons/hi";
 import { useNavigate,  } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,7 +10,7 @@ import FetchData from "@/axios/config";
 
 export default function AcertoCartId() {
 	
-	const { editPedido } = useContext(CartContext);
+	const { editPedido, vend, setVend } = useContext(CartContext);
 	const navigate = useNavigate();
 	const contentRef = useRef(null);
 	const totalPrice = editPedido.totalValor || [];
@@ -21,7 +21,6 @@ export default function AcertoCartId() {
 	const atualizarSomaTotal = (newValue) => setSomaTotal(newValue);
 	const calcularDesconto = () => {const valorDesconto = somaTotal * (percentual / 100 );return valorDesconto;};
 	const valorAtual = () => {const valorAtual = somaTotal - calcularDesconto() ;return valorAtual;}
-	const total = () => vendedor?.saldo ? valorAtual() + vendedor.saldo : valorAtual();
 	const faltaAcertar = () => total().toFixed(2) - acerto 
 		const notify = () => {
 		toast.success(" Acerto Salvo!", {
@@ -44,7 +43,6 @@ export default function AcertoCartId() {
 		window.print();
 	};
 
-	console.log(editPedido)
 	const handleSaveAcerto = async () => {
 
 		const AcertoData = {
@@ -80,6 +78,25 @@ export default function AcertoCartId() {
 			console.error("Erro ao salvar o acerto:", error);
 		}
 	};
+
+	const getVend = async () => {
+		try {
+			const response = await FetchData.get("/vendedor");
+			const data = response.data;
+			const sortedData = data.sort((a, b) => a.nome.localeCompare(b.nome));
+			setVend(sortedData);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	useEffect(() => {
+		getVend();
+	}, []);
+
+	const selectedVendId = editPedido?.vendedor?.id;
+	const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId);
+	let saldoAtual = selectedVendedor ? selectedVendedor.saldo : 0;
+	const total = () => saldoAtual ? valorAtual() + saldoAtual : valorAtual();
 	
 return (
 		<div
@@ -91,6 +108,10 @@ return (
 				<h2 className="text-lg font-semibold text-slate-500 my-2">
 					Lista de Produtos na cesta
 				</h2>
+				<div className="flex justify-between items-center gap-3 font-bold textlg">
+					<h1>Vendora: {editPedido.vendedor.nome}</h1>
+					<h1>Saldo devedor: {saldoAtual}</h1>
+				</div>
 				<h3 className="font-semibold text-slate-500 mx-2">
 					Data do acerto: {new Date().toLocaleDateString("pt-BR")}
 				</h3>
@@ -157,7 +178,7 @@ return (
 					<div>
 						<div className="flex justify-start">
 							<p className="text-red-500 font-semibold text-lg">
-								Saldo Devedor R$:  {formatCurrency((vendedor?.saldo || 0).toFixed(2), 'BRL')}		
+								Saldo Devedor R$:  {formatCurrency((saldoAtual || 0).toFixed(2), 'BRL')}		
 							</p>
 						</div>
 						<div>
