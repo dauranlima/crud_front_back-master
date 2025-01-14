@@ -7,6 +7,7 @@ import CartEdit from "@/pages/CartEdit";
 import ItemProdListEdit from "./ItemProdListEdit";
 import { ToastContainer, toast } from 'react-toastify';
 import Vendedora from "@/pages/Vendedora";
+import formatCurrency from "@/utils/FormatCurrency";
 
 
 const PedidosVendbyId = () => {
@@ -14,12 +15,20 @@ const PedidosVendbyId = () => {
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 3;
-	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido,vend,setVend, prod, setProd} = useContext(CartContext);
+	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido,vend,setVend, prod, setProd, acertos, setAcertos} = useContext(CartContext);
 	const navigate = useNavigate();
 
 	const { id } = useParams();
 	
-
+	const getAcertos = async () => {
+		try {
+			const response = await FetchData.get(`/acerto`);
+			const data = response.data;
+			setAcertos(data);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 	const getPedidos = async () => {
 		try {
 			const response = await FetchData.get(`/pedido/${id}`);
@@ -75,9 +84,10 @@ const PedidosVendbyId = () => {
 				preco: item.preco,
 			})),
 			vendedor:{
-				id: editPedido.vendedor._id,
+				id: editPedido.vendedor.id,
 				nome: editPedido.vendedor.nome,
 				cidade: editPedido.vendedor.cidade,
+				saldo: editPedido.vendedor.saldo,
 			},
 			data: new Date().toISOString(),
 			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
@@ -145,10 +155,14 @@ const PedidosVendbyId = () => {
 			setLoading(false);
 		}
 	};
+
+	
+
 	useEffect(() => {
 		getVend();
 		getProds();
 		getPedidos();
+		getAcertos();
 		const timer = setTimeout(() => {
 			setLoading(false);
 		}, 5000);
@@ -156,14 +170,20 @@ const PedidosVendbyId = () => {
 	}, []);
 	
 
-	const selectedVendId = editPedido?.vendedor?.id;
-	const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId);
+	const selectedVendId = editPedido?.vendedor?.nome;
+	const selectedVendedor = vend.find((vendedor) => vendedor.nome === selectedVendId);
 	let saldoAtual = selectedVendedor ? selectedVendedor.saldo : 0;
 
-	console.log(editPedido)
+	
+	const selectedPedId = editPedido?._id;
+	const selectedPedido = acertos.find((pedido) => pedido.pedidoId === selectedPedId);
+	const acertoID = selectedPedido?._id || null;
 
 	const filteredProducts = prod.filter((pdt) => {
 		return busca.toLowerCase() === "" ? pdt : pdt.nome.toLowerCase().includes(busca);});
+	console.log(acertoID)
+		
+	console.log(acertos)
 
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -182,7 +202,7 @@ const PedidosVendbyId = () => {
 				onChange={(e)=> {setEditPedido}}	
 			/>
 			</div>
-			<p className="font-bold my-3 text-red-500">Saldo Devedor:{saldoAtual}</p>
+			<p className="font-bold my-3 text-red-500">Saldo Devedor R$: {saldoAtual.toFixed(2)}</p>
 			<div className="flex justify-evenly ">
 				<button
 					onClick={toogleCart}
@@ -194,23 +214,28 @@ const PedidosVendbyId = () => {
 					Itens Adicionados
 					{editPedido?.produtos?.length > 0 && <span className="absolute top-0 right-0 rounded-full flex bg-red-500 h-6 w-6 justify-center items-center">{editPedido?.produtos?.length}</span>}
 				</button>
-				<Link
-					className="flex items-center gap-2 p-2 bg-black shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4"
-					to={`/acerto/${id}`}
-				>
-					<HiOutlineAnnotation size={40} />
-					Realizar Acerto
-				</Link>
-				<button
-					onClick={notify}
-					className={
-						"flex items-center gap-2 p-3 bg-red-500 hover:bg-red-700 shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4  "
-					}
-				>
-					<HiOutlineTrash size={40} />
-					Excluir Pedido
-				</button>
-				
+					{!acertoID && (
+						<Link
+							className="flex items-center gap-2 p-2 bg-black shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4"
+							to={`/acerto/${id}`}
+						>
+							<HiOutlineAnnotation size={40} />
+							Realizar Acerto
+						</Link>
+					)}
+				{!acertoID && (
+					<button
+						onClick={notify}
+						className={
+							"flex items-center gap-2 p-3 bg-red-500 hover:bg-red-700 shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4  "
+						}
+					>
+						<HiOutlineTrash size={40} />
+						Excluir Pedido
+					</button>
+				) 
+			}
+			
 			</div>
 			{/* --------------LISTA ---------------------- */}
 			<div>

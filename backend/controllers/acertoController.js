@@ -30,11 +30,11 @@ const acertoController = {
   },
   getAll: async(req,res) => {
     try {
-      const pedidos = await PedidoModel.find();
-      res.json(pedidos);
+      const acertos = await AcertoModel.find();
+      res.json(acertos);
     } catch (error) {
       res.status(500).json({error,
-        msg: "Erro ao buscar pedidos"
+        msg: "Erro ao buscar acertos"
       })
     }
   },

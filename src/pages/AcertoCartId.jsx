@@ -93,8 +93,8 @@ export default function AcertoCartId() {
 		getVend();
 	}, []);
 
-	const selectedVendId = editPedido?.vendedor?.id;
-	const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId);
+	const selectedVendId = editPedido?.vendedor?.nome;
+	const selectedVendedor = vend.find((vendedor) => vendedor.nome === selectedVendId);
 	let saldoAtual = selectedVendedor ? selectedVendedor.saldo : 0;
 	const total = () => saldoAtual ? valorAtual() + saldoAtual : valorAtual();
 	
@@ -110,7 +110,6 @@ return (
 				</h2>
 				<div className="flex justify-between items-center gap-3 font-bold textlg">
 					<h1>Vendora: {editPedido.vendedor.nome}</h1>
-					<h1>Saldo devedor: {saldoAtual}</h1>
 				</div>
 				<h3 className="font-semibold text-slate-500 mx-2">
 					Data do acerto: {new Date().toLocaleDateString("pt-BR")}
