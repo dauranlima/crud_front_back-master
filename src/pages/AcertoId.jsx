@@ -1,43 +1,42 @@
-	import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { HiOutlinePrinter, HiOutlineSave } from "react-icons/hi";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate,  } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import jsPDF from "jspdf";
 import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
+import AcertoCartItem from "@/components/AcertoCartItem";
 import FetchData from "@/axios/config";
+import AcertoCartList from "@/components/AcertoCartList";
+import ListaAcerto from "@/components/ListaAcerto";
 
-
-export default function AcertoCart() {
+export default function AcertoId() {
 	
-	const { editPedido, vend, setVend,acertos, setAcertos  } = useContext(CartContext);
+	const { editPedido, vend, setVend,acertoId } = useContext(CartContext);
 	const navigate = useNavigate();
 	const contentRef = useRef(null);
 	const totalPrice = editPedido.totalValor || [];
 	const [somaTotal, setSomaTotal] = useState([]);
 	const [percentual, setPercentual] = useState(25);
 	const [acerto, setAcerto] = useState(0);
-	const { vendedor } = editPedido || {};
-
-	
+	const [obs, setObs] = useState('');
 	const atualizarSomaTotal = (newValue) => setSomaTotal(newValue);
 	const calcularDesconto = () => {const valorDesconto = somaTotal * (percentual / 100 );return valorDesconto;};
 	const valorAtual = () => {const valorAtual = somaTotal - calcularDesconto() ;return valorAtual;}
-	const total = () => vendedor?.saldo ? valorAtual() + vendedor.saldo : valorAtual();
 	const faltaAcertar = () => total().toFixed(2) - acerto 
+		const notify = () => {
+		toast.success(" Acerto Salvo!", {
+			autoClose: 2500,
+			position: "top-right",
+			pauseOnHover: false,
+		});
+		handleSaveAcerto();
+		setTimeout(() => {
+			navigate("/pedidos");
+		}, 2500);
 
-	const { id } = useParams();
-		
-	const getAcertos = async () =>{
-		try {
-			const response = await FetchData.get(`/acerto/${id}`);
-			const data = response.data;
-			setAcertos(data);
-		} catch (error) {
-			console.log(error);
-		}
-	}
-
+	};
+console.log(acertoId)
 	const handlePrint = () => {
 		const doc = new jsPDF();
 		doc.html(contentRef.current, {
@@ -47,7 +46,45 @@ export default function AcertoCart() {
 		});
 		window.print();
 	};
-	const getVend = async () => {
+
+	const handleSaveAcerto = async () => {
+
+		const AcertoData = {
+			pedidoId: editPedido._id,
+			produtos: editPedido.produtos.map((item) => ({
+				id: item._id,
+				nome: item.nome,
+				quantity: item.quantity,
+				devolvido: item.devolvido,
+				preco: item.preco,
+			})),
+			vendedor:{
+				id: editPedido.vendedor.id,
+				nome: editPedido.vendedor.nome,
+				cidade: editPedido.vendedor.cidade,
+				saldo: editPedido.vendedor.saldo,
+			},
+			dataAcerto: new Date().toISOString(),
+			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
+			totalVendido: somaTotal,
+			descontos: calcularDesconto(),
+			saldoAtual: valorAtual(),
+			totalAcerto: total(),
+			recebido: acerto,
+			novoSaldoVendedor: faltaAcertar(),
+			observacao: obs,
+		};
+
+		try {
+			await FetchData.post("/acerto", AcertoData);
+			await FetchData.put(`/vendedor/${editPedido.vendedor.id}`, {saldo: Number(faltaAcertar())});
+		} catch (error) {
+			alert("Erro ao salvar o Acerto: " + error.message);
+			console.error("Erro ao salvar o acerto:", error);
+		}
+	};
+
+const getVend = async () => {
 		try {
 			const response = await FetchData.get("/vendedor");
 			const data = response.data;
@@ -57,18 +94,16 @@ export default function AcertoCart() {
 			console.log(error);
 		}
 	};
-
 	useEffect(() => {
 		getVend();
-		getAcertos();
 	}, []);
 
-
-	const selectedVendId = editPedido?.vendedor?.id;
-	const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId);
+	const selectedVendId = editPedido?.vendedor?.nome;
+	const selectedVendedor = vend.find((vendedor) => vendedor.nome === selectedVendId);
 	let saldoAtual = selectedVendedor ? selectedVendedor.saldo : 0;
-		
-	return (
+	const total = () => saldoAtual ? valorAtual() + saldoAtual : valorAtual();
+	
+return (
 		<div
 			className={`w-full bg-gray-200 fixed top-[112px] px-10 border border-gray-500 
 		transition-all duration-500 right-0 h-[calc(100%-120px)] justify-between flex flex-col  `}
@@ -76,16 +111,16 @@ export default function AcertoCart() {
 			{/* ----------------------- header ----------------------- */}
 			<div className="flex flex-col items-center">
 				<h2 className="text-lg font-semibold text-slate-500 my-2">
-					Acerto Realizado
+					Lista de Produtos na cesta
 				</h2>
-				<h1>
-					Vendedor: {acertos?.vendedor?.nome}
-				</h1>
+				<div className="flex justify-between items-center gap-3 font-bold textlg">
+					<h1>Vendora: {editPedido?.vendedor?.nome}</h1>
+				</div>
 				<h3 className="font-semibold text-slate-500 mx-2">
-					Data do Acerto: {acertos?.dataAcerto ? new Date(acertos.dataAcerto).toLocaleDateString("pt-BR") : "N/A"}
+					Data do acerto: {new Date().toLocaleDateString("pt-BR")}
 				</h3>
 				<div className=" mb-4 flex justify-center font-bold">
-					<span className="w-[335px] ">Produto</span>
+					<span className="w-80 ">Produto</span>
 					<span className="inline w-32">Valor Total</span>
 					<span>Devolvido</span>
 					<span className="ml-12">Total Vendido</span>
@@ -93,30 +128,16 @@ export default function AcertoCart() {
 			</div>
 			<div className="overflow-auto   grow  mb-3">
 				<div className="flex  justify-center flex-col items-center ">
-					{acertos?.produtos?.map((produto) => (
-						<div key={produto._id} className="flex justify-center w-full mb-2">
-							<div className="flex flex-col ">
-									<span className="w-[350px]">{produto?.nome || 'N/A'}</span>
-								<div>
-									<p className=" inline text-slate-600 font-bold mr-3 text-lg">
-									{produto?.quantity }
-									x
-									</p>
-									<span className="text-blue-500 font-semibold">
-									{formatCurrency(produto?.preco, 'BRL')}
-									</span>
-								</div>
-						</div>
-							<span className="w-32 font-bold">
-								{formatCurrency((produto?.preco || 0) * (produto?.quantity || 0), "BRL")}
-							</span>
-							<span className="w-32 text-center">{produto?.devolvido || 0 }</span>
-							<span className="w-32 font-bold">
-									{formatCurrency((produto?.quantity - produto?.devolvido) * produto?.preco || 0, "BRL")}
-							</span>
-						</div>
+					{editPedido?.produtos?.map((item) => (
+						<ListaAcerto
+							key={item._id}
+							data={item}
+							atualizarSomaTotal={atualizarSomaTotal}
+
+						/>
 					))}
 				</div>
+				
 			</div>
 			{/* ----------------------- resumo dos valores ----------------------- */}
 			<div className="flex border-t border-gray-400 flex-col items-center">
@@ -127,12 +148,12 @@ export default function AcertoCart() {
 					<div className=" mx-2 flex flex-col ">
 						<div className="flex justify-start">
 							<p className="text-slate-500 font-semibold text-lg">
-								Total em Produtos {formatCurrency((acertos?.totalValor || 0), "BRL")}
+								Total em Produtos {formatCurrency(totalPrice, "BRL")}
 							</p>
 						</div>
 						<div className="flex justify-start">
 							<p className="text-slate-500 font-semibold text-lg">
-								Total em Produtos Vendidos R$: {formatCurrency(acertos.totalVendido || 0, "BRL")}
+								Total em Produtos Vendidos R$: {somaTotal}
 							</p>
 						</div>
 						<div className="flex justify-start">
@@ -142,17 +163,18 @@ export default function AcertoCart() {
 									className="w-20 pl-6"
 									type="number"
 									placeholder="%"
-									value={acertos.percentual}
+									value={percentual}
 									max="50"
 									min="0"
+									onChange={(e) => setPercentual(Math.min(50, Math.max(0, e.target.value)))}
 								/>
 							</span>
 							
-							<p className="text-green-600 ml-4 font-bold text-xl">R$:{(acertos?.descontos || 0).toFixed(2)}</p>
+							<p className="text-green-600 ml-4 font-bold text-xl">R$: {calcularDesconto().toFixed(2)}</p>
 						</div>
 						<div className="flex justify-start">
 							<p className="text-slate-950 font-semibold text-lg">
-								Valor Atual R$: {formatCurrency((acertos?.saldoAtual || 0).toFixed(2), 'BRL')}
+								Valor Atual R$: {valorAtual().toFixed(2)}
 							</p>
 						</div>
 
@@ -161,28 +183,43 @@ export default function AcertoCart() {
 					<div>
 						<div className="flex justify-start">
 							<p className="text-red-500 font-semibold text-lg">
-								Saldo Devedor R$:  {formatCurrency(((acertos?.saldoAntigo ?? 0)).toFixed(2), 'BRL')}		
+								Saldo Devedor R$:  {formatCurrency((saldoAtual || 0).toFixed(2), 'BRL')}		
 							</p>
 						</div>
 						<div>
-							<p className="text-black font-bold text-lg">Total R$: {formatCurrency(Number(acertos.totalAcerto).toFixed(2), 'BRL')}</p>
+							<p className="text-black font-bold text-lg">Total R$: {formatCurrency(Number(total()).toFixed(2), 'BRL')}</p>
 						</div>
 						<div className="flex gap-2">
 							<p className="text-slate-500 font-semibold text-lg">Acerto R$:</p>
-							<span className="font-bold text-lg text-center">{formatCurrency(acertos.recebido || 0, 'BRL')}</span>
+							<span>
+								<input
+									required
+									className="w-24 pl-3  font-bold"
+									type="number"
+									placeholder="R$"
+									onChange={(e)=> setAcerto(e.target.value)}
+								/>
+							</span>
 						</div>
 						<div>
 							<p className={`font-semibold text-lg ${faltaAcertar() < 0 ? 'text-green-600' : faltaAcertar() === 0 ? 'text-blue-500' : 'text-red-500'}`}>
 								{
-									acertos.novoSaldoVendedor === 0 ? (<span className="text-2xl">Quitado</span>)
-									:acertos.novoSaldoVendedor < 0 ? (<span>Positivo R$: {(Math.abs(acertos.novoSaldoVendedor)).toFixed(2)}</span>)
-									:(<span>Falta Acertar R$: {(Math.abs(acertos.novoSaldoVendedor).toFixed(2))}</span>)
+									faltaAcertar() === 0 ? (<span className="text-2xl">Quitado</span>)
+									:faltaAcertar() < 0 ? (<span>Positivo R$: {(Math.abs(faltaAcertar())).toFixed(2)}</span>)
+									:(<span>Falta Acertar R$: {(Math.abs(faltaAcertar()).toFixed(2))}</span>)
 								}
 							</p>
 						</div>
 					</div>
 					{/* ---nova divisao --- */}
 					<div className="flex gap-4 my-4">
+						<button
+							onClick={notify}
+							className="bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-green-600"
+						>
+							<HiOutlineSave className=" animate-bounce" size={24} />
+							Salvar Acerto
+						</button>
 						<button
 							onClick={handlePrint}
 							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
@@ -191,6 +228,15 @@ export default function AcertoCart() {
 							Imprimir
 						</button>
 					</div>
+					<div>
+					<label htmlFor="Observações:">Obs:</label>
+          <textarea
+            className="border my-3 border-black w-full p-2 text-black resize-y"
+            placeholder="Anotações do acerto"
+            rows={4}
+						onChange={(e)=>setObs(e.target.value)}
+          />
+				</div>
 				<ToastContainer />
 				</div>
 			</div>

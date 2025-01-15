@@ -27,6 +27,8 @@ const acertoSchema = new Schema({
   recebido: {type:Number },
   novoSaldoVendedor: {type: Number },
   observacao: { type: String },
+  saldoAntigo: { type: Number },
+  percentual: { type: Number },
 
 }, { timestamps: true })
 

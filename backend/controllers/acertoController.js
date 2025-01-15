@@ -18,6 +18,8 @@ const acertoController = {
 				totalAcerto: req.body.totalAcerto,
 				novoSaldoVendedor: req.body.novoSaldoVendedor,
 				observacao: req.body.observacao,
+        saldoAntigo: req.body.saldoAntigo,
+				percentual: req.body.percentual,
       }
 
 			const response = await AcertoModel.create(novoAcerto);
@@ -43,13 +45,13 @@ const acertoController = {
   get: async(req,res) =>{
     try {
       const id = req.params.id
-      const pedido = await PedidoModel.findById(id);
+      const acerto = await AcertoModel.findById(id);
       
-      if(!pedido){
-        res.status(404).json({msg:"Pedido não encontrado."})
+      if(!acerto){
+        res.status(404).json({msg:"Acerto não encontrado."})
         return;
       }
-      res.json(pedido)
+      res.json(acerto)
     } catch (error) {
       console.log(error)
     }
@@ -58,15 +60,15 @@ const acertoController = {
   delete: async(req,res) => {
     try {
       const id = req.params.id
-      const pedido = await PedidoModel.findById(id);
+      const AcertoModel = await AcertoModel.findById(id);
 
-      if(!pedido){
-        res.status(404).json({msg:"Pedido não encontrado."})
+      if(!AcertoModel){
+        res.status(404).json({msg:"Acerto não encontrado."})
         return;
       }
 
-      const deletedOrder = await PedidoModel.findByIdAndDelete(id)
-      res.status(200).json({deletedOrder, msg: "Pedido excluido com sucesso!"})
+      const deleteAcerto = await AcertoModel.findByIdAndDelete(id)
+      res.status(200).json({deleteAcerto, msg: "Acerto excluido com sucesso!"})
 
     } catch (error) {
       console.log(error)
@@ -79,21 +81,31 @@ const acertoController = {
       
       const id = req.params.id;
 
-      const novoPedido = {
-        produtos: [...req.body.produtos],
+      const novoAcerto = {
+				pedidoId: req.body.pedidoId,
+				produtos: [...req.body.produtos],
 				vendedor: {...req.body.vendedor},
-        data: req.body.data,
+        dataAcerto: req.body.dataAcerto,
 				totalValor: req.body.totalValor,
+				totalVendido: req.body.totalVendido,
+				descontos: req.body.descontos,
+				saldoAtual: req.body.saldoAtual,
+				recebido: req.body.recebido,
+				totalAcerto: req.body.totalAcerto,
+				novoSaldoVendedor: req.body.novoSaldoVendedor,
+				observacao: req.body.observacao,
+				saldoAntigo: req.body.saldoAntigo,
+        percentual: req.body.percentual,
       }
 
-      const updatedOrder = await PedidoModel.findByIdAndUpdate(id, novoPedido)
+      const updatedAcerto = await AcertoModel.findByIdAndUpdate(id, novoAcerto)
 
-      if(!updatedOrder){
-        res.status(404).json({msg:"pedido não encontrado."})
+      if(!updatedAcerto){
+        res.status(404).json({msg:"Acerto não encontrado."})
         return;
       }
       
-      res.status(200).json({novoPedido, msg: "Pedido atualizado com sucesso!"})
+      res.status(200).json({novoPedido, msg: "Acerto atualizado com sucesso!"})
 
     } catch (error) {
       console.log(error)

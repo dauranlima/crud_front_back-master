@@ -7,11 +7,13 @@ import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
 import CartItemEdit from "@/components/CartItemEdit";
 
-export default function CartEdit({ handleSaveOrder, handleUpdateOrder, editPedido }) {
+export default function CartEdit({handleSaveOrder,handleUpdateOrder,editPedido,acerto}) {
 
 	const {isCartOpen}=useContext(CartContext)
 	const navigate = useNavigate();
   const contentRef = useRef(null);
+	const hasAcerto = acerto ;
+
 
 	const totalEditValor = editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0;
 
@@ -80,17 +82,18 @@ export default function CartEdit({ handleSaveOrder, handleUpdateOrder, editPedid
 					<div className="flex  items-center  gap-4 my-4">
 											<button 
 												onClick={editPedido?.produtos?.length > 0 ? saveNotify : undefined} 
-												className={`bg-slate-700 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${editPedido?.produtos?.length > 0 ? 'hover:bg-slate-950' : 'opacity-50 cursor-not-allowed'}`}
-												disabled={editPedido?.produtos?.length === 0}
+												className={`bg-slate-700 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${editPedido?.produtos?.length > 0  ? 'hover:bg-slate-800' : 'opacity-50 cursor-not-allowed'}`} 
+												// && !hasAcerto
+												// disabled={hasAcerto || editPedido?.produtos?.length === 0}
 											>
 							<HiOutlineDuplicate className=" animate-bounce" size={34}/>
 							Duplicar
 						</button>
 						<button 
 												onClick={editPedido?.produtos?.length > 0 ? editNotify : undefined} 
-												className={`bg-yellow-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${editPedido?.produtos?.length > 0 ? 'hover:bg-yellow-600' : 'opacity-50 cursor-not-allowed'}`}
-												disabled={editPedido?.produtos?.length === 0}
-											>
+												className={`bg-yellow-500 flex gap-2 text-white font-semibold py-4 px-6 rounded-lg ${editPedido?.produtos?.length > 0 && !hasAcerto ? 'hover:bg-yellow-600' : 'opacity-50 cursor-not-allowed'}`}
+												disabled={hasAcerto || editPedido?.produtos?.length === 0}
+						>
 							<HiOutlineSaveAs className=" animate-bounce" size={34}/>
 							Editar 
 						</button>

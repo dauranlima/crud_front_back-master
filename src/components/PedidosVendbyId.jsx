@@ -6,15 +6,13 @@ import CartContext from "@/context/CartContext";
 import CartEdit from "@/pages/CartEdit";
 import ItemProdListEdit from "./ItemProdListEdit";
 import { ToastContainer, toast } from 'react-toastify';
-import Vendedora from "@/pages/Vendedora";
-import formatCurrency from "@/utils/FormatCurrency";
 
 
 const PedidosVendbyId = () => {
 	const [busca, setBusca] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
-	const itemsPerPage = 3;
+	const itemsPerPage = 5;
 	const { isCartOpen, setIsCartOpen, editPedido, setEditPedido,vend,setVend, prod, setProd, acertos, setAcertos} = useContext(CartContext);
 	const navigate = useNavigate();
 
@@ -29,6 +27,7 @@ const PedidosVendbyId = () => {
 			console.log(error);
 		}
 	}
+
 	const getPedidos = async () => {
 		try {
 			const response = await FetchData.get(`/pedido/${id}`);
@@ -121,13 +120,13 @@ const PedidosVendbyId = () => {
 				preco: item.preco,
 			})),
 			vendedor:{
-				id: editPedido.vendedor._id,
+				id: editPedido.vendedor.id,
 				nome: editPedido.vendedor.nome,
 				cidade: editPedido.vendedor.cidade,
+				saldo: editPedido.vendedor.saldo,
 			},
 			data: new Date().toISOString(),
 			totalValor: editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0,
-			devolvido: editPedido.valorDevolvido,
 		};
 
 		try {
@@ -138,11 +137,9 @@ const PedidosVendbyId = () => {
 			console.error("Erro ao salvar o pedido:", error);
 		}
 	};
-	
 	const toogleCart = () => {
 		setIsCartOpen(!isCartOpen);
 	};
-
 	const getProds = async () => {
 		try {
 			const response = await FetchData.get("/produtos");
@@ -155,9 +152,6 @@ const PedidosVendbyId = () => {
 			setLoading(false);
 		}
 	};
-
-	
-
 	useEffect(() => {
 		getVend();
 		getProds();
@@ -168,31 +162,22 @@ const PedidosVendbyId = () => {
 		}, 5000);
 		return () => clearTimeout(timer);
 	}, []);
-	
 
-	const selectedVendId = editPedido?.vendedor?.nome;
-	const selectedVendedor = vend.find((vendedor) => vendedor.nome === selectedVendId);
+	const selectedVendId = editPedido?.vendedor?.id;
+	const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId);
 	let saldoAtual = selectedVendedor ? selectedVendedor.saldo : 0;
 
-	
 	const selectedPedId = editPedido?._id;
-	const selectedPedido = acertos.find((pedido) => pedido.pedidoId === selectedPedId);
+	const selectedPedido = acertos?.find((pedido) => pedido?.pedidoId === selectedPedId) || null;
 	const acertoID = selectedPedido?._id || null;
 	
-
-
-	console.log(acertos)
-
-
 	const filteredProducts = prod.filter((pdt) => {
 		return busca.toLowerCase() === "" ? pdt : pdt.nome.toLowerCase().includes(busca);});
-		
 
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 	const currentItems = filteredProducts.slice(indexOfFirstItem,indexOfLastItem,);
 	const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-
 	return (
 		<div className="flex flex-col">
 			<div>
@@ -217,20 +202,10 @@ const PedidosVendbyId = () => {
 					Itens Adicionados
 					{editPedido?.produtos?.length > 0 && <span className="absolute top-0 right-0 rounded-full flex bg-red-500 h-6 w-6 justify-center items-center">{editPedido?.produtos?.length}</span>}
 				</button>
-				{acertoID && (
-					<button
-						className={
-							"flex items-center gap-2 p-3 bg-black hover:bg-teal-700 shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4  "
-						}
-					>
-						<HiOutlineAnnotation size={40} />
-						Ver acerto
-					</button>
-				)}
 					{!acertoID && (
 						<Link
 							className="flex items-center gap-2 p-2 bg-black shadow-2xl drop-shadow-xl text-white font-bold rounded-lg m-4"
-							to={`/acerto/${id}`}
+							to={`/acertos/${id}`}
 						>
 							<HiOutlineAnnotation size={40} />
 							Realizar Acerto
@@ -249,7 +224,6 @@ const PedidosVendbyId = () => {
 				) 
 			}
 			</div>
-			{/* --------------LISTA ---------------------- */}
 			<div>
 			<div>
 				<input
@@ -266,9 +240,9 @@ const PedidosVendbyId = () => {
 					</div>
 				) : (
 					
-					currentItems.filter((pdt) => {return busca.toLowerCase() === ""? pdt: pdt.nome.toLowerCase().includes(busca);})
-						.map((pdt) => ( <ItemProdListEdit key={pdt._id} data={pdt} /> )))}
-				{/* ------------------- paginação------------------- */}
+						currentItems.filter((pdt) => busca.toLowerCase() === "" ? false : pdt.nome.toLowerCase().includes(busca.toLowerCase())
+						).map((pdt) => ( <ItemProdListEdit key={pdt._id} data={pdt} />)))}
+
 				<div className="flex justify-center gap-2 ">
 					<button
 						onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -290,16 +264,7 @@ const PedidosVendbyId = () => {
 						Próxima
 					</button>
 				</div>
-				{/* <div>
-					<label htmlFor="Observações:">Obs:</label>
-          <textarea
-            className="border my-3 border-black w-full p-2 text-black resize-y"
-            placeholder="Anotações do pedido"
-            rows={4}
-          />
-
-				</div> */}
-				<CartEdit editPedido={editPedido} handleUpdateOrder={handleUpdateOrder} handleSaveOrder={handleSaveOrder} />
+				<CartEdit acerto={acertoID} editPedido={editPedido} handleUpdateOrder={handleUpdateOrder} handleSaveOrder={handleSaveOrder} />
 			</div>
 			<ToastContainer/>
 		</div>

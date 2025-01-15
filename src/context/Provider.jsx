@@ -11,7 +11,6 @@ export default function Provider({ children }) {
 	const [pedido, setPedido] = useState([]);
 	const [editPedido, setEditPedido] = useState([])
 	const [vend, setVend] = useState([]);
-	const [saldoAtual, setSaldoAtual] = useState(0);
 	const [selectedVend, setSelectedVend] = useState([]);
 
 

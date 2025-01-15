@@ -5,7 +5,7 @@ export default function AcertoCartItem({ data, atualizarSomaTotal }) {
 
   const {_id, nome, preco, quantity} = data;
 
-	const { editPedido, setEditPedido } = useContext(CartContext);
+	const { editPedido, setEditPedido, acertos } = useContext(CartContext);
 	const [devolvido, setDevolvido] = useState('')
   const valorTotalUnitario = preco * quantity;
 	const [valorVendido, setValorVendido] = useState(0)
@@ -18,11 +18,9 @@ export default function AcertoCartItem({ data, atualizarSomaTotal }) {
     }
 	}
 	const handleEditItems = () => {
-		if (devolvido === '') return;
-		
 		let valorDevolvido = devolvido;
 		let novoValor = (quantity - devolvido) * preco;
-		const updatedItems = editPedido?.produtos?.map(item => item._id === _id ? {...item, valorVendido: (item.quantity - devolvido) * item.preco, devolvido: valorDevolvido} : item) || [];
+		const updatedItems = acertos?.produtos?.map(item => item._id === _id ? {...item, valorVendido: (item.quantity - devolvido) * item.preco, devolvido: valorDevolvido} : item) || [];
 		setValorVendido(novoValor)
 		setEditPedido({...editPedido, produtos: updatedItems})
 	}

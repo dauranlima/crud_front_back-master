@@ -18,15 +18,14 @@ export default function AcertoCartId() {
 	const [percentual, setPercentual] = useState(25);
 	const [acerto, setAcerto] = useState(0);
 	const [obs, setObs] = useState('');
-	const { vendedor } = editPedido || {};
 	const atualizarSomaTotal = (newValue) => setSomaTotal(newValue);
 	const calcularDesconto = () => {const valorDesconto = somaTotal * (percentual / 100 );return valorDesconto;};
 	const valorAtual = () => {const valorAtual = somaTotal - calcularDesconto() ;return valorAtual;}
 	const faltaAcertar = () => total().toFixed(2) - acerto 
 		const notify = () => {
-		toast.success(" Acerto Salvo!", {
+		toast.info(" Acerto Salvo!", {
 			autoClose: 2500,
-			position: "top-right",
+			position: "bottom-center",
 			pauseOnHover: false,
 		});
 		handleSaveAcerto();
@@ -43,7 +42,6 @@ export default function AcertoCartId() {
 		});
 		window.print();
 	};
-
 	const handleSaveAcerto = async () => {
 
 		const AcertoData = {
@@ -70,7 +68,9 @@ export default function AcertoCartId() {
 			recebido: acerto,
 			novoSaldoVendedor: faltaAcertar(),
 			observacao: obs,
-		};
+			saldoAntigo: saldoAtual,
+			percentual: percentual,
+			};
 
 		try {
 			await FetchData.post("/acerto", AcertoData);
@@ -80,7 +80,6 @@ export default function AcertoCartId() {
 			console.error("Erro ao salvar o acerto:", error);
 		}
 	};
-console.log(obs)
 
 const getVend = async () => {
 		try {
@@ -96,8 +95,8 @@ const getVend = async () => {
 		getVend();
 	}, []);
 
-	const selectedVendId = editPedido?.vendedor?.nome;
-	const selectedVendedor = vend.find((vendedor) => vendedor.nome === selectedVendId);
+	const selectedVendId = editPedido?.vendedor?.id;
+	const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId);
 	let saldoAtual = selectedVendedor ? selectedVendedor.saldo : 0;
 	const total = () => saldoAtual ? valorAtual() + saldoAtual : valorAtual();
 	
@@ -112,7 +111,7 @@ return (
 					Lista de Produtos na cesta
 				</h2>
 				<div className="flex justify-between items-center gap-3 font-bold textlg">
-					<h1>Vendora: {editPedido.vendedor.nome}</h1>
+					<h1>Vendora: {editPedido?.vendedor?.nome}</h1>
 				</div>
 				<h3 className="font-semibold text-slate-500 mx-2">
 					Data do acerto: {new Date().toLocaleDateString("pt-BR")}
