@@ -133,7 +133,7 @@ const PedidosVend = () => {
 				<button
 					onClick={toogleCart}
 					className={
-						"flex items-center gap-2 p-3 bg-blue-500 hover:bg-blue-700 shadow-lg drop-shadow-xl text-white font-bold rounded-lg m-4  "
+						"flex relative items-center gap-2 p-3 bg-blue-500 hover:bg-blue-700 shadow-lg drop-shadow-xl text-white font-bold rounded-lg m-4  "
 					}
 				>
 					<HiOutlineClipboardList size={40} />
