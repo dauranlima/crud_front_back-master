@@ -25,7 +25,6 @@ export default function CartItem({ data }) {
 		setCartItems(updatedItems);
 	}, [setCartItems]);
 
-	console.log(cartItems)
 
 
 	return (

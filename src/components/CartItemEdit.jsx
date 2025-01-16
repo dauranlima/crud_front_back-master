@@ -1,6 +1,6 @@
 import { HiOutlineTrash } from "react-icons/hi";
 import formatCurrency from "@/utils/FormatCurrency";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import CartContext from "@/context/CartContext";
 
 export default function CartItemEdit({ data }) {
@@ -16,6 +16,14 @@ export default function CartItemEdit({ data }) {
 			produtos: updatedItems
 		});
   };
+			
+				console.log(editPedido)
+
+
+
+
+
+
 	return (
 		<section className="flex flex-col overflow-auto">
 			<div key={_id} className="flex border border-red-100 justify-between items-center p-2">

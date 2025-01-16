@@ -10,16 +10,10 @@ import FetchData from "@/axios/config";
 export default function AcertoCart() {
 	
 	const { editPedido, vend, setVend,acertos, setAcertos  } = useContext(CartContext);
-	const navigate = useNavigate();
-	const contentRef = useRef(null);
-	const totalPrice = editPedido.totalValor || [];
 	const [somaTotal, setSomaTotal] = useState([]);
-	const [percentual, setPercentual] = useState(25);
-	const [acerto, setAcerto] = useState(0);
+	const [percentual] = useState(25);
+	const [acerto] = useState(0);
 	const { vendedor } = editPedido || {};
-
-	
-	const atualizarSomaTotal = (newValue) => setSomaTotal(newValue);
 	const calcularDesconto = () => {const valorDesconto = somaTotal * (percentual / 100 );return valorDesconto;};
 	const valorAtual = () => {const valorAtual = somaTotal - calcularDesconto() ;return valorAtual;}
 	const total = () => vendedor?.saldo ? valorAtual() + vendedor.saldo : valorAtual();
@@ -46,12 +40,10 @@ export default function AcertoCart() {
 			console.log(error);
 		}
 	};
-
 	useEffect(() => {
 		getVend();
 		getAcertos();
 	}, []);
-
 
 	const selectedVendId = editPedido?.vendedor?.id;
 	const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId);
@@ -176,7 +168,7 @@ export default function AcertoCart() {
 							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
 						>
 							<HiOutlinePrinter className="animate-pulse" size={24} />
-							Imprimir
+							Imprimir Acerto
 						</button>
 					</div>
 				<ToastContainer />

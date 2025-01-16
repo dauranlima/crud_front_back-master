@@ -1,6 +1,6 @@
-import { useContext,useRef , useState } from "react";
+import { useContext,useEffect,useRef , useState } from "react";
 import { HiOutlineDuplicate, HiOutlinePrinter, HiOutlineSave, HiOutlineSaveAs,  } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
@@ -8,13 +8,16 @@ import CartItemEdit from "@/components/CartItemEdit";
 
 export default function CartEdit({handleSaveOrder,handleUpdateOrder,editPedido,acerto}) {
 
-	const {isCartOpen}=useContext(CartContext)
+	const {isCartOpen, setEditPedido}=useContext(CartContext)
 	const navigate = useNavigate();
   const contentRef = useRef(null);
 	const hasAcerto = acerto ;
 
 
 	const totalEditValor = editPedido?.produtos?.reduce((total, item) => (total + item.preco * item.quantity), 0) || 0;
+
+
+
 
   const saveNotify = () => {
     toast.success(' Pedido Duplicado!',{ autoClose: 2500, position: "top-left", pauseOnHover: false});
@@ -34,8 +37,6 @@ export default function CartEdit({handleSaveOrder,handleUpdateOrder,editPedido,a
 		}, 2500);
   }
 
-
-
 	return (
 		<div className={`w-full max-w-72 ${isCartOpen ? ' translate-x-[100%]':''} sm:max-w-[560px] fixed top-[112px] translate-x-[0%] px-10 border border-gray-500 
 		transition-all duration-500 bg-white right-0 h-[calc(100%-120px)] justify-between flex flex-col  `}>
@@ -44,7 +45,7 @@ export default function CartEdit({handleSaveOrder,handleUpdateOrder,editPedido,a
 				<h2 className="text-lg font-semibold text-slate-500 my-2">
 					Lista de Produtos na cesta
 				</h2>
-				<h3 className="my-3 font-semibold text-slate-500 mx-2">Data: {new Date(editPedido.data).toLocaleDateString('pt-BR')}</h3>
+				<h3 className="my-3 font-semibold text-slate-500 mx-2">Data: {new Date(editPedido?.data).toLocaleDateString('pt-BR')}</h3>
 
 			</div>
 {/* ----------------------- LISTA ----------------------- */}
@@ -87,12 +88,14 @@ export default function CartEdit({handleSaveOrder,handleUpdateOrder,editPedido,a
 							<HiOutlineSaveAs className=" animate-bounce" size={34}/>
 							Editar 
 						</button>
-						<button
-							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
-						>
-							<HiOutlinePrinter className="animate-pulse" size={34}/>
-							Imprimir
-						</button>
+						<Link to="/cartprintedit">
+							<button
+								className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
+							>
+								<HiOutlinePrinter className="animate-pulse" size={34}/>
+								Imprimir
+							</button>
+						</Link>
 					</div>
 				</div>
 			</div>

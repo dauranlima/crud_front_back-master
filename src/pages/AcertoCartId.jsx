@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { HiOutlinePrinter, HiOutlineSave } from "react-icons/hi";
-import { useNavigate,  } from "react-router-dom";
+import { Link, useNavigate,  } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
@@ -207,12 +207,15 @@ return (
 							<HiOutlineSave className=" animate-bounce" size={24} />
 							Salvar Acerto
 						</button>
-						<button
-							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
-						>
-							<HiOutlinePrinter className="animate-pulse" size={24} />
-							Imprimir
-						</button>
+						{/* <Link to={`/acertoidprint`}>
+							<button
+								className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
+							>
+								<HiOutlinePrinter className="animate-pulse" size={24} />
+								Imprimir
+							</button>
+						
+						</Link> */}
 					</div>
 					<div>
 				</div>

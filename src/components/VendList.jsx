@@ -59,6 +59,7 @@ const VendList = () => {
 		<>
 			<div className="flex flex-col">
 				<div>
+					<p>Quantidade de vendedoras cadastras: {prod.length}</p>
 					<input
 						className="border border-black w-full p-2 text-black"
 						type="search"
