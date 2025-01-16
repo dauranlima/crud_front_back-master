@@ -12,9 +12,12 @@ const Header = () => {
 				<Link to="/" className="flex ] items-center gap-4">
 					<img src={"/supplier.png"} className="w-16 h-16  " />
 				</Link>
-				<Link to="/" className="text-white font-bold text-md">
+				<Link
+					to="/"
+					className="text-white font-bold text-md"
+				>
 					CONTROLE DE PEDIDOS
-				</Link>
+				</Link>	
 				<div className="flex border p-3  rounded-xl gap-2">
 					<div className="flex text-white">
 						<HiOutlineUser size={24} />

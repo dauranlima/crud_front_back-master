@@ -2,7 +2,6 @@ import { useContext,useRef , useState } from "react";
 import { HiOutlineDuplicate, HiOutlinePrinter, HiOutlineSave, HiOutlineSaveAs,  } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
-import jsPDF from 'jspdf';
 import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
 import CartItemEdit from "@/components/CartItemEdit";
@@ -35,15 +34,6 @@ export default function CartEdit({handleSaveOrder,handleUpdateOrder,editPedido,a
 		}, 2500);
   }
 
-	const handlePrint = () => {
-    const doc = new jsPDF();
-    doc.html(contentRef.current, {
-      callback: (doc) => {
-        doc.save('carrinho.pdf');
-      },
-    });
-    window.print();
-  };
 
 
 	return (
@@ -98,7 +88,6 @@ export default function CartEdit({handleSaveOrder,handleUpdateOrder,editPedido,a
 							Editar 
 						</button>
 						<button
-							onClick={handlePrint}
 							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
 						>
 							<HiOutlinePrinter className="animate-pulse" size={34}/>

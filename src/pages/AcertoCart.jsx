@@ -2,7 +2,6 @@
 import { HiOutlinePrinter, HiOutlineSave } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import jsPDF from "jspdf";
 import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
 import FetchData from "@/axios/config";
@@ -37,16 +36,6 @@ export default function AcertoCart() {
 			console.log(error);
 		}
 	}
-
-	const handlePrint = () => {
-		const doc = new jsPDF();
-		doc.html(contentRef.current, {
-			callback: (doc) => {
-				doc.save("carrinho.pdf");
-			},
-		});
-		window.print();
-	};
 	const getVend = async () => {
 		try {
 			const response = await FetchData.get("/vendedor");
@@ -184,7 +173,6 @@ export default function AcertoCart() {
 					{/* ---nova divisao --- */}
 					<div className="flex gap-4 my-4">
 						<button
-							onClick={handlePrint}
 							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
 						>
 							<HiOutlinePrinter className="animate-pulse" size={24} />
@@ -193,6 +181,12 @@ export default function AcertoCart() {
 					</div>
 				<ToastContainer />
 				</div>
+					<textarea
+            className="border my-3 border-black w-full p-2 text-black resize-y"
+            placeholder="Anotações do acerto"
+            rows={2}
+						value={acertos.observacao}
+          />
 			</div>
 		</div>
 	);

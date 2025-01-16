@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { HiOutlinePrinter, HiOutlineSave } from "react-icons/hi";
 import { useNavigate,  } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import jsPDF from "jspdf";
 import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
 import AcertoCartItem from "@/components/AcertoCartItem";
@@ -37,15 +36,7 @@ export default function AcertoId() {
 
 	};
 console.log(acertoId)
-	const handlePrint = () => {
-		const doc = new jsPDF();
-		doc.html(contentRef.current, {
-			callback: (doc) => {
-				doc.save("carrinho.pdf");
-			},
-		});
-		window.print();
-	};
+
 
 	const handleSaveAcerto = async () => {
 
@@ -221,7 +212,6 @@ return (
 							Salvar Acerto
 						</button>
 						<button
-							onClick={handlePrint}
 							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
 						>
 							<HiOutlinePrinter className="animate-pulse" size={24} />

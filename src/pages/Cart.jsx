@@ -1,8 +1,8 @@
+import PrintCart from "@/reports/PrintCart";
 import { useContext, useRef, useState } from "react";
 import { HiOutlinePrinter, HiOutlineSave } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import jsPDF from "jspdf";
 import CartContext from "@/context/CartContext";
 import CartItem from "@/components/CartItem";
 import formatCurrency from "@/utils/FormatCurrency";
@@ -37,16 +37,7 @@ export default function Cart({ handleSaveOrder }) {
 	notify();
 	}
 
-	const handlePrint = () => {
-		const doc = new jsPDF();
-		doc.html(contentRef.current, {
-			callback: (doc) => {
-				doc.save("carrinho.pdf");
-			},
-		});
-		window.print();
-	};
-
+	console.log(cartItems)
 	return (
 		<div
 			className={`w-full max-w-72 ${
@@ -118,11 +109,11 @@ export default function Cart({ handleSaveOrder }) {
 							Salvar Pedido
 						</button>
 						<button
-							onClick={handlePrint}
+							onClick={(e) => PrintCart(cartItems)}
 							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
 						>
 							<HiOutlinePrinter className="animate-pulse" size={24} />
-							Imprimir
+							Imprimirrrr
 						</button>
 					</div>
 				</div>

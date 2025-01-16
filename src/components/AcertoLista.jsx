@@ -19,7 +19,7 @@ const AcertoLista = () => {
 		try {
 			const response = await FetchData.get("/acerto");
 			const data = response.data;
-			const sortedData = data.sort((a, b) => new Date(b.data) - new Date(a.data));
+			const sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 			setPedido(sortedData);
 			setLoading(false);
 		} catch (error) {

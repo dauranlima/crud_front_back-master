@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { HiOutlinePrinter, HiOutlineSave } from "react-icons/hi";
 import { useNavigate,  } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import jsPDF from "jspdf";
 import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
 import AcertoCartItem from "@/components/AcertoCartItem";
@@ -33,15 +32,7 @@ export default function AcertoCartId() {
 			navigate("/pedidos");
 		}, 2500);
 	};
-	const handlePrint = () => {
-		const doc = new jsPDF();
-		doc.html(contentRef.current, {
-			callback: (doc) => {
-				doc.save("carrinho.pdf");
-			},
-		});
-		window.print();
-	};
+
 	const handleSaveAcerto = async () => {
 
 		const AcertoData = {
@@ -217,7 +208,6 @@ return (
 							Salvar Acerto
 						</button>
 						<button
-							onClick={handlePrint}
 							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
 						>
 							<HiOutlinePrinter className="animate-pulse" size={24} />
@@ -225,16 +215,15 @@ return (
 						</button>
 					</div>
 					<div>
-					<label htmlFor="Observações:">Obs:</label>
-          <textarea
-            className="border my-3 border-black w-full p-2 text-black resize-y"
-            placeholder="Anotações do acerto"
-            rows={4}
-						onChange={(e)=>setObs(e.target.value)}
-          />
 				</div>
 				<ToastContainer />
 				</div>
+          <textarea
+            className="border my-3 border-black w-full p-2 text-black resize-y"
+            placeholder="Anotações do acerto"
+            rows={2}
+						onChange={(e)=>setObs(e.target.value)}
+          />
 			</div>
 		</div>
 	);

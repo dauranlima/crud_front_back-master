@@ -17,10 +17,10 @@ import { ToastContainer, toast } from 'react-toastify';
 
   const notify = () => {
     if (nome && endereco && telefone && documento && cidade) {
-      toast('Vendedor cadastrado com sucesso!')
+      toast.info('Vendedor cadastrado com sucesso!')
       setTimeout(() => {
         navigate("/");
-      }, 5000);
+      }, 1500);
     }
   }
   const createSeller = async (e) => {
