@@ -6,11 +6,10 @@ import generatePDF, { Margin } from "react-to-pdf";
 
 export default function CartPrintEdit() {
 
-	const { selectedVend, editPedido, totalCart } = useContext(CartContext);
+	const { editPedido } = useContext(CartContext);
 
 	const getContentPdf = useRef();
 
-  const { nome } = selectedVend;
   
 	const options = {
 		method: "open",
@@ -24,7 +23,7 @@ export default function CartPrintEdit() {
 	return (
 		<>
 			<button
-				onClick={() => generatePDF(getContentPdf, options)}
+				onClick={() => generatePDF(getContentPdf, { options, filename: `pedido-${editPedido.vendedor.nome}.pdf` })}
 				className="border mt-2 bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black">
 				<HiOutlinePrinter className="animate-pulse" size={24} />
 				Gerar PDF
@@ -48,7 +47,8 @@ export default function CartPrintEdit() {
                 <span className="text-slate-500 font-bold">VALOR UNITÁRIO: {formatCurrency(item?.preco, 'BRL')}</span>
               </div>
               <div className="flex items-center justify-end  gap-3 text-black">
-                <span className="font-bold">{formatCurrency((item?.quantity * item?.preco),'BRL')}</span>              </div>
+                <span className="font-bold">{formatCurrency((item?.quantity * item?.preco),'BRL')}</span>
+							</div>
             </div>
           ))}
 				<div className="flex flex-col gap-4 border items-center space-y-3 border-black p-3 mt-5">

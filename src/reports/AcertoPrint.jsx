@@ -23,7 +23,7 @@ export default function AcertoPrint() {
 	return (
 		<>
 			<button
-				onClick={() => generatePDF(getContentPdf, options)}
+				onClick={() => generatePDF(getContentPdf, { options, filename: `pedido-${acertos.vendedor.nome}.pdf` })}
 				className="border mt-2 bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black">
 				<HiOutlinePrinter className="animate-pulse" size={24} />
 				Gerar PDF
