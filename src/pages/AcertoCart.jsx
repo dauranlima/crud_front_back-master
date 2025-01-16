@@ -1,6 +1,6 @@
 	import { useContext, useEffect, useRef, useState } from "react";
 import { HiOutlinePrinter, HiOutlineSave } from "react-icons/hi";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
@@ -44,6 +44,9 @@ export default function AcertoCart() {
 		getVend();
 		getAcertos();
 	}, []);
+
+	console.log(acertos);
+	
 
 	const selectedVendId = editPedido?.vendedor?.id;
 	const selectedVendedor = vend.find((vendedor) => vendedor._id === selectedVendId);
@@ -164,12 +167,14 @@ export default function AcertoCart() {
 					</div>
 					{/* ---nova divisao --- */}
 					<div className="flex gap-4 my-4">
-						<button
-							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
-						>
-							<HiOutlinePrinter className="animate-pulse" size={24} />
-							Imprimir Acerto
-						</button>
+						<Link to={'/acertoprint'}>
+							<button
+								className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
+							>
+								<HiOutlinePrinter className="animate-pulse" size={24} />
+								Imprimir Acerto
+							</button>
+						</Link>
 					</div>
 				<ToastContainer />
 				</div>

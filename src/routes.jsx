@@ -18,6 +18,7 @@ import AcertoCart from "./pages/AcertoCart"
 import PageAcerto from "./pages/PageAcerto"
 import CartPrint from "./reports/CartPrint"
 import CartPrintEdit from "./reports/CartPrintEdit"
+import AcertoPrint from "./reports/AcertoPrint"
 export default function AppRoutes() {
   return (
     <BrowserRouter>
@@ -41,6 +42,7 @@ export default function AppRoutes() {
         <Route path="/acertolista" element={<PageAcerto />} />
         <Route path="/cartprint" element={<CartPrint />} />
         <Route path="/cartprintedit" element={<CartPrintEdit />} />
+        <Route path="/acertoprint" element={<AcertoPrint />} />
       </Route>
     </Routes>
 

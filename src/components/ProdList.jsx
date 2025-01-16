@@ -56,7 +56,7 @@ const ProdList = () => {
     <>
     <div className="flex flex-col">
         <div>
-					<p>Quantidade de produtos cadastrado: {prod.length}</p>
+					<p>Quantidade de produtos cadastrados: {prod.length}</p>
           <input
             className="border border-black w-full p-2 text-black"
             type="search"
