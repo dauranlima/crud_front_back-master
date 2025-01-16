@@ -1,43 +1,57 @@
-import PrintCart from "@/reports/PrintCart";
-import { useContext, useRef, useState } from "react";
-import { HiOutlinePrinter, HiOutlineSave } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import CartContext from "@/context/CartContext";
 import CartItem from "@/components/CartItem";
 import formatCurrency from "@/utils/FormatCurrency";
 import { EraserIcon } from "lucide-react";
+import { HiOutlinePrinter, HiOutlineSaveAs } from "react-icons/hi";
 
 export default function Cart({ handleSaveOrder }) {
-	const { isCartOpen, cartItems, selectedVend, setSelectedVend } = useContext(CartContext);
+	const { isCartOpen, cartItems, setCartItems, selectedVend, setSelectedVend } =
+		useContext(CartContext);
 	const navigate = useNavigate();
-	const contentRef = useRef(null);
-	const totalPrice = cartItems.reduce((acc, item) => acc + item.preco * item.quantity,0,);
+	const totalPrice = cartItems.reduce(
+		(acc, item) => acc + item.preco * item.quantity,
+		0,
+	);
+
+	const valorTotal = totalPrice;
+	const updatedItems = cartItems.map((item) => ({
+		...item,
+		valorTotal
+	}));
+
+	
 
 	const notify = () => {
-
 		toast.success(" Pedido Salvo!", {
 			autoClose: 2500,
 			position: "top-left",
 			pauseOnHover: false,
 		});
+
+
 		handleSaveOrder();
-		setSelectedVend('');
+		setSelectedVend("");
 		setTimeout(() => {
 			navigate("/pedidos");
 		}, 2500);
 	};
 
-	const handleSave = ()  => {
-			
-	if (!selectedVend || !selectedVend.nome) {
-		alert("Por favor, selecione uma vendedora antes de salvar o pedido");
-		return;
-	}
-	notify();
-	}
+	const handleSave = () => {
+		if (!selectedVend || !selectedVend.nome) {
+			alert("Por favor, selecione uma vendedora antes de salvar o pedido");
+			return;
+		}
+		notify();
+	};
 
-	console.log(cartItems)
+		useEffect(() => {
+			setCartItems(updatedItems);
+		}, [setCartItems]);
+
+		console.log(cartItems)
 	return (
 		<div
 			className={`w-full max-w-72 ${
@@ -78,7 +92,7 @@ export default function Cart({ handleSaveOrder }) {
 				) : (
 					<div>
 						{cartItems.map((item) => (
-							<CartItem key={item._id} data={item} />
+							<CartItem key={item._id} data={item}  />
 						))}
 					</div>
 				)}
@@ -105,16 +119,19 @@ export default function Cart({ handleSaveOrder }) {
 							}`}
 							disabled={cartItems.length === 0}
 						>
-							<HiOutlineSave className=" animate-bounce" size={24} />
+							<HiOutlineSaveAs className=" animate-bounce" size={24} />
 							Salvar Pedido
 						</button>
-						<button
-							onClick={(e) => PrintCart(cartItems)}
-							className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
-						>
-							<HiOutlinePrinter className="animate-pulse" size={24} />
-							Imprimirrrr
-						</button>
+						<Link to="/cartprint">
+							<button 
+								className="border bg-black flex gap-2 text-white
+								font-semibold py-4 px-6 rounded-lg hover:bg-white
+								hover:text-black  border-black"
+							>
+								<HiOutlinePrinter className="animate-pulse" size={24} />
+								Imprimir
+							</button>
+						</Link>
 					</div>
 				</div>
 			</div>

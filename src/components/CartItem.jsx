@@ -1,6 +1,6 @@
 import { HiOutlineTrash } from "react-icons/hi";
 import formatCurrency from "@/utils/FormatCurrency";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import CartContext from "@/context/CartContext";
 
 export default function CartItem({ data }) {
@@ -9,11 +9,25 @@ export default function CartItem({ data }) {
   const valorTotalUnitario = preco * quantity;
 	const { cartItems, setCartItems} = useContext(CartContext);
 
+ 
 	const removeFromCart = (_id) => {
 		const updatedItems = cartItems.filter((item) => item._id !== _id);
 		setCartItems(updatedItems);
   };
 	
+
+    const updatedItems = cartItems.map((item) => ({
+      ...item,
+      valorTotalUnitario: (item.preco * item.quantity),
+    }));
+
+	useEffect(() => {
+		setCartItems(updatedItems);
+	}, [setCartItems]);
+
+	console.log(cartItems)
+
+
 	return (
 		<section className="flex flex-col overflow-auto">
 			<div key={_id} className="flex border border-red-100 justify-between items-center p-2">

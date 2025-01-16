@@ -12,6 +12,7 @@ export default function Provider({ children }) {
 	const [editPedido, setEditPedido] = useState([])
 	const [vend, setVend] = useState([]);
 	const [selectedVend, setSelectedVend] = useState([]);
+	const totalCart = cartItems.reduce((total, item) => total + item.preco * item.quantity, 0);
 
 
 	const value = {
@@ -35,6 +36,7 @@ export default function Provider({ children }) {
 		setAcertoId,
 		acertos,
 		setAcertos,
+		totalCart,
 	};
 
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

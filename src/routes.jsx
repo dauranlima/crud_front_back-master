@@ -16,6 +16,7 @@ import Vendedora from "./pages/Vendedora"
 import AcertoCartId from "./pages/AcertoCartId"
 import AcertoCart from "./pages/AcertoCart"
 import PageAcerto from "./pages/PageAcerto"
+import CartPrint from "./reports/CartPrint"
 export default function AppRoutes() {
   return (
     <BrowserRouter>
@@ -37,6 +38,7 @@ export default function AppRoutes() {
         <Route path="/acertoporid/:id" element={<AcertoCart />} />
         <Route path="/vendedoras" element={<Vendedora />} />
         <Route path="/acertolista" element={<PageAcerto />} />
+					<Route path="/cartprint" element={<CartPrint />} />
       </Route>
     </Routes>
 
