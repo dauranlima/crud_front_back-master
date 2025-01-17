@@ -1,6 +1,5 @@
 import AcertoLista from "@/components/AcertoLista";
 import BigButton from "@/components/BigButton";
-import VendPedido from "@/components/VendPedido";
 import { Link } from "react-router-dom";
 
 
@@ -13,7 +12,7 @@ export default function PageAcerto() {
 			</h1>
 			<div>
 				<Link to={"/pedidosvend"}>
-					<BigButton className={'bg-indigo-600 hover:bg-indigo-800 hover:text-white'}>Criar Novo Pedido</BigButton>
+					<BigButton className={'bg-blue-500 hover:bg-blue-700 hover:text-white'}>Criar Novo Pedido</BigButton>
 				</Link>
 
 			</div>

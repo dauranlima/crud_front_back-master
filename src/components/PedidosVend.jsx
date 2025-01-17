@@ -11,7 +11,7 @@ const PedidosVend = () => {
 	const [busca, setBusca] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
-	const itemsPerPage = 7;
+	const itemsPerPage = 6;
 	const { isCartOpen, setIsCartOpen, cartItems, setCartItems,vend,setVend, selectedVend, setSelectedVend, prod, setProd } =
 		useContext(CartContext);
 
@@ -177,7 +177,6 @@ const PedidosVend = () => {
 						// )
 						// .map((pdt) => <ItemProdList key={pdt._id} data={pdt} />)
 				)}
-				{/* ------------------- paginação------------------- */}
 				<div className="flex justify-center gap-2 ">
 					<button
 						onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

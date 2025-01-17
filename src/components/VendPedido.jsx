@@ -81,7 +81,7 @@ const VendPedido = () => {
                 </div>
                 <div className="flex gap-2 ">
                   <Link className="text-slate-800" to={`/pedidosvendbyid/${ped._id}`}>
-                    <HiOutlineDocumentSearch className="text-indigo-700 hover:text-pink-400"  size={48} />
+                    <HiOutlineDocumentSearch className="text-red-700 hover:text-red-400"  size={48} />
                   </Link>
                 </div>
               </div>
@@ -92,11 +92,11 @@ const VendPedido = () => {
 						<button
 							onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
 							disabled={currentPage === 1}
-							className="px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-pink-600 disabled:bg-gray-500"
+							className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 disabled:bg-gray-500"
 						>
 							Anterior
 						</button>
-						<span className="px-4 py-2 text-white bg-slate-700 rounded-md">
+						<span className="px-4 py-2 text-white bg-red-700 rounded-md">
 							{currentPage} de {totalPages}
 						</span>
 						<button
@@ -104,7 +104,7 @@ const VendPedido = () => {
 								setCurrentPage((prev) => Math.min(prev + 1, totalPages))
 							}
 							disabled={currentPage === totalPages}
-							className="px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-pink-600 disabled:bg-gray-500"
+							className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 disabled:bg-gray-500"
 						>
 							Próxima
 						</button>

@@ -26,7 +26,7 @@ export default function ItemProdList({data}) {
           </div>
 				</div>
 			</div>
-				<button className="flex gap-2 items-center border border-white shadow-xl py-2 px-4  text-sm rounded-md bg-blue-500 hover:bg-blue-400 hover:scale-105 transition-transform text-white font-bold"
+				<button className="flex gap-2 items-center border border-white shadow-xl py-2 px-4  text-sm rounded-md bg-blue-500 hover:bg-blue-700 hover:scale-105 transition-transform text-white font-bold"
 					onClick={() => {
 					const existingItem = cartItems.find(item => item._id === _id)
 					if (existingItem) {

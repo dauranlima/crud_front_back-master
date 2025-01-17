@@ -8,7 +8,7 @@ const VendList = () => {
 	const [busca, setBusca] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
-	const itemsPerPage = 5;
+	const itemsPerPage = 4;
 
 	const getVend = async () => {
 		try {

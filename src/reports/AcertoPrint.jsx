@@ -14,19 +14,19 @@ export default function AcertoPrint() {
 	const options = {
 		method: "open",
 		page: {
-			margin: Margin.SMALL,
+			margin: Margin.MEDIUM,
 			format: "A4",
 			orientation: "portrait",
 		},
 	};
-
+// filename: `pedido-${acertos.vendedor.nome}.pdf`
 	return (
 		<>
 			<button
-				onClick={() => generatePDF(getContentPdf, { options, filename: `pedido-${acertos.vendedor.nome}.pdf` })}
+				onClick={() => generatePDF(getContentPdf, options)}
 				className="border mt-2 bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black">
 				<HiOutlinePrinter className="animate-pulse" size={24} />
-				Gerar PDF
+				Imprimir
 			</button>
 			<div ref={getContentPdf}>
 			<div>
@@ -60,7 +60,7 @@ export default function AcertoPrint() {
               </div>
             </div>
           ))}
-            <h1 className="text-2xl my-5 text-center underline font-bold ">Resumo dos Valores</h1>
+            <h1 className="text-2xl mt-48 text-center underline font-bold ">Resumo dos Valores</h1>
         <div className="flex border items-center space-y-3 border-black p-3 mt-5">
 					<div className="flex flex-col items-center mx-auto text-black font-semibold">
             <p>Total de Itens: {acertos.produtos?.length}</p>
@@ -83,7 +83,7 @@ export default function AcertoPrint() {
 				<div className="flex justify-between">
           <div>
             <p className="border border-black border-dashed w-96"></p>
-            <p className="font-light mb-10 ">Assinatura do Vendedor</p>
+            <p className="font-light mb-10 ">Assinatura do Vendedor - {acertos.vendedor?.nome}</p>
           </div>
           <div>
             <p className="border border-black border-dashed w-96"></p>

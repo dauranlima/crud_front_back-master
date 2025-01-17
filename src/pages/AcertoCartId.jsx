@@ -99,7 +99,7 @@ return (
 			{/* ----------------------- header ----------------------- */}
 			<div className="flex flex-col items-center">
 				<h2 className="text-lg font-semibold text-slate-500 my-2">
-					Lista de Produtos na cesta
+					ACERTO DE VENDAS
 				</h2>
 				<div className="flex justify-between items-center gap-3 font-bold textlg">
 					<h1>Vendora: {editPedido?.vendedor?.nome}</h1>
@@ -207,7 +207,7 @@ return (
 							<HiOutlineSave className=" animate-bounce" size={24} />
 							Salvar Acerto
 						</button>
-						{/* <Link to={`/acertoidprint`}>
+						{/* <Link to={`/acertoprint`}>
 							<button
 								className="border bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black"
 							>

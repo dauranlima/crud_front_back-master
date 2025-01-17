@@ -12,7 +12,7 @@ export default function Pedidos() {
 			</h1>
 			<div>
 				<Link to={"/pedidosvend"}>
-					<BigButton className={'bg-indigo-600 hover:bg-indigo-800 hover:text-white'}>Criar Novo Pedido</BigButton>
+					<BigButton className={'bg-red-800 hover:bg-red-600 hover:text-white'}>Criar Novo Pedido</BigButton>
 				</Link>
 			</div>
 			<div className="border border-1 mt-3"/>
