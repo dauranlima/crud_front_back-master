@@ -73,7 +73,7 @@ const ProdList = () => {
             currentItems.filter((pdt) =>{ return busca.toLowerCase() === '' ? pdt  : pdt.nome.toLowerCase().includes(busca)})
             .map((pdt) => (
               <div key={pdt._id}>
-              <div  className="py-1 px-2 border border-gray-300 my-3 flex justify-between gap-5 items-start"
+              <div  className="py-1 px-2 border bg-slate-300 rounded-lg border-gray-500 my-3 flex justify-between gap-5 items-start"
               >
               <div className="flex items-center gap-4">
                   <img 
@@ -87,12 +87,12 @@ const ProdList = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex gap-2 mt-8">
-                  <button onClick={() => handleDelete(pdt._id)} className="text-red-500">
-                    <HiOutlineTrash size={24} />
+                <div className="flex gap-2 mt-4">
+                  <button onClick={() => handleDelete(pdt._id)} className="text-red-500 hover:text-red-700">
+                    <HiOutlineTrash size={34} />
                   </button>
-                  <Link to={`/EditProduto/${pdt._id}`}>
-                    <HiPencilAlt size={24} />
+                  <Link className="hover:text-yellow-600" to={`/EditProduto/${pdt._id}`}>
+                    <HiPencilAlt size={34} />
                   </Link>
                 </div>
               </div>

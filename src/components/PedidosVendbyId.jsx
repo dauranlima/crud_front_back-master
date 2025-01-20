@@ -103,15 +103,6 @@ const PedidosVendbyId = () => {
 
 
 	const handleSaveOrder = async () => {
-		if (!editPedido.vendedor.nome) {
-			alert("Por favor, selecione uma vendedora antes de salvar o pedido");
-			return;
-		}
-
-		if (editPedido?.produtos?.length === 0) {
-			alert("O carrinho está vazio. Adicione produtos antes de salvar o pedido");
-			return;
-		}
 
 		const orderData = {
 			produtos: editPedido.produtos.map((item) => ({

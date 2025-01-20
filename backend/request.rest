@@ -1,8 +1,8 @@
-POST http://localhost:3000/api/produtos
+POST http://localhost:3008/api/produtos
 Content-Type: application/json
 
 {
-  "nome": "CAMISETA BASIC",
+  "nome": "PRODUCT TEST",
   "preco": 49.90
 }
 
@@ -73,7 +73,9 @@ Content-Type: application/json
   "status": "Aberto"
 }
 
-### Buscar todos os pedidos
+
+
+###Buscar todos os pedidos
 GET http://localhost:3008/api/pedido
 
 ### Buscar pedido por ID
@@ -101,23 +103,29 @@ DELETE http://localhost:3008/api/pedido/677435fb360fd79b5ed1ab40
 
 
 
+
 ###
+  POST http://localhost:3008/api/acerto
+  Content-Type: application/json
 
-POST http://localhost:3008/api/acerto
-Content-Type: application/json
-
-{
-  "pedidoId": "7435fb360fd79b",
-  "vendedor": { 
-    "nome": "DAURAN LIMA",
-    "cidade": "CASCAVEL"
-  },
-  "dataAcerto": "2025-01-08",
-  "totalValor": 1024,
-  "totalVendido": 200,
-  "descontos": 50,
-  "saldoAtual": 0,
-  "recebido": 100,
-  "totalAcerto": 100,
-  "novoSaldoVendedor": 50
-}
+  {
+    "pedidoId": "7435fb360fd79b",
+    "produtos": [{
+      "nome": "teste prod1",
+      "quantity": 2,
+      "devolvido": 2,
+      "preco": 10
+    }],
+    "vendedor": { 
+      "nome": "DAURAN LIMA",
+      "cidade": "CASCAVEL"
+    },
+    "dataAcerto": "2025-01-08",
+    "totalValor": 1024,
+    "totalVendido": 200,
+    "descontos": 50,
+    "saldoAtual": 0,
+    "recebido": 100,
+    "totalAcerto": 100,
+    "novoSaldoVendedor": 50
+  }

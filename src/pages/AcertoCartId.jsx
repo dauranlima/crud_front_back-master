@@ -29,7 +29,7 @@ export default function AcertoCartId() {
 		});
 		handleSaveAcerto();
 		setTimeout(() => {
-			navigate("/pedidos");
+			navigate("/acertolista");
 		}, 2500);
 	};
 

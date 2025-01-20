@@ -124,12 +124,20 @@ const EditVend = () => {
 					onChange={(e) => handleEditarVend(e, "cidade")}
         />
         <label className="font-bold">SALDO:</label>
-        <input
+        {/* <input
           type="number"
           required
-					value={Number(editarVend.saldo).toFixed(2)}
+					value={editarVend.saldo < 0 ? (Number(-editarVend.saldo).toFixed(2)) : Number(editarVend.saldo).toFixed(2)}
           placeholder="Digite o Saldo devedor da vendedora:"
-          className="border font-bold text-red-500 uppercase border-slate-500 p-2 rounded-lg  "
+          className={`border font-bold ${editarVend.saldo < 0 ? 'text-green-500' : 'text-red-500'} uppercase border-slate-500 p-2 rounded-lg`}
+					onChange={(e) => handleEditarVend(e,"saldo")}
+        /> */}
+        <input
+        type="text"
+        required
+          value={editarVend.saldo < 0 ? (-editarVend.saldo) : editarVend.saldo}
+          placeholder="Digite o Saldo devedor da vendedora:"
+          className={`border font-bold ${editarVend.saldo < 0 ? 'text-green-500' : 'text-red-500'} uppercase border-slate-500 p-2 rounded-lg`}
 					onChange={(e) => handleEditarVend(e,"saldo")}
         />
         <button

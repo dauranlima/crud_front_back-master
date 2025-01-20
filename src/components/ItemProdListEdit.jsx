@@ -1,16 +1,26 @@
 import CartContext from "@/context/CartContext";
 import formatCurrency from "@/utils/FormatCurrency";
 import { useContext, useState } from "react";
-import { HiMinusCircle, HiOutlineShoppingCart, HiPlusCircle } from "react-icons/hi";
+import {
+	HiMinusCircle,
+	HiOutlineShoppingCart,
+	HiPlusCircle,
+} from "react-icons/hi";
 
-export default function ItemProdListEdit({data}) {
-  const {_id, nome, preco,} = data;
-  const {cartItems, setCartItems, editPedido,setEditPedido} = useContext(CartContext)
-  const [count, setCount] = useState(1);
+export default function ItemProdListEdit({ data }) {
+	const { _id, nome, preco } = data;
+	const { cartItems, setCartItems, editPedido, setEditPedido } =
+		useContext(CartContext);
+	const [count, setCount] = useState(1);
 
-  const handleAddCart = () => {
-    setEditPedido({...editPedido, produtos: [...(editPedido?.produtos || []), {...data, quantity: count}]});
-  };
+	const handleAddCart = () => {
+		setEditPedido({
+			...editPedido,
+			produtos: [...(editPedido?.produtos || []), { ...data, quantity: count }],
+		});
+	};
+
+	console.log(cartItems)
 
 	return (
 		<div
@@ -22,38 +32,51 @@ export default function ItemProdListEdit({data}) {
 					<h2 className="font-bold text-slate-600">{nome.toLowerCase()}</h2>
 					<div>
 						<span className="font-bold text-sm text-slate-600"> Preço: </span>{" "}
-						{formatCurrency(preco, 'BRL')}
-          </div>
+						{formatCurrency(preco, "BRL")}
+					</div>
 				</div>
 			</div>
-				<button className="flex gap-2 items-center border border-white shadow-xl py-2 px-4  text-sm rounded-md bg-blue-500 hover:bg-blue-400 hover:scale-105 transition-transform text-white font-bold"
-					onClick={() => {
-					const existingItem = editPedido?.produtos?.find(item => item._id === _id)
-					if (existingItem) {
-						const updatedItems = editPedido?.produtos?.map(item => 
-							item._id === _id ? {...item, quantity: count} : item
-						) || []
-						setEditPedido({...editPedido, produtos: updatedItems})
-					} else {						handleAddCart()
+			<button
+				className="flex gap-2 items-center border border-white shadow-xl py-2 px-4  text-sm rounded-md bg-blue-500 hover:bg-blue-400 hover:scale-105 transition-transform text-white font-bold"
+				onClick={() => {
+					const existingItem = editPedido?.produtos?.find(
+						(item) => item._id === _id,
+					);
+					const alreadyInCart = editPedido?.produtos?.some(
+						(item) => item.nome === nome
+					);
+					if (alreadyInCart && count !== 1) {
+						alert("⚠️ATENÇÃO!⚠️Item já adicionado ao carrinho!");
+					}					
+					if (existingItem,alreadyInCart) {
+						const updatedItems =
+							editPedido?.produtos?.map((item) =>
+								item._id === _id ? { ...item, quantity: count } : item,
+							) || [];
+						setEditPedido({ ...editPedido, produtos: updatedItems,alreadyInCart });
+					} else {
+						handleAddCart();
 					}
-				}}>
-					<HiOutlineShoppingCart size={34} />
-				</button>	
+				}}
+			>
+				<HiOutlineShoppingCart size={34} />
+			</button>
+			
 			<div className="w-[20%] flex items-center justify-center gap-2">
-				<button 
+				<button
 					className="text-green-500 hover:text-green-700"
-					onClick={() => setCount(prev => prev + 1)}
+					onClick={() => setCount((prev) => prev + 1)}
 				>
 					<HiPlusCircle size={44} />
 				</button>
 				<span className="font-bold">{count}</span>
-				<button 
+				<button
 					className="text-red-500 hover:text-red-700"
-					onClick={() => setCount(prev => prev > 1 ? prev - 1 : 1)}
+					onClick={() => setCount((prev) => (prev > 1 ? prev - 1 : 1))}
 				>
 					<HiMinusCircle size={44} />
 				</button>
 			</div>
-			</div>
+		</div>
 	);
 }

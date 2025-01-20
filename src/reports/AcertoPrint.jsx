@@ -21,7 +21,7 @@ export default function AcertoPrint() {
 	};
 // filename: `pedido-${acertos.vendedor.nome}.pdf`
 	return (
-		<>
+		<div>
 			<button
 				onClick={() => generatePDF(getContentPdf, options)}
 				className="border mt-2 bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black">
@@ -83,7 +83,7 @@ export default function AcertoPrint() {
 				<div className="flex justify-between">
           <div>
             <p className="border border-black border-dashed w-96"></p>
-            <p className="font-light mb-10 ">Assinatura do Vendedor - {acertos.vendedor?.nome}</p>
+            <p className="font-light mb-10 ">Assinatura da Vendedora - {acertos.vendedor?.nome}</p>
           </div>
           <div>
             <p className="border border-black border-dashed w-96"></p>
@@ -93,6 +93,6 @@ export default function AcertoPrint() {
 
 
 			</div>
-		</>
+		</div>
 	);
 }

@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 export default function MainPage() {
   return (
-    <div className="bg-gray-300 h-[calc(100vh-114px)]">
+    <div className="bg-gray-100 h-[calc(100vh-114px)]">
       <Container>
       <Header/>
           <Outlet />

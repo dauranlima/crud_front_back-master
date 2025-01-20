@@ -115,7 +115,7 @@ import { ToastContainer, toast } from 'react-toastify';
         <button
           onClick={notify}
           type="submit"
-          className="bottom-0 w-full font-bold bg-green-500  py-3 px-6 rounded-lg text-white "
+          className="bottom-0 w-full font-bold bg-pink-500 hover:bg-pink-400  py-3 px-6 rounded-lg text-white "
         >
           Cadastrar Vendedora
         </button>

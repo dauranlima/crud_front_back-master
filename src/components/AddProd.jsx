@@ -45,9 +45,9 @@ const notify = () => toast("Produto Cadastrado com Sucesso!")
         <button
           type="submit"
           onClick={{notify}}
-          className="font-bold bg-green-500 w-fit py-3 px-6 rounded-lg text-white "
+          className="font-bold bg-yellow-600 hover:bg-yellow-500 w-full py-3 px-6 rounded-lg text-white "
         >
-          Cadastrar
+          Cadastrar Produto
         </button>
 
       </form>

@@ -22,7 +22,7 @@ export default function CartPrint() {
 	};
 
 	return (
-		<>
+		<div>
 			<button
 				onClick={() => generatePDF(getContentPdf, { options, filename: `pedido-${nome}.pdf` })}
 				className="border mt-2 bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black">
@@ -62,6 +62,6 @@ export default function CartPrint() {
             <p className="font-thin italic">Data da impressão: {new Date().toLocaleDateString()}</p>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
