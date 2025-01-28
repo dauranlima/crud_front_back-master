@@ -16,13 +16,6 @@ export default function CartItemEdit({ data }) {
 			produtos: updatedItems
 		});
   };
-			
-				console.log(editPedido)
-
-
-
-
-
 
 	return (
 		<section className="flex flex-col overflow-auto">

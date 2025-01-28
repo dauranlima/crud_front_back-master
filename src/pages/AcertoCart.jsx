@@ -119,6 +119,9 @@ export default function AcertoCart() {
 								Total em Produtos Vendidos R$: {formatCurrency(acertos.totalVendido || 0, "BRL")}
 							</p>
 						</div>
+						<p className="text-slate-500 font-semibold text-lg">
+								Percentual de Produtos Vendidos: {((acertos.totalVendido/acertos.totalValor)*100).toFixed(2)}%
+							</p>
 						<div className="flex justify-start">
 							<p className="text-slate-500 font-semibold text-lg">Descontos:</p>
 							<span>

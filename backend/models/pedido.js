@@ -17,6 +17,9 @@ const pedidoSchema = new Schema({
   },  
   data: { type: Date },
   totalValor: { type: Number },
+  obs: {
+    obs: { type: String },
+  }
   
 
 }, { timestamps: true })

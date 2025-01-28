@@ -43,9 +43,11 @@ const VendList = () => {
 	}, []);
 
 	const filteredProducts = prod.filter((pdt) => {
-		return busca.toLowerCase() === ""
-			? pdt
-			: pdt.nome.toLowerCase().includes(busca);
+		const searchTerm = busca.toLowerCase();
+		return searchTerm === "" 
+			? pdt 
+			: pdt.nome.toLowerCase().includes(searchTerm) || 
+			  pdt.cidade.toLowerCase().includes(searchTerm);
 	});
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -79,9 +81,11 @@ const VendList = () => {
 					) : (
 						currentItems
 							.filter((pdt) => {
-								return busca.toLowerCase() === ""
+								const searchTerm = busca.toLowerCase();
+								return searchTerm === ""
 									? pdt
-									: pdt.nome.toLowerCase().includes(busca);
+									: pdt.nome.toLowerCase().includes(searchTerm) || 
+									  pdt.cidade.toLowerCase().includes(searchTerm);
 							})
 							.map((pdt) => (
 								<div key={pdt._id}>

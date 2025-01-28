@@ -66,6 +66,7 @@ export default function AcertoPrint() {
             <p>Total de Itens: {acertos.produtos?.length}</p>
             <p>Total em Produtos: {formatCurrency(acertos.totalValor, 'BRL')}</p>
 						<p>Valor Total Vendido: {formatCurrency(acertos.totalVendido, 'BRL')}</p>
+						<p>Percentual de Produtos Vendidos: {((acertos.totalVendido/acertos.totalValor)*100).toFixed(2)}%</p>
             <p className="text-blue-600 mb-2 font-bold">Descontos: {acertos.percentual}%: <span>{acertos.descontos.toFixed(2)}</span></p>
 						<div className="border-2 border-black w-72"></div>
 						<p className="text-lg font-bold">Valor Atual: {formatCurrency(acertos.saldoAtual, 'BRL')}</p>

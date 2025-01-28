@@ -10,6 +10,7 @@ const pedidoController = {
 				vendedor: {...req.body.vendedor},
         data: req.body.data,
 				totalValor: req.body.totalValor,
+				obs: {obs: req.body.obs},
       }
 
 			const response = await PedidoModel.create(novoPedido);
@@ -76,6 +77,7 @@ const pedidoController = {
 				vendedor: {...req.body.vendedor},
         data: req.body.data,
 				totalValor: req.body.totalValor,
+        obs: {obs: req.body.obs},
       }
 
       const updatedOrder = await PedidoModel.findByIdAndUpdate(id, novoPedido)

@@ -76,7 +76,8 @@ const VendPedido = () => {
                   <div>
                     <h2 className="font-bold text-lg ">{ped.vendedor?.nome || 'Nome não disponível'}</h2>
                     <div>
-										<p className="font-bold text-lg ">Cidade: {ped.vendedor?.cidade || 'Cidade não disponível'}</p>										<p className="font-bold text-lg ">Data: {new Date(ped.data).toLocaleDateString('pt-BR')}</p>
+										<p className="font-bold text-lg ">Cidade: {ped.vendedor?.cidade || 'Cidade não disponível'}</p>
+										<p className="font-bold text-lg ">Data: {new Date(ped.data).toLocaleDateString('pt-BR')}</p>
                     </div>
                   </div>
                 </div>

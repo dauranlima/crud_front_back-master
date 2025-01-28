@@ -144,6 +144,11 @@ return (
 							</p>
 						</div>
 						<div className="flex justify-start">
+							<p className="text-slate-500 font-semibold text-lg">
+								Percentual de Produtos Vendidos: {((somaTotal/totalPrice)*100).toFixed(2)}%
+							</p>
+						</div>
+						<div className="flex justify-start">
 							<p className="text-slate-500 font-semibold text-lg">Descontos:</p>
 							<span>
 								<input

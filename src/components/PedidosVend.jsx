@@ -39,6 +39,7 @@ const PedidosVend = () => {
 				(acc, item) => acc + item.preco * item.quantity,
 				0,
 			),
+			obs:"",
 		};
 
 

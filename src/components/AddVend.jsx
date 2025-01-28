@@ -19,7 +19,7 @@ import { ToastContainer, toast } from 'react-toastify';
     if (nome && endereco && telefone && documento && cidade) {
       toast.info('Vendedor cadastrado com sucesso!')
       setTimeout(() => {
-        navigate("/");
+        navigate("/vendedoras");
       }, 1500);
     }
   }
