@@ -35,9 +35,11 @@ const VendPedido = () => {
 	}, []);
 
 	const filteredOrders = pedido.filter((ped) => {
-		return busca.toLowerCase() === ""
+		const searchTerm = busca.toLowerCase();
+		return searchTerm === ""
 			? ped
-			: ped.vendedor?.nome?.toLowerCase().includes(busca?.toLowerCase() || '');
+			: ped.vendedor?.nome?.toLowerCase().includes(searchTerm) ||
+			  ped.vendedor?.cidade?.toLowerCase().includes(searchTerm);
 	});
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -66,9 +68,13 @@ const VendPedido = () => {
           ) : (
 						currentItems
 						.filter((ped) =>{
-							return busca.toLowerCase() === '' 
+							const searchTerm = busca.toLowerCase();
+							return searchTerm === '' 
 							? ped
-							: ped.vendedor?.nome?.toLowerCase().includes(busca?.toLowerCase() || '')						})
+							:ped.vendedor?.nome?.toLowerCase().includes(searchTerm) 
+							||
+							ped.vendedor?.cidade?.toLowerCase().includes(searchTerm)
+						})
             .map((ped) => (
               <div key={ped._id}>
               <div   className="py-1 px-2 border bg-slate-300 border-gray-500 rounded-lg my-3 flex justify-between gap-5 items-center">
@@ -77,7 +83,7 @@ const VendPedido = () => {
                     <h2 className="font-bold text-lg ">{ped.vendedor?.nome || 'Nome não disponível'}</h2>
                     <div>
 										<p className="font-bold text-lg ">Cidade: {ped.vendedor?.cidade || 'Cidade não disponível'}</p>
-										<p className="font-bold text-lg ">Data: {new Date(ped.data).toLocaleDateString('pt-BR')}</p>
+											<p className="font-bold text-lg ">Data: {new Date(ped.data).toLocaleDateString('pt-BR')}</p>
                     </div>
                   </div>
                 </div>
