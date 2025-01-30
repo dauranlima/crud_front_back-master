@@ -37,6 +37,7 @@ export default function AcertoPrint() {
 					<div className="flex flex-col items-center mx-auto w-96 text-black font-semibold py-4 px-6 rounded-lg">
             <h1 className="text-2xl font-bold ">Comprovante do Acerto</h1>
             <p className="font-thin italic">Data do Acerto: {new Date(acertos.dataAcerto).toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
+            <p className="font-thin italic">Data do Retorno: {new Date(new Date(acertos.dataAcerto).setDate(new Date(acertos.dataAcerto).getDate() + 30)).toLocaleDateString('pt-BR')}</p>
             <p>Vendedora: {acertos.vendedor?.nome}</p>
             <p>Total de Itens: {acertos.produtos?.length}</p>
           </div>
