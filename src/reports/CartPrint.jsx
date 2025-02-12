@@ -15,16 +15,17 @@ export default function CartPrint() {
 	const options = {
 		method: "open",
 		page: {
-			margin: Margin.SMALL,
+			margin: Margin.MEDIUM, // Aumenta a margem
 			format: "A4",
 			orientation: "portrait",
 		},
 	};
+	
 
 	return (
 		<div>
 			<button
-				onClick={() => generatePDF(getContentPdf, { options, filename: `pedido-${nome}.pdf` })}
+				onClick={() => generatePDF(getContentPdf,  options )}
 				className="border mt-2 bg-black flex gap-2 text-white font-semibold py-4 px-6 rounded-lg hover:bg-white hover:text-black  border-black">
 				<HiOutlinePrinter className="animate-pulse" size={24} />
 				Imprimir
@@ -40,19 +41,21 @@ export default function CartPrint() {
           </div>
 				</div>
       </div>
-				{cartItems.map((item) => (
-					<div key={item._id} className="flex gap-4 border p-3" >
-						<div className="flex w-full gap-3">
-              <p className="text-slate-900 font-semibold">{item.nome}</p>
-              <span className="text-slate-500 font-bold">{item.quantity}X</span>
-              <span className="text-slate-500 font-bold">VALOR UNITÁRIO: {formatCurrency(item.preco, 'BRL')}</span>
-            </div>
-            <div className="flex items-center justify-end w-full gap-3 text-black">
-              <span className="font-bold">{formatCurrency(item.valorTotalUnitario,'BRL')}</span>
-            </div>
-					</div>
-				))}
-				<div className="flex flex-col gap-4 border items-center space-y-3 border-black p-3 mt-5">
+				<div className="space-y-2 py-10">
+					{cartItems.map((item) => (
+						<div key={item._id} className="flex gap-4 border p-4 break-inside-avoid">
+							<div className="flex w-full gap-3">
+								<span className="text-slate-500 font-bold">{item.quantity}</span>
+								<p className="text-slate-900 font-semibold">{item.nome}</p>
+							</div>
+								<span className="w-[620px] text-slate-500 font-bold">VALOR UNITÁRIO: {formatCurrency(item.preco, 'BRL')}</span>
+							<div className="flex items-center justify-end w-full gap-3 text-black">
+								<span className="font-bold">{formatCurrency(item.valorTotalUnitario,'BRL')}</span>
+							</div>
+						</div>
+					))}
+				</div>
+				<div className="flex flex-col gap-4 border items-center my-3 border-black p-3 mt-5">
 					<div className="flex flex-col items-center mx-auto text-black font-semibold">
             <h1 className="text-2xl mb-5 font-bold ">Resumo</h1>
             <p>Vendedora: {nome}</p>
@@ -63,5 +66,5 @@ export default function CartPrint() {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }

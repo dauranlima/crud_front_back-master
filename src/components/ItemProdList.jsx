@@ -15,7 +15,7 @@ export default function ItemProdList({data}) {
 	return (
 		<div
 			key={_id}
-			className=" space-x-8 mx-2 p-2 border border-gray-300 my-3 flex justify-between "
+			className=" space-x-8 mx-2 p-2 border border-gray-300 my-3 flex "
 		>
 			<div className="  w-[50%] flex items-center gap-4">
 				<div>

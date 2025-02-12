@@ -237,10 +237,10 @@ const PedidosVendbyId = () => {
 			<textarea
           type="text"
           autoCapitalize="on"
-          maxLength={200}
+          maxLength={1500}
 					rows={5}
           placeholder="Digite aqui suas anotações..."
-          className="border uppercase border-slate-500 p-2 rounded-lg w-96 text-black"
+          className="border uppercase border-slate-500 p-2 rounded-lg w-[1250px] text-black"
           value={editPedido?.obs?.obs || ''}
           onChange={(e) => setEditPedido({...editPedido, obs: {obs: e.target.value}})}
         />

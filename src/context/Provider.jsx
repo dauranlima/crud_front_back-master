@@ -2,7 +2,7 @@ import { useState } from "react";
 import CartContext from "./CartContext";
 
 export default function Provider({ children }) {
-	const [isCartOpen, setIsCartOpen] = useState(true);
+	const [isCartOpen, setIsCartOpen] = useState(false);
 	const [cartItems, setCartItems] = useState([]);
 	const [prod, setProd] = useState([]);
 	const [username, setUsername] = useState('');
