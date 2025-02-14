@@ -1,6 +1,5 @@
 import ProdList from "@/components/ProdList";
 import { useEffect, useRef } from "react";
-import { FaPlusCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default function Produto() {
